@@ -1651,11 +1651,9 @@
                             const allOpts = this.closest('.options-area').querySelectorAll('.option-row');
                             allOpts.forEach(o => o.classList.add('disabled'));
 
-                            // If correct: green border only
                             if (opt === q.correct) {
                                 this.classList.add('correct-feedback');
                             } else {
-                                // Wrong: red border for selected, green border for correct
                                 this.classList.add('wrong-feedback');
                                 allOpts.forEach(o => {
                                     if (o.innerText.trim() === q.correct) {
@@ -1739,16 +1737,16 @@
         }
 
         // ================================================================
-        // MOCK EVENTS - FIXED: proper answer tracking
+        // MOCK EVENTS - FIXED: no re-render on selection, submit uses playerAnswers
         // ================================================================
         function attachMockEvents(data, t) {
             const questions = data.questions;
             const bookletDiv = document.getElementById("mockBookNav");
             const questionsDiv = document.getElementById("mockQuestionsList");
 
-            // Use playerAnswers if available and same length, else init
-            let answersLocal = (playerAnswers && playerAnswers.length === questions.length) ? playerAnswers : new Array(
-                questions.length).fill(null);
+            // Initialize answers from playerAnswers or create new array
+            let answersLocal = (playerAnswers && playerAnswers.length === questions.length) ? [...playerAnswers] :
+            new Array(questions.length).fill(null);
             playerAnswers = answersLocal;
 
             // Build booklet
@@ -1794,42 +1792,57 @@
                             <input type="radio" name="mock_q_${idx}" value="${opt}" ${answered ? 'disabled' : ''} ${isChecked ? 'checked' : ''}>
                             <span class="opt-label">${letters[oi] || oi+1}. ${opt}</span>
                         `;
-                    if (!answered && isQuizActive) {
-                        const radio = label.querySelector('input');
-                        radio.addEventListener("change", (e) => {
-                            if (isQuizActive) {
-                                // Store answer
-                                answersLocal[idx] = e.target.value;
-                                // CRITICAL: Update the global playerAnswers
-                                playerAnswers = [...answersLocal];
-                                // Update UI without full re-render
-                                updateMockProgress();
-                                // Update booklet
-                                let btns = bookletDiv.querySelectorAll(".booklet-btn");
-                                btns[idx].classList.add("answered");
-                                // Mark selected
-                                optsWrap.querySelectorAll('.mock-option').forEach(el => {
-                                    el.classList.remove('selected');
-                                });
-                                label.classList.add('selected');
 
-                                // Check if all answered
-                                if (answersLocal.filter(a => a !== null).length === questions
-                                    .length) {
-                                    setTimeout(() => {
-                                        if (isQuizActive) {
-                                            isQuizActive = false;
-                                            if (timerInterval) { clearInterval(
-                                                    timerInterval);
-                                                timerInterval = null; }
-                                            submitQuiz(data, answersLocal);
-                                        }
-                                    }, 600);
-                                }
+                    // Always attach change handler, but only if not answered and quiz is active
+                    const radio = label.querySelector('input');
+                    radio.addEventListener("change", function(e) {
+                        // Prevent if already answered or quiz not active
+                        if (answersLocal[idx] !== null || !isQuizActive) {
+                            // If already answered, re-check the correct radio
+                            if (answersLocal[idx] !== null) {
+                                const currentAnswer = answersLocal[idx];
+                                optsWrap.querySelectorAll('input[type="radio"]').forEach(inp => {
+                                    inp.checked = inp.value === currentAnswer;
+                                });
                             }
+                            return;
+                        }
+
+                        // Store answer
+                        const selectedValue = e.target.value;
+                        answersLocal[idx] = selectedValue;
+                        playerAnswers = [...answersLocal];
+
+                        // Update UI: mark selected
+                        optsWrap.querySelectorAll('.mock-option').forEach(el => {
+                            el.classList.remove('selected');
                         });
-                    }
+                        label.classList.add('selected');
+
+                        // Update booklet and progress
+                        let btns = bookletDiv.querySelectorAll(".booklet-btn");
+                        btns[idx].classList.add("answered");
+                        updateMockProgress();
+
+                        // Check if all answered
+                        if (answersLocal.filter(a => a !== null).length === questions.length) {
+                            setTimeout(() => {
+                                if (isQuizActive) {
+                                    isQuizActive = false;
+                                    if (timerInterval) { clearInterval(timerInterval);
+                                        timerInterval = null; }
+                                    submitQuiz(data, answersLocal);
+                                }
+                            }, 600);
+                        }
+                    });
+
                     optsWrap.appendChild(label);
+
+                    // If already answered, mark the selected option
+                    if (answered && opt === answerText) {
+                        label.classList.add('selected');
+                    }
                 });
                 questionsDiv.appendChild(qCard);
             });
@@ -1845,24 +1858,26 @@
                 if (fillEl) fillEl.style.width = pct + "%";
             }
 
-            // Submit button - FIXED: uses current answersLocal
+            // Submit button - uses playerAnswers directly
             const submitBtn = document.getElementById("submitMockBtn");
             if (submitBtn) {
-                submitBtn.onclick = () => {
+                // Remove existing listeners by cloning and replacing
+                const newBtn = submitBtn.cloneNode(true);
+                submitBtn.parentNode.replaceChild(newBtn, submitBtn);
+                newBtn.addEventListener('click', function() {
                     if (isQuizActive) {
-                        const unanswered = answersLocal.filter(a => a === null).length;
+                        const unanswered = playerAnswers.filter(a => a === null).length;
                         if (unanswered > 0 && !confirm(`You have ${unanswered} unanswered. Submit anyway?`))
                             return;
                         isQuizActive = false;
                         if (timerInterval) { clearInterval(timerInterval);
                             timerInterval = null; }
-                        // Pass the current answers
-                        submitQuiz(data, answersLocal);
+                        submitQuiz(data, playerAnswers);
                     }
-                };
+                });
             }
 
-            // Upload button (mock)
+            // Upload button
             const uploadBtn = document.getElementById("mockUploadBtn");
             if (uploadBtn) {
                 uploadBtn.onclick = () => {
@@ -1943,7 +1958,6 @@
         // SUBMIT QUIZ
         // ================================================================
         function submitQuiz(data, answers) {
-            console.log("Submitting with answers:", answers);
             const questions = data.questions;
             const results = questions.map((q, i) => ({
                 question: q.text,
