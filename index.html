@@ -11,7 +11,6 @@
     <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js">
     </script>
     <style>
-        /* ── reset & base ── */
         * {
             margin: 0;
             padding: 0;
@@ -112,7 +111,6 @@
         .btn-ghost:hover {
             background: rgba(26, 115, 232, 0.08);
         }
-
         .upload-area {
             border: 2px dashed #dadce0;
             border-radius: 20px;
@@ -161,8 +159,6 @@
                 padding: 16px;
             }
         }
-
-        /* ── templates scroll ── */
         .template-scroll {
             display: flex;
             gap: 10px;
@@ -191,7 +187,6 @@
         .template-item i {
             margin-right: 6px;
         }
-
         .input-group {
             margin: 14px 0;
         }
@@ -222,8 +217,6 @@
             resize: vertical;
             min-height: 100px;
         }
-
-        /* ── question cards ── */
         .question-card {
             background: #fff;
             border-radius: 24px;
@@ -300,7 +293,6 @@
             pointer-events: none;
             opacity: 0.7;
         }
-
         .progress-bar {
             background: #ecedef;
             border-radius: 100px;
@@ -314,8 +306,6 @@
             height: 100%;
             transition: width 0.4s ease;
         }
-
-        /* ── booklet ── */
         .booklet-wrap {
             position: sticky;
             top: 0;
@@ -381,7 +371,6 @@
             background: #d93025;
             color: #fff;
         }
-
         .timer-badge {
             background: #1e293b;
             color: #fff;
@@ -415,8 +404,6 @@
         .timer-badge.total-timer.warning {
             background: #d93025;
         }
-
-        /* ── modal ── */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -491,7 +478,6 @@
         .recap-item .q-detail strong {
             color: #1e293b;
         }
-
         .copy-link-btn {
             background: #e8eaed;
             border-radius: 60px;
@@ -531,7 +517,6 @@
             object-fit: cover;
             border: 2px solid #ecedef;
         }
-
         @keyframes fadeSlideUp {
             from {
                 opacity: 0;
@@ -542,8 +527,6 @@
                 transform: translateY(0);
             }
         }
-
-        /* ── dashboard ── */
         .stat-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
@@ -570,7 +553,6 @@
             letter-spacing: 0.5px;
             margin-top: 2px;
         }
-
         .quiz-list-item {
             background: #f8f9fa;
             border-radius: 16px;
@@ -613,7 +595,6 @@
             border-radius: 40px;
             font-weight: 500;
         }
-
         .attempt-item {
             background: #f8f9fa;
             border-radius: 12px;
@@ -646,7 +627,6 @@
             background: #fce8e6;
             color: #d93025;
         }
-
         .tab-bar {
             display: flex;
             gap: 4px;
@@ -686,7 +666,6 @@
             background: #1a73e8;
             color: #fff;
         }
-
         .tab-panel {
             display: none;
             animation: fadeSlideUp 0.3s ease;
@@ -694,8 +673,6 @@
         .tab-panel.active {
             display: block;
         }
-
-        /* ── mock scroll ── */
         .mock-question-list {
             max-height: 60vh;
             overflow-y: auto;
@@ -709,7 +686,6 @@
             background: #dadce0;
             border-radius: 4px;
         }
-
         .mock-option {
             display: flex;
             align-items: center;
@@ -745,7 +721,6 @@
             opacity: 0.6;
             pointer-events: none;
         }
-
         .mock-header-sticky {
             position: sticky;
             top: 0;
@@ -757,7 +732,6 @@
             border-radius: 0 0 16px 16px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
-
         .empty-state {
             text-align: center;
             padding: 40px 20px;
@@ -772,7 +746,6 @@
             font-size: 0.85rem;
             color: #9aa0a6;
         }
-
         .toast {
             position: fixed;
             bottom: 24px;
@@ -796,7 +769,6 @@
             opacity: 1;
             pointer-events: auto;
         }
-
         .mt-2 {
             margin-top: 12px;
         }
@@ -819,8 +791,6 @@
         .fw-600 {
             font-weight: 600;
         }
-
-        /* ── Start Hero ── */
         .start-hero {
             text-align: center;
             padding: 30px 20px 24px;
@@ -885,7 +855,6 @@
         .start-hero .btn-start i {
             margin-right: 10px;
         }
-
         @media (max-width: 600px) {
             .start-hero .meta {
                 flex-direction: column;
@@ -896,8 +865,6 @@
                 font-size: 1rem;
             }
         }
-
-        /* ── Disabled Quiz Overlay ── */
         .quiz-container.disabled {
             pointer-events: none;
             opacity: 0.7;
@@ -915,12 +882,9 @@
         .quiz-container.enabled .mock-option {
             cursor: pointer;
         }
-
         .quiz-container {
             transition: opacity 0.4s ease, transform 0.3s ease;
         }
-
-        /* Small submit button beside timer */
         .mock-header-actions {
             display: flex;
             align-items: center;
@@ -934,6 +898,16 @@
                 flex-wrap: wrap;
                 justify-content: flex-end;
             }
+        }
+        .mock-upload-area {
+            text-align: center;
+            padding: 8px 0 12px;
+            border-bottom: 1px solid #ecedef;
+            margin-bottom: 12px;
+        }
+        .mock-upload-area .btn {
+            font-size: 0.75rem;
+            padding: 6px 16px;
         }
     </style>
 </head>
@@ -952,7 +926,6 @@
                 </div>
             </div>
             <div id="logoPreview" style="margin-bottom:8px;"></div>
-
             <div class="input-group">
                 <label class="input-label"><i class="fas fa-upload"></i> Bulk Upload Questions</label>
                 <div class="upload-area" id="dropzone">
@@ -962,7 +935,6 @@
                     <button class="btn btn-outline btn-sm" id="chooseFileBtn" style="margin-top:6px;"><i class="fas fa-folder-open"></i> Browse</button>
                 </div>
             </div>
-
             <div class="input-group">
                 <label class="input-label"><i class="fas fa-paste"></i> Paste CSV — <span class="text-muted">question, optA, optB, optC, optD, correct</span></label>
                 <textarea id="bulkTextArea" class="input-field" rows="4" placeholder="Paste your CSV here or use the example below as a guide...">What is the capital of France? ,Paris,London,Berlin,Madrid,Paris
@@ -992,12 +964,10 @@
                 <div class="template-item" data-template="golden">✨ Golden</div>
                 <div class="template-item" data-template="mono">⚪ Mono</div>
             </div>
-
             <div class="flex-between" style="margin:16px 0;">
                 <button id="chooseQuizBtn" class="btn btn-primary"><i class="fas fa-play"></i> Quiz Mode</button>
                 <button id="chooseMockBtn" class="btn btn-outline"><i class="fas fa-clock"></i> Mocktest Mode</button>
             </div>
-
             <div style="background:#f8f9fa;border-radius:20px;padding:14px;margin:12px 0;">
                 <div class="flex-between">
                     <label><i class="fas fa-hourglass-half"></i> Enable Timer</label>
@@ -1009,27 +979,21 @@
                 </div>
                 <small style="color:#5f6368;">Total time = seconds × questions. Timer counts down globally.</small>
             </div>
-
             <button id="finalCreateBtn" class="btn btn-success btn-block"><i class="fas fa-check-circle"></i> Create Assessment</button>
             <button id="backFromTypeBtn" class="btn btn-outline btn-block mt-2"><i class="fas fa-arrow-left"></i> Back</button>
         </div>
 
         <!-- ====== STEP 3: PLAY / SHARE / DASHBOARD ====== -->
         <div id="createdArea" style="display:none;" class="card">
-            <!-- Tab Bar -->
             <div class="tab-bar" id="tabBar">
                 <button class="tab-btn active" data-tab="play"><i class="fas fa-play"></i> Play</button>
                 <button class="tab-btn" data-tab="share"><i class="fas fa-link"></i> Share</button>
                 <button class="tab-btn" data-tab="dashboard"><i class="fas fa-chart-bar"></i> Dashboard</button>
                 <button class="tab-btn primary-tab" data-tab="create"><i class="fas fa-plus-circle"></i> + Create New</button>
             </div>
-
-            <!-- Play Tab -->
             <div class="tab-panel active" id="panelPlay">
                 <div id="renderZone" style="margin-top:4px;width:100%;"></div>
             </div>
-
-            <!-- Share Tab -->
             <div class="tab-panel" id="panelShare">
                 <div style="text-align:center;padding:20px 0;">
                     <i class="fas fa-share-alt" style="font-size:2.5rem;color:#1a73e8;margin-bottom:12px;display:block;"></i>
@@ -1046,8 +1010,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Dashboard Tab -->
             <div class="tab-panel" id="panelDashboard">
                 <div id="dashboardContent">
                     <div class="text-center" style="padding:30px 0;color:#5f6368;">
@@ -1056,21 +1018,16 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Create New Tab (hidden, triggered by button) -->
-            <div class="tab-panel" id="panelCreate">
-                <!-- will show upload form -->
-            </div>
+            <div class="tab-panel" id="panelCreate"></div>
         </div>
     </div>
 
     <script>
         // ================================================================
-        //  GLOBALS
+        // GLOBALS
         // ================================================================
         let questionsBank = [];
         let currentMode = "quiz";
-        let finalQuestions = [];
         let selectedTemplate = "default";
         let timerEnabled = true;
         let timerSeconds = 10;
@@ -1080,14 +1037,11 @@
         let currentQuizData = null;
         let timerInterval = null;
         let timeRemaining = 0;
-        let isQuizActive = false; // true after start and until submit
-        let isQuizStarted = false; // true after start button click
+        let isQuizActive = false;
+        let isQuizStarted = false;
         let playerAnswers = [];
         let quizResults = null;
 
-        // ================================================================
-        //  TEMPLATES
-        // ================================================================
         const templates = {
             default: { bg: "#f0f2f5", cardBg: "#ffffff", accent: "#1a73e8", text: "#202124", border: "#ecedef",
                 optionBg: "#f8f9fa" },
@@ -1124,9 +1078,6 @@
             });
         }
 
-        // ================================================================
-        //  TOAST
-        // ================================================================
         function showToast(msg, dur = 2600) {
             const el = document.getElementById("toast");
             el.textContent = msg;
@@ -1136,7 +1087,7 @@
         }
 
         // ================================================================
-        //  STORAGE
+        // STORAGE
         // ================================================================
         function getAllQuizzes() {
             try { return JSON.parse(localStorage.getItem("quizCraftData") || "{}"); } catch { return {}; }
@@ -1181,7 +1132,7 @@
         }
 
         // ================================================================
-        //  PARSE CSV
+        // PARSE CSV
         // ================================================================
         function parseBulkToQuestions(raw) {
             const lines = raw.split(/\r?\n/);
@@ -1256,7 +1207,7 @@
         }
 
         // ================================================================
-        //  NAVIGATION (back button)
+        // NAVIGATION
         // ================================================================
         const navStack = [];
 
@@ -1267,15 +1218,17 @@
             }
         }
 
-        function popState() {
+        window.addEventListener('popstate', (e) => {
             if (navStack.length > 1) {
-                navStack.pop();
-                const prev = navStack[navStack.length - 1];
-                if (prev) navigateTo(prev.view, prev.data);
-                return true;
+                const prev = navStack[navStack.length - 2];
+                if (prev) {
+                    navStack.pop();
+                    navigateTo(prev.view, prev.data);
+                }
+            } else {
+                showDashboardView();
             }
-            return false;
-        }
+        });
 
         function navigateTo(view, data) {
             switch (view) {
@@ -1296,33 +1249,18 @@
             }
         }
 
-        window.addEventListener('popstate', (e) => {
-            if (navStack.length > 1) {
-                const prev = navStack[navStack.length - 2];
-                if (prev) {
-                    navStack.pop();
-                    navigateTo(prev.view, prev.data);
-                }
-            } else {
-                showDashboardView();
-            }
-        });
-
         // ================================================================
-        //  VIEWS
+        // VIEWS
         // ================================================================
 
-        // ── DASHBOARD ──
         function showDashboardView() {
             document.getElementById("stepUpload").style.display = "none";
             document.getElementById("stepType").style.display = "none";
             document.getElementById("createdArea").style.display = "block";
-
             document.querySelectorAll("#tabBar .tab-btn").forEach(b => b.classList.remove("active"));
             document.querySelector("#tabBar .tab-btn[data-tab='dashboard']")?.classList.add("active");
             document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
             document.getElementById("panelDashboard").classList.add("active");
-
             renderFullDashboard();
             pushState('dashboard', null);
         }
@@ -1357,7 +1295,6 @@
                     avg = Math.round((sum / total) * 10) / 10;
                     pass = plays.filter(p => (p.score / p.total) >= 0.6).length;
                 }
-                const t = templates[q.template] || templates.default;
                 const date = new Date(q.createdAt).toLocaleDateString();
                 html += `
                         <div class="quiz-list-item" onclick="openQuiz('${id}')">
@@ -1409,7 +1346,6 @@
             document.querySelector("#tabBar .tab-btn[data-tab='play']")?.classList.add("active");
             document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
             document.getElementById("panelPlay").classList.add("active");
-            // reset states
             isQuizStarted = false;
             isQuizActive = false;
             quizResults = null;
@@ -1427,7 +1363,6 @@
             renderFullDashboard();
         };
 
-        // ── CREATE VIEW ──
         function showCreateView() {
             document.getElementById("stepUpload").style.display = "block";
             document.getElementById("stepType").style.display = "none";
@@ -1456,7 +1391,6 @@
             pushState('create', null);
         }
 
-        // ── SHARE VIEW ──
         function showShareView() {
             document.getElementById("createdArea").style.display = "block";
             document.querySelectorAll("#tabBar .tab-btn").forEach(b => b.classList.remove("active"));
@@ -1468,7 +1402,6 @@
             pushState('share', null);
         }
 
-        // ── PLAY VIEW ──
         function showPlayView(data) {
             document.getElementById("createdArea").style.display = "block";
             document.querySelectorAll("#tabBar .tab-btn").forEach(b => b.classList.remove("active"));
@@ -1482,7 +1415,6 @@
                     currentQuizData = qd;
                     selectedTemplate = qd.template || "default";
                     applyTemplate(selectedTemplate);
-                    // reset states
                     isQuizStarted = false;
                     isQuizActive = false;
                     quizResults = null;
@@ -1497,13 +1429,12 @@
         }
 
         // ================================================================
-        //  RENDER ASSESSMENT (with start hero)
+        // RENDER ASSESSMENT
         // ================================================================
         function renderAssessmentFromData(data, started = false) {
             const container = document.getElementById("renderZone");
             const t = templates[data.template] || templates.default;
 
-            // Build the quiz content
             let contentHtml = '';
             if (data.mode === "quiz") {
                 contentHtml = buildQuizHtml(data, t);
@@ -1511,16 +1442,13 @@
                 contentHtml = buildMockHtml(data, t);
             }
 
-            // Wrap in container with appropriate class
             const wrapper = document.createElement('div');
             wrapper.id = 'quizContainerWrapper';
             wrapper.className = 'quiz-container' + (started ? ' enabled' : ' disabled');
             wrapper.innerHTML = contentHtml;
 
-            // Clear and render
             container.innerHTML = '';
 
-            // Add hero only if not started
             if (!started) {
                 const hero = buildStartHero(data, t);
                 container.appendChild(hero);
@@ -1528,19 +1456,16 @@
 
             container.appendChild(wrapper);
 
-            // Attach events
             if (data.mode === "quiz") {
                 attachQuizEvents(data, t);
             } else {
                 attachMockEvents(data, t);
             }
 
-            // If not started, attach start button listener
             if (!started) {
                 const startBtn = document.getElementById('startQuizBtn');
                 if (startBtn) {
                     startBtn.addEventListener('click', () => {
-                        // Hide hero
                         const heroEl = document.getElementById('startHero');
                         if (heroEl) {
                             heroEl.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
@@ -1548,7 +1473,6 @@
                             heroEl.style.transform = 'translateY(-20px)';
                             setTimeout(() => heroEl.remove(), 400);
                         }
-                        // Enable wrapper
                         const wrapperEl = document.getElementById('quizContainerWrapper');
                         if (wrapperEl) {
                             wrapperEl.classList.remove('disabled');
@@ -1558,7 +1482,6 @@
                                 el.style.opacity = '1';
                             });
                         }
-                        // Start timer
                         if (data.timerEnabled) {
                             const total = data.timerSeconds * data.questions.length;
                             timeRemaining = total;
@@ -1572,7 +1495,6 @@
             }
         }
 
-        // ── Build Start Hero ──
         function buildStartHero(data, t) {
             const totalTime = data.timerEnabled ? data.timerSeconds * data.questions.length : 0;
             const hero = document.createElement('div');
@@ -1591,7 +1513,6 @@
             return hero;
         }
 
-        // ── Build Quiz HTML ──
         function buildQuizHtml(data, t) {
             const questions = data.questions;
             let timerHtml = '';
@@ -1622,7 +1543,6 @@
             return html;
         }
 
-        // ── Build Mock HTML ──
         function buildMockHtml(data, t) {
             const questions = data.questions;
             let timerHtml = '';
@@ -1644,6 +1564,9 @@
                                     <button id="submitMockBtn" class="btn btn-success btn-sm"><i class="fas fa-check-double"></i> Submit</button>
                                 </div>
                             </div>
+                            <div class="mock-upload-area">
+                                <button class="btn btn-outline btn-sm" id="mockUploadBtn"><i class="fas fa-upload"></i> Upload Questions</button>
+                            </div>
                             <div class="booklet-wrap" style="position:static;box-shadow:none;padding:4px 0;border-bottom:none;">
                                 <div class="booklet" id="mockBookNav"></div>
                             </div>
@@ -1659,7 +1582,9 @@
             return html;
         }
 
-        // ── Attach Quiz Events ──
+        // ================================================================
+        // QUIZ EVENTS
+        // ================================================================
         function attachQuizEvents(data, t) {
             const questions = data.questions;
             const bookletDiv = document.getElementById("quizBookNav");
@@ -1670,7 +1595,6 @@
             let currentIdx = 0;
             let slides = [];
 
-            // Build booklet
             bookletDiv.innerHTML = '';
             for (let i = 0; i < questions.length; i++) {
                 let btn = document.createElement("button");
@@ -1681,7 +1605,6 @@
                 bookletDiv.appendChild(btn);
             }
 
-            // Build slides
             slidesContainer.innerHTML = '';
             questions.forEach((q, idx) => {
                 let slide = document.createElement("div");
@@ -1708,7 +1631,6 @@
                     optDiv.innerHTML =
                         `<span class="opt-letter">${letters[oi] || oi+1}</span><span>${opt}</span>`;
 
-                    // If already answered, show feedback
                     if (answered) {
                         optDiv.classList.add("disabled");
                         if (opt === answersLocal[idx]) {
@@ -1719,25 +1641,22 @@
                             optDiv.classList.add("highlight-correct");
                         }
                     } else {
-                        // Not answered yet, bind click
                         optDiv.addEventListener("click", function(e) {
                             if (!isQuizActive) return;
                             if (answersLocal[idx] !== null) return;
 
-                            // Lock answer
                             answersLocal[idx] = opt;
                             playerAnswers = answersLocal;
 
-                            // Update UI: disable all, show feedback
                             const allOpts = this.closest('.options-area').querySelectorAll('.option-row');
                             allOpts.forEach(o => o.classList.add('disabled'));
 
-                            // Highlight selected
+                            // If correct: green border only
                             if (opt === q.correct) {
                                 this.classList.add('correct-feedback');
                             } else {
+                                // Wrong: red border for selected, green border for correct
                                 this.classList.add('wrong-feedback');
-                                // Highlight correct answer with green border
                                 allOpts.forEach(o => {
                                     if (o.innerText.trim() === q.correct) {
                                         o.classList.add('highlight-correct');
@@ -1745,11 +1664,9 @@
                                 });
                             }
 
-                            // Update booklet and progress
                             updateBookletState(idx, true);
                             updateProgress();
 
-                            // Auto-advance after delay
                             setTimeout(() => {
                                 if (idx < questions.length - 1) showSlide(idx + 1);
                             }, 800);
@@ -1792,7 +1709,6 @@
                     if (answersLocal[i] !== null) b.classList.add("answered");
                     else b.classList.remove("answered");
                 });
-                // auto-submit if all answered
                 if (answeredCount === questions.length && isQuizActive) {
                     setTimeout(() => {
                         if (isQuizActive) {
@@ -1818,19 +1734,21 @@
                 }
             };
 
-            // init
             showSlide(0);
             updateProgress();
         }
 
-        // ── Attach Mock Events ──
+        // ================================================================
+        // MOCK EVENTS
+        // ================================================================
         function attachMockEvents(data, t) {
             const questions = data.questions;
             const bookletDiv = document.getElementById("mockBookNav");
             const questionsDiv = document.getElementById("mockQuestionsList");
-            // Use playerAnswers if available, else init
-            let answersLocal = playerAnswers.length === questions.length ? playerAnswers : new Array(questions.length)
-                .fill(null);
+
+            // Use playerAnswers if available and same length, else init
+            let answersLocal = (playerAnswers && playerAnswers.length === questions.length) ? playerAnswers : new Array(
+                questions.length).fill(null);
             playerAnswers = answersLocal;
 
             // Build booklet
@@ -1871,32 +1789,27 @@
                     let label = document.createElement("label");
                     label.className = "mock-option";
                     if (answered) label.classList.add("disabled");
-                    // Ensure radio reflects selected state
                     const isChecked = answered && opt === answerText;
                     label.innerHTML = `
                             <input type="radio" name="mock_q_${idx}" value="${opt}" ${answered ? 'disabled' : ''} ${isChecked ? 'checked' : ''}>
                             <span class="opt-label">${letters[oi] || oi+1}. ${opt}</span>
                         `;
-                    // If not answered and quiz is active, allow selection
                     if (!answered && isQuizActive) {
                         const radio = label.querySelector('input');
                         radio.addEventListener("change", (e) => {
                             if (isQuizActive) {
-                                // Set answer
                                 answersLocal[idx] = e.target.value;
                                 playerAnswers = answersLocal;
-                                // Re-render with started=true to keep hero hidden and maintain state
+                                // Re-render with started=true to keep hero hidden
                                 isQuizStarted = true;
                                 isQuizActive = true;
                                 renderAssessmentFromData(data, true);
-                                // Scroll to keep position
                                 setTimeout(() => {
                                     let el = document.getElementById(`mock_q_${idx}`);
                                     if (el) el.scrollIntoView({ behavior: 'smooth',
                                         block: 'center' });
                                     updateMockProgress();
                                 }, 50);
-                                // Auto-submit if all answered
                                 if (answersLocal.filter(a => a !== null).length === questions
                                     .length) {
                                     setTimeout(() => {
@@ -1933,7 +1846,7 @@
                 });
             }
 
-            // Submit button (already in header)
+            // Submit button
             const submitBtn = document.getElementById("submitMockBtn");
             if (submitBtn) {
                 submitBtn.onclick = () => {
@@ -1949,8 +1862,15 @@
                 };
             }
 
+            // Upload button (mock)
+            const uploadBtn = document.getElementById("mockUploadBtn");
+            if (uploadBtn) {
+                uploadBtn.onclick = () => {
+                    showToast("Upload feature: You can import questions from CSV/Excel in the Create tab.");
+                };
+            }
+
             updateMockProgress();
-            // scroll to first unanswered
             setTimeout(() => {
                 let idx = answersLocal.findIndex(a => a === null);
                 if (idx !== -1) {
@@ -1961,7 +1881,7 @@
         }
 
         // ================================================================
-        //  TOTAL TIMER
+        // TIMER
         // ================================================================
         function startTotalTimer(data) {
             if (timerInterval) clearInterval(timerInterval);
@@ -2020,7 +1940,7 @@
         }
 
         // ================================================================
-        //  SUBMIT QUIZ
+        // SUBMIT QUIZ
         // ================================================================
         function submitQuiz(data, answers) {
             const questions = data.questions;
@@ -2057,12 +1977,11 @@
         }
 
         // ================================================================
-        //  SCORE MODAL
+        // SCORE MODAL
         // ================================================================
         function showScoreModal(results) {
             const { score, total, unanswered, results: items } = results;
             const percent = Math.round((score / total) * 100);
-            const answered = total - unanswered;
 
             let modal = document.createElement("div");
             modal.className = "modal-overlay active";
@@ -2140,7 +2059,7 @@
         }
 
         // ================================================================
-        //  HELPERS
+        // HELPERS
         // ================================================================
         function formatTime(sec) {
             if (sec < 0) sec = 0;
@@ -2150,7 +2069,7 @@
         }
 
         // ================================================================
-        //  RESOLVE SHARED QUIZ
+        // RESOLVE SHARED QUIZ
         // ================================================================
         function resolveSharedQuiz() {
             const params = new URLSearchParams(window.location.search);
@@ -2199,7 +2118,7 @@
         }
 
         // ================================================================
-        //  TAB HANDLING
+        // TAB HANDLING
         // ================================================================
         document.querySelectorAll("#tabBar .tab-btn").forEach(btn => {
             btn.addEventListener("click", function() {
@@ -2221,7 +2140,6 @@
                     if (currentShortId) {
                         const data = getQuizData(currentShortId);
                         if (data) {
-                            // Reset if quiz was finished
                             if (quizResults) {
                                 isQuizActive = false;
                                 quizResults = null;
@@ -2243,7 +2161,7 @@
         });
 
         // ================================================================
-        //  CREATE FLOW EVENTS
+        // CREATE FLOW EVENTS
         // ================================================================
 
         document.getElementById("chooseFileBtn").onclick = () => document.getElementById("fileInput").click();
@@ -2328,7 +2246,7 @@
         };
 
         // ================================================================
-        //  FINAL CREATE
+        // FINAL CREATE
         // ================================================================
         document.getElementById("finalCreateBtn").onclick = () => {
             if (questionsBank.length === 0) return showToast("Please load questions first");
@@ -2397,7 +2315,7 @@
         };
 
         // ================================================================
-        //  INIT
+        // INIT
         // ================================================================
         window.onload = function() {
             document.querySelector(".template-item[data-template='default']")?.classList.add("active");
