@@ -766,15 +766,21 @@
             border-radius: 0 0 16px 16px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
-        .mock-submit-row {
-            text-align: center;
-            padding: 8px 0 12px;
+        .mock-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-bottom: 8px;
             border-bottom: 1px solid #ecedef;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
-        .mock-submit-row .btn {
-            min-width: 140px;
-            justify-content: center;
+        .mock-header-top .btn {
+            margin: 0;
+        }
+        .mock-upload-area {
+            display: none;
         }
         .empty-state {
             text-align: center;
@@ -908,6 +914,13 @@
                 padding: 14px 32px;
                 font-size: 1rem;
             }
+            .mock-header-top {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .mock-header-top .btn {
+                justify-content: center;
+            }
         }
         .quiz-container.disabled {
             pointer-events: none;
@@ -943,16 +956,6 @@
                 justify-content: flex-end;
             }
         }
-        .mock-upload-area {
-            text-align: center;
-            padding: 8px 0 12px;
-            border-bottom: 1px solid #ecedef;
-            margin-bottom: 12px;
-        }
-        .mock-upload-area .btn {
-            font-size: 0.75rem;
-            padding: 6px 16px;
-        }
 
         /* ── FEEDBACK ANIMATIONS ── */
         @keyframes correctPop {
@@ -986,6 +989,17 @@
                 transform: translateX(0) scale(0.97);
             }
         }
+        @keyframes correctHighlight {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.06);
+            }
+            100% {
+                transform: scale(1.02);
+            }
+        }
         .option-row.correct-feedback {
             animation: correctPop 0.4s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
         }
@@ -993,7 +1007,7 @@
             animation: wrongShake 0.5s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
         }
         .option-row.highlight-correct {
-            animation: correctPop 0.4s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
+            animation: correctHighlight 0.4s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
         }
     </style>
 </head>
@@ -1640,18 +1654,15 @@
             let html = `
                     <div style="background:${t.bg};border-radius:24px;padding:16px;border:1px solid ${t.border};">
                         <div class="mock-header-sticky" style="background:${t.cardBg};">
-                            <div class="flex-between" style="margin-bottom:8px;">
+                            <div class="mock-header-top">
                                 <div style="display:flex;align-items:center;gap:8px;">
                                     ${data.logo ? `<img src="${data.logo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">` : ''}
                                     <span style="font-weight:600;color:${t.text};font-size:0.95rem;">${data.title}</span>
                                 </div>
-                                ${timerHtml}
-                            </div>
-                            <div class="mock-submit-row">
-                                <button id="submitMockBtn" class="btn btn-success"><i class="fas fa-check-double"></i> Submit Mocktest</button>
-                            </div>
-                            <div class="mock-upload-area">
-                                <button class="btn btn-outline btn-sm" id="mockUploadBtn"><i class="fas fa-upload"></i> Upload Questions</button>
+                                <div class="mock-header-actions">
+                                    ${timerHtml}
+                                    <button id="submitMockBtn" class="btn btn-success btn-sm"><i class="fas fa-check-double"></i> Submit</button>
+                                </div>
                             </div>
                             <div class="booklet-wrap" style="position:static;box-shadow:none;padding:4px 0;border-bottom:none;">
                                 <div class="booklet" id="mockBookNav"></div>
@@ -1740,7 +1751,9 @@
                             if (opt === q.correct) {
                                 this.classList.add('correct-feedback');
                             } else {
+                                // Wrong: red border for selected
                                 this.classList.add('wrong-feedback');
+                                // Green border for correct answer - show immediately
                                 allOpts.forEach(o => {
                                     if (o.innerText.trim() === q.correct) {
                                         o.classList.add('highlight-correct');
@@ -1933,7 +1946,7 @@
                 if (fillEl) fillEl.style.width = pct + "%";
             }
 
-            // Submit button - now in its own row
+            // Submit button is already in the header
             const submitBtn = document.getElementById("submitMockBtn");
             if (submitBtn) {
                 const newBtn = submitBtn.cloneNode(true);
@@ -1949,13 +1962,6 @@
                         submitQuiz(data, playerAnswers);
                     }
                 });
-            }
-
-            const uploadBtn = document.getElementById("mockUploadBtn");
-            if (uploadBtn) {
-                uploadBtn.onclick = () => {
-                    showToast("Upload feature: You can import questions from CSV/Excel in the Create tab.");
-                };
             }
 
             updateMockProgress();
