@@ -236,12 +236,13 @@
             margin: 10px 0;
             border: 2px solid transparent;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1);
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
             font-weight: 500;
             display: flex;
             align-items: center;
             gap: 12px;
             user-select: none;
+            position: relative;
         }
         .option-row:hover {
             background: #f1f3f4;
@@ -259,39 +260,72 @@
             font-size: 0.75rem;
             color: #5f6368;
             flex-shrink: 0;
-            transition: 0.2s;
+            transition: 0.3s;
         }
+        /* ── QUIZ FEEDBACK STYLES ── */
         .option-row.correct-feedback {
-            background: #e6f4ea;
-            border-color: #0f9d58;
-            transform: scale(1.02);
+            background: #e6f4ea !important;
+            border-color: #0f9d58 !important;
+            transform: scale(1.03);
+            box-shadow: 0 4px 16px rgba(15, 157, 88, 0.25);
         }
         .option-row.correct-feedback .opt-letter {
             background: #0f9d58;
             color: #fff;
+            transform: scale(1.1);
+        }
+        .option-row.correct-feedback::after {
+            content: "✓";
+            position: absolute;
+            right: 16px;
+            color: #0f9d58;
+            font-weight: 700;
+            font-size: 1.1rem;
         }
         .option-row.wrong-feedback {
-            background: #fce8e6;
-            border-color: #d93025;
-            transform: scale(0.98);
+            background: #fce8e6 !important;
+            border-color: #d93025 !important;
+            transform: scale(0.97);
+            box-shadow: 0 4px 16px rgba(217, 48, 37, 0.2);
         }
         .option-row.wrong-feedback .opt-letter {
             background: #d93025;
             color: #fff;
+            transform: scale(0.9);
+        }
+        .option-row.wrong-feedback::after {
+            content: "✗";
+            position: absolute;
+            right: 16px;
+            color: #d93025;
+            font-weight: 700;
+            font-size: 1.1rem;
         }
         .option-row.highlight-correct {
-            background: #e6f4ea;
-            border-color: #0f9d58;
-            box-shadow: 0 0 0 2px #0f9d58;
+            background: #e6f4ea !important;
+            border-color: #0f9d58 !important;
+            box-shadow: 0 0 0 3px #0f9d58, 0 4px 16px rgba(15, 157, 88, 0.2);
             transform: scale(1.02);
         }
         .option-row.highlight-correct .opt-letter {
             background: #0f9d58;
             color: #fff;
+            transform: scale(1.05);
+        }
+        .option-row.highlight-correct::after {
+            content: "✓";
+            position: absolute;
+            right: 16px;
+            color: #0f9d58;
+            font-weight: 700;
+            font-size: 1.1rem;
         }
         .option-row.disabled {
             pointer-events: none;
-            opacity: 0.7;
+            opacity: 0.6;
+        }
+        .option-row.disabled:not(.correct-feedback):not(.wrong-feedback):not(.highlight-correct) {
+            opacity: 0.5;
         }
         .progress-bar {
             background: #ecedef;
@@ -732,6 +766,16 @@
             border-radius: 0 0 16px 16px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
+        .mock-submit-row {
+            text-align: center;
+            padding: 8px 0 12px;
+            border-bottom: 1px solid #ecedef;
+            margin-bottom: 12px;
+        }
+        .mock-submit-row .btn {
+            min-width: 140px;
+            justify-content: center;
+        }
         .empty-state {
             text-align: center;
             padding: 40px 20px;
@@ -908,6 +952,48 @@
         .mock-upload-area .btn {
             font-size: 0.75rem;
             padding: 6px 16px;
+        }
+
+        /* ── FEEDBACK ANIMATIONS ── */
+        @keyframes correctPop {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.08);
+            }
+            100% {
+                transform: scale(1.03);
+            }
+        }
+        @keyframes wrongShake {
+            0% {
+                transform: translateX(0) scale(1);
+            }
+            20% {
+                transform: translateX(-6px) scale(0.98);
+            }
+            40% {
+                transform: translateX(6px) scale(0.98);
+            }
+            60% {
+                transform: translateX(-4px) scale(0.98);
+            }
+            80% {
+                transform: translateX(4px) scale(0.98);
+            }
+            100% {
+                transform: translateX(0) scale(0.97);
+            }
+        }
+        .option-row.correct-feedback {
+            animation: correctPop 0.4s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
+        }
+        .option-row.wrong-feedback {
+            animation: wrongShake 0.5s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
+        }
+        .option-row.highlight-correct {
+            animation: correctPop 0.4s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
         }
     </style>
 </head>
@@ -1559,10 +1645,10 @@
                                     ${data.logo ? `<img src="${data.logo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">` : ''}
                                     <span style="font-weight:600;color:${t.text};font-size:0.95rem;">${data.title}</span>
                                 </div>
-                                <div class="mock-header-actions">
-                                    ${timerHtml}
-                                    <button id="submitMockBtn" class="btn btn-success btn-sm"><i class="fas fa-check-double"></i> Submit</button>
-                                </div>
+                                ${timerHtml}
+                            </div>
+                            <div class="mock-submit-row">
+                                <button id="submitMockBtn" class="btn btn-success"><i class="fas fa-check-double"></i> Submit Mocktest</button>
                             </div>
                             <div class="mock-upload-area">
                                 <button class="btn btn-outline btn-sm" id="mockUploadBtn"><i class="fas fa-upload"></i> Upload Questions</button>
@@ -1667,7 +1753,7 @@
 
                             setTimeout(() => {
                                 if (idx < questions.length - 1) showSlide(idx + 1);
-                            }, 800);
+                            }, 900);
                         });
                     }
                     optsDiv.appendChild(optDiv);
@@ -1737,19 +1823,17 @@
         }
 
         // ================================================================
-        // MOCK EVENTS - FIXED: no re-render on selection, submit uses playerAnswers
+        // MOCK EVENTS
         // ================================================================
         function attachMockEvents(data, t) {
             const questions = data.questions;
             const bookletDiv = document.getElementById("mockBookNav");
             const questionsDiv = document.getElementById("mockQuestionsList");
 
-            // Initialize answers from playerAnswers or create new array
             let answersLocal = (playerAnswers && playerAnswers.length === questions.length) ? [...playerAnswers] :
             new Array(questions.length).fill(null);
             playerAnswers = answersLocal;
 
-            // Build booklet
             bookletDiv.innerHTML = '';
             for (let i = 0; i < questions.length; i++) {
                 let btn = document.createElement("button");
@@ -1763,7 +1847,6 @@
                 bookletDiv.appendChild(btn);
             }
 
-            // Build questions
             questionsDiv.innerHTML = '';
             const letters = ['A', 'B', 'C', 'D'];
             questions.forEach((q, idx) => {
@@ -1793,12 +1876,9 @@
                             <span class="opt-label">${letters[oi] || oi+1}. ${opt}</span>
                         `;
 
-                    // Always attach change handler, but only if not answered and quiz is active
                     const radio = label.querySelector('input');
                     radio.addEventListener("change", function(e) {
-                        // Prevent if already answered or quiz not active
                         if (answersLocal[idx] !== null || !isQuizActive) {
-                            // If already answered, re-check the correct radio
                             if (answersLocal[idx] !== null) {
                                 const currentAnswer = answersLocal[idx];
                                 optsWrap.querySelectorAll('input[type="radio"]').forEach(inp => {
@@ -1808,23 +1888,19 @@
                             return;
                         }
 
-                        // Store answer
                         const selectedValue = e.target.value;
                         answersLocal[idx] = selectedValue;
                         playerAnswers = [...answersLocal];
 
-                        // Update UI: mark selected
                         optsWrap.querySelectorAll('.mock-option').forEach(el => {
                             el.classList.remove('selected');
                         });
                         label.classList.add('selected');
 
-                        // Update booklet and progress
                         let btns = bookletDiv.querySelectorAll(".booklet-btn");
                         btns[idx].classList.add("answered");
                         updateMockProgress();
 
-                        // Check if all answered
                         if (answersLocal.filter(a => a !== null).length === questions.length) {
                             setTimeout(() => {
                                 if (isQuizActive) {
@@ -1839,7 +1915,6 @@
 
                     optsWrap.appendChild(label);
 
-                    // If already answered, mark the selected option
                     if (answered && opt === answerText) {
                         label.classList.add('selected');
                     }
@@ -1858,10 +1933,9 @@
                 if (fillEl) fillEl.style.width = pct + "%";
             }
 
-            // Submit button - uses playerAnswers directly
+            // Submit button - now in its own row
             const submitBtn = document.getElementById("submitMockBtn");
             if (submitBtn) {
-                // Remove existing listeners by cloning and replacing
                 const newBtn = submitBtn.cloneNode(true);
                 submitBtn.parentNode.replaceChild(newBtn, submitBtn);
                 newBtn.addEventListener('click', function() {
@@ -1877,7 +1951,6 @@
                 });
             }
 
-            // Upload button
             const uploadBtn = document.getElementById("mockUploadBtn");
             if (uploadBtn) {
                 uploadBtn.onclick = () => {
