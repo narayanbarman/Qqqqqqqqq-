@@ -268,7 +268,6 @@
             flex-shrink: 0;
             transition: 0.2s;
         }
-        /* Correct feedback: green border + background */
         .option-row.correct-feedback {
             background: #e6f4ea;
             border-color: #0f9d58;
@@ -278,7 +277,6 @@
             background: #0f9d58;
             color: #fff;
         }
-        /* Wrong feedback: red border + background */
         .option-row.wrong-feedback {
             background: #fce8e6;
             border-color: #d93025;
@@ -288,7 +286,6 @@
             background: #d93025;
             color: #fff;
         }
-        /* Highlight correct answer (when user picked wrong) */
         .option-row.highlight-correct {
             background: #e6f4ea;
             border-color: #0f9d58;
@@ -1502,7 +1499,7 @@
         // ================================================================
         //  RENDER ASSESSMENT (with start hero)
         // ================================================================
-        function renderAssessmentFromData(data) {
+        function renderAssessmentFromData(data, started = false) {
             const container = document.getElementById("renderZone");
             const t = templates[data.template] || templates.default;
 
@@ -1514,18 +1511,21 @@
                 contentHtml = buildMockHtml(data, t);
             }
 
-            // Wrap in container with disabled class
+            // Wrap in container with appropriate class
             const wrapper = document.createElement('div');
             wrapper.id = 'quizContainerWrapper';
-            wrapper.className = 'quiz-container disabled';
+            wrapper.className = 'quiz-container' + (started ? ' enabled' : ' disabled');
             wrapper.innerHTML = contentHtml;
-
-            // Create start hero
-            const hero = buildStartHero(data, t);
 
             // Clear and render
             container.innerHTML = '';
-            container.appendChild(hero);
+
+            // Add hero only if not started
+            if (!started) {
+                const hero = buildStartHero(data, t);
+                container.appendChild(hero);
+            }
+
             container.appendChild(wrapper);
 
             // Attach events
@@ -1535,41 +1535,40 @@
                 attachMockEvents(data, t);
             }
 
-            // Attach start button listener
-            const startBtn = document.getElementById('startQuizBtn');
-            if (startBtn) {
-                startBtn.addEventListener('click', () => {
-                    // Hide hero with animation
-                    const heroEl = document.getElementById('startHero');
-                    if (heroEl) {
-                        heroEl.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-                        heroEl.style.opacity = '0';
-                        heroEl.style.transform = 'translateY(-20px)';
-                        setTimeout(() => heroEl.remove(), 400);
-                    }
-
-                    // Enable quiz
-                    const wrapperEl = document.getElementById('quizContainerWrapper');
-                    if (wrapperEl) {
-                        wrapperEl.classList.remove('disabled');
-                        wrapperEl.classList.add('enabled');
-                        wrapperEl.querySelectorAll('.option-row, .mock-option').forEach(el => {
-                            el.style.pointerEvents = 'auto';
-                            el.style.opacity = '1';
-                        });
-                    }
-
-                    // Start timer
-                    if (data.timerEnabled) {
-                        const total = data.timerSeconds * data.questions.length;
-                        timeRemaining = total;
-                        startTotalTimer(data);
-                    }
-
-                    isQuizActive = true;
-                    isQuizStarted = true;
-                    showToast('Quiz started! Good luck! 🍀');
-                });
+            // If not started, attach start button listener
+            if (!started) {
+                const startBtn = document.getElementById('startQuizBtn');
+                if (startBtn) {
+                    startBtn.addEventListener('click', () => {
+                        // Hide hero
+                        const heroEl = document.getElementById('startHero');
+                        if (heroEl) {
+                            heroEl.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                            heroEl.style.opacity = '0';
+                            heroEl.style.transform = 'translateY(-20px)';
+                            setTimeout(() => heroEl.remove(), 400);
+                        }
+                        // Enable wrapper
+                        const wrapperEl = document.getElementById('quizContainerWrapper');
+                        if (wrapperEl) {
+                            wrapperEl.classList.remove('disabled');
+                            wrapperEl.classList.add('enabled');
+                            wrapperEl.querySelectorAll('.option-row, .mock-option').forEach(el => {
+                                el.style.pointerEvents = 'auto';
+                                el.style.opacity = '1';
+                            });
+                        }
+                        // Start timer
+                        if (data.timerEnabled) {
+                            const total = data.timerSeconds * data.questions.length;
+                            timeRemaining = total;
+                            startTotalTimer(data);
+                        }
+                        isQuizActive = true;
+                        isQuizStarted = true;
+                        showToast('Quiz started! Good luck! 🍀');
+                    });
+                }
             }
         }
 
@@ -1829,6 +1828,7 @@
             const questions = data.questions;
             const bookletDiv = document.getElementById("mockBookNav");
             const questionsDiv = document.getElementById("mockQuestionsList");
+            // Use playerAnswers if available, else init
             let answersLocal = playerAnswers.length === questions.length ? playerAnswers : new Array(questions.length)
                 .fill(null);
             playerAnswers = answersLocal;
@@ -1871,17 +1871,13 @@
                     let label = document.createElement("label");
                     label.className = "mock-option";
                     if (answered) label.classList.add("disabled");
-                    if (answered && opt === answerText) {
-                        label.style.borderColor = "#1a73e8";
-                        label.style.background = "#e8f0fe";
-                    }
                     // Ensure radio reflects selected state
                     const isChecked = answered && opt === answerText;
                     label.innerHTML = `
                             <input type="radio" name="mock_q_${idx}" value="${opt}" ${answered ? 'disabled' : ''} ${isChecked ? 'checked' : ''}>
                             <span class="opt-label">${letters[oi] || oi+1}. ${opt}</span>
                         `;
-                    // If not answered, allow selection
+                    // If not answered and quiz is active, allow selection
                     if (!answered && isQuizActive) {
                         const radio = label.querySelector('input');
                         radio.addEventListener("change", (e) => {
@@ -1889,13 +1885,15 @@
                                 // Set answer
                                 answersLocal[idx] = e.target.value;
                                 playerAnswers = answersLocal;
-                                // Re-render mock to reflect selection
+                                // Re-render with started=true to keep hero hidden and maintain state
+                                isQuizStarted = true;
+                                isQuizActive = true;
                                 renderAssessmentFromData(data, true);
                                 // Scroll to keep position
                                 setTimeout(() => {
                                     let el = document.getElementById(`mock_q_${idx}`);
                                     if (el) el.scrollIntoView({ behavior: 'smooth',
-                                    block: 'center' });
+                                        block: 'center' });
                                     updateMockProgress();
                                 }, 50);
                                 // Auto-submit if all answered
