@@ -243,11 +243,12 @@
             margin: 10px 0;
             border: 1px solid #ecedef;
             cursor: pointer;
-            transition: 0.15s;
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1);
             font-weight: 500;
             display: flex;
             align-items: center;
             gap: 12px;
+            user-select: none;
         }
         .option-row:hover {
             background: #f1f3f4;
@@ -265,26 +266,39 @@
             font-size: 0.75rem;
             color: #5f6368;
             flex-shrink: 0;
+            transition: 0.2s;
         }
         .option-row.correct-feedback {
             background: #e6f4ea;
             border-color: #0f9d58;
+            transform: scale(1.02);
+        }
+        .option-row.correct-feedback .opt-letter {
+            background: #0f9d58;
+            color: #fff;
         }
         .option-row.wrong-feedback {
             background: #fce8e6;
             border-color: #d93025;
+            transform: scale(0.98);
         }
-        .highlight-correct {
-            background: #e6f4ea !important;
-            border-color: #0f9d58 !important;
+        .option-row.wrong-feedback .opt-letter {
+            background: #d93025;
+            color: #fff;
         }
-        .highlight-correct .opt-letter {
+        .option-row.highlight-correct {
+            background: #e6f4ea;
+            border-color: #0f9d58;
+            box-shadow: 0 0 0 2px #0f9d58;
+            transform: scale(1.02);
+        }
+        .option-row.highlight-correct .opt-letter {
             background: #0f9d58;
             color: #fff;
         }
         .option-row.disabled {
             pointer-events: none;
-            opacity: 0.6;
+            opacity: 0.7;
         }
 
         .progress-bar {
@@ -366,10 +380,6 @@
         .booklet-btn.timeout {
             background: #d93025;
             color: #fff;
-        }
-        .booklet-btn.unanswered {
-            background: #fce8e6;
-            border: 2px solid #d93025;
         }
 
         .timer-badge {
@@ -810,86 +820,104 @@
             font-weight: 600;
         }
 
-        /* ── Start overlay ── */
-        .quiz-wrapper {
-            position: relative;
-        }
-        .start-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.88);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            border-radius: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 20;
-            padding: 24px;
+        /* ── Start Hero ── */
+        .start-hero {
             text-align: center;
-            transition: opacity 0.3s;
+            padding: 30px 20px 24px;
+            background: linear-gradient(145deg, #f8f9fa, #ffffff);
+            border-radius: 32px;
+            margin-bottom: 20px;
+            border: 1px solid #ecedef;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+            animation: fadeSlideUp 0.4s ease;
         }
-        .start-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .start-overlay .icon {
+        .start-hero .icon {
             font-size: 3.5rem;
             color: #1a73e8;
             margin-bottom: 12px;
         }
-        .start-overlay h3 {
-            font-size: 1.4rem;
+        .start-hero h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
             color: #1e293b;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
-        .start-overlay .sub {
+        .start-hero .sub {
             color: #5f6368;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
+            font-size: 0.95rem;
+            margin-bottom: 16px;
         }
-        .start-overlay .meta {
+        .start-hero .meta {
             display: flex;
-            gap: 24px;
+            justify-content: center;
+            gap: 32px;
             margin-bottom: 24px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #5f6368;
         }
-        .start-overlay .meta span {
+        .start-hero .meta span {
             font-weight: 500;
             color: #1e293b;
+            background: #f1f3f4;
+            padding: 4px 12px;
+            border-radius: 40px;
         }
-        .start-overlay .btn-start {
+        .start-hero .btn-start {
             font-size: 1.2rem;
-            padding: 14px 48px;
+            padding: 16px 52px;
             border-radius: 60px;
             background: #1a73e8;
             color: #fff;
             border: none;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 16px rgba(26, 115, 232, 0.3);
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1);
+            box-shadow: 0 4px 20px rgba(26, 115, 232, 0.3);
+            letter-spacing: 0.5px;
         }
-        .start-overlay .btn-start:hover {
-            transform: scale(1.04);
-            box-shadow: 0 6px 24px rgba(26, 115, 232, 0.4);
+        .start-hero .btn-start:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 32px rgba(26, 115, 232, 0.4);
         }
-        .start-overlay .btn-start:active {
+        .start-hero .btn-start:active {
             transform: scale(0.96);
+        }
+        .start-hero .btn-start i {
+            margin-right: 10px;
         }
 
         @media (max-width: 600px) {
-            .start-overlay .meta {
+            .start-hero .meta {
                 flex-direction: column;
                 gap: 8px;
             }
+            .start-hero .btn-start {
+                padding: 14px 32px;
+                font-size: 1rem;
+            }
+        }
+
+        /* ── Disabled Quiz Overlay ── */
+        .quiz-container.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+            transition: opacity 0.4s ease;
+        }
+        .quiz-container.disabled .option-row,
+        .quiz-container.disabled .mock-option {
+            cursor: default;
+        }
+        .quiz-container.enabled {
+            pointer-events: auto;
+            opacity: 1;
+        }
+        .quiz-container.enabled .option-row,
+        .quiz-container.enabled .mock-option {
+            cursor: pointer;
         }
 
         .quiz-container {
-            position: relative;
-            min-height: 200px;
+            transition: opacity 0.4s ease, transform 0.3s ease;
         }
     </style>
 </head>
@@ -1453,24 +1481,13 @@
         }
 
         // ================================================================
-        //  RENDER ASSESSMENT (with start overlay)
+        //  RENDER ASSESSMENT (with start hero)
         // ================================================================
-        function renderAssessmentFromData(data, started = false) {
-            // If started flag is true, we start the quiz
-            if (started) {
-                isQuizStarted = true;
-                isQuizActive = true;
-                // start timer if enabled
-                if (data.timerEnabled) {
-                    const total = data.timerSeconds * data.questions.length;
-                    timeRemaining = total;
-                    startTotalTimer(data);
-                }
-            }
-
-            // If quizResults exist, show score modal instead? We'll let the render functions handle that.
+        function renderAssessmentFromData(data) {
             const container = document.getElementById("renderZone");
             const t = templates[data.template] || templates.default;
+
+            // If quizResults exist, show score modal? We'll let the render functions handle that.
 
             // Build the quiz content
             let contentHtml = '';
@@ -1480,32 +1497,96 @@
                 contentHtml = buildMockHtml(data, t);
             }
 
-            container.innerHTML = contentHtml;
+            // Wrap in container with disabled class
+            const wrapper = document.createElement('div');
+            wrapper.id = 'quizContainerWrapper';
+            wrapper.className = 'quiz-container disabled';
+            wrapper.innerHTML = contentHtml;
 
-            // Attach events and overlay
+            // Create start hero
+            const hero = buildStartHero(data, t);
+
+            // Clear and render
+            container.innerHTML = '';
+            container.appendChild(hero);
+            container.appendChild(wrapper);
+
+            // Attach events
             if (data.mode === "quiz") {
-                attachQuizEvents(data, t, started);
+                attachQuizEvents(data, t);
             } else {
-                attachMockEvents(data, t, started);
+                attachMockEvents(data, t);
             }
 
-            // If not started, add overlay
-            if (!started && !quizResults) {
-                addStartOverlay(container, data);
+            // Attach start button listener
+            const startBtn = document.getElementById('startQuizBtn');
+            if (startBtn) {
+                startBtn.addEventListener('click', () => {
+                    // Hide hero with animation
+                    const heroEl = document.getElementById('startHero');
+                    if (heroEl) {
+                        heroEl.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                        heroEl.style.opacity = '0';
+                        heroEl.style.transform = 'translateY(-20px)';
+                        setTimeout(() => heroEl.remove(), 400);
+                    }
+
+                    // Enable quiz
+                    const wrapperEl = document.getElementById('quizContainerWrapper');
+                    if (wrapperEl) {
+                        wrapperEl.classList.remove('disabled');
+                        wrapperEl.classList.add('enabled');
+                        // Also enable nested interactive elements explicitly if needed
+                        wrapperEl.querySelectorAll('.option-row, .mock-option').forEach(el => {
+                            el.style.pointerEvents = 'auto';
+                            el.style.opacity = '1';
+                        });
+                    }
+
+                    // Start timer
+                    if (data.timerEnabled) {
+                        const total = data.timerSeconds * data.questions.length;
+                        timeRemaining = total;
+                        startTotalTimer(data);
+                    }
+
+                    isQuizActive = true;
+                    isQuizStarted = true;
+                    showToast('Quiz started! Good luck! 🍀');
+                });
             }
+        }
+
+        // ── Build Start Hero ──
+        function buildStartHero(data, t) {
+            const totalTime = data.timerEnabled ? data.timerSeconds * data.questions.length : 0;
+            const hero = document.createElement('div');
+            hero.id = 'startHero';
+            hero.className = 'start-hero';
+            hero.innerHTML = `
+                    <div class="icon"><i class="fas fa-play-circle"></i></div>
+                    <h2>${data.title}</h2>
+                    <p class="sub">${data.questions.length} questions • ${data.mode === 'quiz' ? 'Quiz Mode' : 'Mocktest Mode'}</p>
+                    <div class="meta">
+                        <span>⏱️ ${data.timerEnabled ? totalTime+'s total' : 'No timer'}</span>
+                        <span>📝 ${data.mode}</span>
+                    </div>
+                    <button class="btn-start" id="startQuizBtn"><i class="fas fa-play"></i> Start ${data.mode === 'quiz' ? 'Quiz' : 'Mocktest'}</button>
+                `;
+            return hero;
         }
 
         // ── Build Quiz HTML ──
         function buildQuizHtml(data, t) {
             const questions = data.questions;
-            const totalTime = data.timerEnabled ? data.timerSeconds * questions.length : 0;
             let timerHtml = '';
-            if (data.timerEnabled && totalTime > 0) {
+            if (data.timerEnabled) {
+                const total = data.timerSeconds * questions.length;
                 timerHtml =
-                    `<div class="timer-badge total-timer" id="quizTotalTimer">⏱️ ${formatTime(totalTime)}</div>`;
+                    `<div class="timer-badge total-timer" id="quizTotalTimer">⏱️ ${formatTime(total)}</div>`;
             }
             let html = `
-                    <div class="quiz-container" style="background:${t.bg};border-radius:24px;padding:16px;border:1px solid ${t.border};">
+                    <div style="background:${t.bg};border-radius:24px;padding:16px;border:1px solid ${t.border};">
                         <div class="flex-between" style="margin-bottom:8px;">
                             <div style="display:flex;align-items:center;gap:8px;">
                                 ${data.logo ? `<img src="${data.logo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">` : ''}
@@ -1529,14 +1610,14 @@
         // ── Build Mock HTML ──
         function buildMockHtml(data, t) {
             const questions = data.questions;
-            const totalTime = data.timerEnabled ? data.timerSeconds * questions.length : 0;
             let timerHtml = '';
-            if (data.timerEnabled && totalTime > 0) {
+            if (data.timerEnabled) {
+                const total = data.timerSeconds * questions.length;
                 timerHtml =
-                    `<div class="timer-badge total-timer" id="mockTotalTimer">⏱️ ${formatTime(totalTime)}</div>`;
+                    `<div class="timer-badge total-timer" id="mockTotalTimer">⏱️ ${formatTime(total)}</div>`;
             }
             let html = `
-                    <div class="quiz-container" style="background:${t.bg};border-radius:24px;padding:16px;border:1px solid ${t.border};">
+                    <div style="background:${t.bg};border-radius:24px;padding:16px;border:1px solid ${t.border};">
                         <div class="mock-header-sticky" style="background:${t.cardBg};">
                             <div class="flex-between" style="margin-bottom:8px;">
                                 <div style="display:flex;align-items:center;gap:8px;">
@@ -1564,9 +1645,8 @@
         }
 
         // ── Attach Quiz Events ──
-        function attachQuizEvents(data, t, started) {
+        function attachQuizEvents(data, t) {
             const questions = data.questions;
-            const container = document.getElementById("renderZone");
             const bookletDiv = document.getElementById("quizBookNav");
             const slidesContainer = document.getElementById("quizSlides");
             let answersLocal = playerAnswers.length === questions.length ? playerAnswers : new Array(questions.length)
@@ -1596,13 +1676,11 @@
                 slide.style.borderColor = t.border;
 
                 let answered = answersLocal[idx] !== null;
-                let answerText = answersLocal[idx] || '';
 
                 slide.innerHTML = `
                         <h4 style="color:${t.text};margin-bottom:8px;font-size:1rem;">${idx+1}. ${q.text}</h4>
                         ${q.image ? `<img src="${q.image}" style="max-width:100%;max-height:140px;border-radius:16px;margin:8px 0;object-fit:contain;">` : ''}
                         <div class="options-area"></div>
-                        ${answered ? `<div style="margin-top:10px;font-size:0.75rem;color:#5f6368;">✅ Answered: <strong>${answerText}</strong></div>` : ''}
                     `;
 
                 let optsDiv = slide.querySelector(".options-area");
@@ -1610,38 +1688,56 @@
                 q.options.forEach((opt, oi) => {
                     let optDiv = document.createElement("div");
                     optDiv.className = "option-row";
-                    if (answered || !isQuizActive) optDiv.classList.add("disabled");
-                    if (answered && opt === answerText) {
-                        if (opt === q.correct) optDiv.classList.add("correct-feedback");
-                        else optDiv.classList.add("wrong-feedback");
-                    }
-                    if (answered && opt === q.correct && opt !== answerText) {
-                        optDiv.classList.add("highlight-correct");
-                    }
                     optDiv.style.backgroundColor = t.optionBg;
                     optDiv.style.borderColor = t.border;
                     optDiv.innerHTML =
                         `<span class="opt-letter">${letters[oi] || oi+1}</span><span>${opt}</span>`;
-                    if (!answered && isQuizActive) {
-                        optDiv.addEventListener("click", () => {
-                            if (answersLocal[idx] === null && isQuizActive) {
-                                answersLocal[idx] = opt;
-                                playerAnswers = answersLocal;
-                                // re-render the whole quiz to update UI
-                                renderAssessmentFromData(data, true);
-                                // restore position
-                                setTimeout(() => {
-                                    const slides2 = document.querySelectorAll(
-                                    "#quizSlides .question-card");
-                                    slides2.forEach((s, i) => s.style.display = i === currentIdx ?
-                                        "block" : "none");
-                                    updateProgress();
-                                }, 50);
-                                // auto advance
-                                if (idx < questions.length - 1) {
-                                    setTimeout(() => showSlide(idx + 1), 400);
-                                }
+
+                    // If already answered, show feedback
+                    if (answered) {
+                        optDiv.classList.add("disabled");
+                        if (opt === answersLocal[idx]) {
+                            if (opt === q.correct) optDiv.classList.add("correct-feedback");
+                            else optDiv.classList.add("wrong-feedback");
+                        }
+                        if (opt === q.correct && opt !== answersLocal[idx]) {
+                            optDiv.classList.add("highlight-correct");
+                        }
+                    } else {
+                        // Not answered yet, bind click
+                        optDiv.addEventListener("click", function(e) {
+                            if (!isQuizActive) return;
+                            if (answersLocal[idx] !== null) return;
+
+                            // Lock answer
+                            answersLocal[idx] = opt;
+                            playerAnswers = answersLocal;
+
+                            // Update UI: disable all, show feedback
+                            const allOpts = this.closest('.options-area').querySelectorAll('.option-row');
+                            allOpts.forEach(o => o.classList.add('disabled'));
+
+                            // Highlight selected
+                            if (opt === q.correct) {
+                                this.classList.add('correct-feedback');
+                            } else {
+                                this.classList.add('wrong-feedback');
+                                // Highlight correct answer
+                                allOpts.forEach(o => {
+                                    if (o.innerText.trim() === q.correct) {
+                                        o.classList.add('highlight-correct');
+                                    }
+                                });
                             }
+
+                            // Update booklet and progress
+                            updateBookletState(idx, true);
+                            updateProgress();
+
+                            // Auto-advance after delay
+                            setTimeout(() => {
+                                if (idx < questions.length - 1) showSlide(idx + 1);
+                            }, 800);
                         });
                     }
                     optsDiv.appendChild(optDiv);
@@ -1663,6 +1759,12 @@
                 let target = btns[index];
                 if (target) target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 updateProgress();
+            }
+
+            function updateBookletState(idx, answered) {
+                let btns = bookletDiv.querySelectorAll(".booklet-btn");
+                if (answered) btns[idx].classList.add("answered");
+                else btns[idx].classList.remove("answered");
             }
 
             function updateProgress() {
@@ -1703,12 +1805,12 @@
 
             // init
             showSlide(0);
+            updateProgress();
         }
 
         // ── Attach Mock Events ──
-        function attachMockEvents(data, t, started) {
+        function attachMockEvents(data, t) {
             const questions = data.questions;
-            const container = document.getElementById("renderZone");
             const bookletDiv = document.getElementById("mockBookNav");
             const questionsDiv = document.getElementById("mockQuestionsList");
             let answersLocal = playerAnswers.length === questions.length ? playerAnswers : new Array(questions.length)
@@ -1746,24 +1848,18 @@
                         <h4 style="color:${t.text};font-size:1rem;margin-bottom:6px;">${idx+1}. ${q.text}</h4>
                         ${q.image ? `<img src="${q.image}" style="max-width:100%;max-height:120px;border-radius:12px;margin:6px 0;object-fit:contain;">` : ''}
                         <div class="mock-options-wrap" style="margin-top:8px;"></div>
-                        ${answered ? `<div style="margin-top:8px;font-size:0.7rem;color:#5f6368;">✅ Answered: <strong>${answerText}</strong></div>` : ''}
                     `;
 
                 let optsWrap = qCard.querySelector(".mock-options-wrap");
                 q.options.forEach((opt, oi) => {
                     let label = document.createElement("label");
                     label.className = "mock-option";
-                    if (answered || !isQuizActive) label.classList.add("disabled");
+                    if (answered) label.classList.add("disabled");
                     if (answered && opt === answerText) {
-                        if (opt === q.correct) label.style.borderColor = "#0f9d58";
-                        else label.style.borderColor = "#d93025";
+                        label.style.borderColor = "#1a73e8";
+                        label.style.background = "#e8f0fe";
                     }
-                    if (answered && opt === q.correct && opt !== answerText) {
-                        label.style.borderColor = "#0f9d58";
-                        label.style.background = "#e6f4ea";
-                    }
-                    label.innerHTML =
-                        `
+                    label.innerHTML = `
                             <input type="radio" name="mock_q_${idx}" value="${opt}" ${answered ? 'disabled' : ''} ${answered && opt === answerText ? 'checked' : ''}>
                             <span class="opt-label">${letters[oi] || oi+1}. ${opt}</span>
                         `;
@@ -1772,7 +1868,7 @@
                             if (isQuizActive) {
                                 answersLocal[idx] = e.target.value;
                                 playerAnswers = answersLocal;
-                                // re-render mock
+                                // re-render mock to update UI
                                 renderAssessmentFromData(data, true);
                                 setTimeout(() => {
                                     let el = document.getElementById(`mock_q_${idx}`);
@@ -1838,36 +1934,6 @@
             }, 300);
         }
 
-        // ── Add Start Overlay ──
-        function addStartOverlay(container, data) {
-            const existing = container.querySelector('.start-overlay');
-            if (existing) existing.remove();
-
-            const overlay = document.createElement('div');
-            overlay.className = 'start-overlay';
-            const totalTime = data.timerEnabled ? data.timerSeconds * data.questions.length : 0;
-            overlay.innerHTML = `
-                    <div class="icon"><i class="fas fa-play-circle"></i></div>
-                    <h3>${data.title}</h3>
-                    <p class="sub">${data.questions.length} questions • ${data.mode === 'quiz' ? 'Quiz Mode' : 'Mocktest Mode'}</p>
-                    <div class="meta">
-                        <span>⏱️ ${data.timerEnabled ? totalTime+'s total' : 'No timer'}</span>
-                        <span>📝 ${data.mode}</span>
-                    </div>
-                    <button class="btn-start" id="startOverlayBtn"><i class="fas fa-play"></i> Start Quiz</button>
-                `;
-            container.querySelector('.quiz-container')?.appendChild(overlay);
-
-            document.getElementById('startOverlayBtn').addEventListener('click', () => {
-                // start the quiz
-                renderAssessmentFromData(data, true);
-                // after render, hide overlay
-                const ov = container.querySelector('.start-overlay');
-                if (ov) ov.classList.add('hidden');
-                // ensure timer starts
-            });
-        }
-
         // ================================================================
         //  TOTAL TIMER
         // ================================================================
@@ -1878,7 +1944,6 @@
 
             timerInterval = setInterval(() => {
                 timeRemaining--;
-                // update UI
                 const timerEl = document.getElementById("quizTotalTimer") || document.getElementById(
                 "mockTotalTimer");
                 if (timerEl) {
