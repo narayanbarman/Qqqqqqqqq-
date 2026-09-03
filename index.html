@@ -98,8 +98,8 @@
             font-size: 0.75rem;
         }
         .btn-lg {
-            padding: 14px 32px;
-            font-size: 1rem;
+            padding: 16px 40px;
+            font-size: 1.1rem;
         }
         .btn-block {
             width: 100%;
@@ -284,7 +284,7 @@
         }
         .option-row.disabled {
             pointer-events: none;
-            opacity: 0.7;
+            opacity: 0.6;
         }
 
         .progress-bar {
@@ -810,81 +810,86 @@
             font-weight: 600;
         }
 
-        .play-hero {
-            text-align: center;
-            padding: 30px 16px 20px;
+        /* ── Start overlay ── */
+        .quiz-wrapper {
+            position: relative;
         }
-        .play-hero .icon {
+        .start-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            padding: 24px;
+            text-align: center;
+            transition: opacity 0.3s;
+        }
+        .start-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .start-overlay .icon {
             font-size: 3.5rem;
             color: #1a73e8;
             margin-bottom: 12px;
         }
-        .play-hero h2 {
+        .start-overlay h3 {
             font-size: 1.4rem;
             color: #1e293b;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
-        .play-hero .sub {
+        .start-overlay .sub {
             color: #5f6368;
             font-size: 0.9rem;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
-        .play-hero .meta-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 8px;
-            margin: 16px 0;
-            background: #f8f9fa;
-            border-radius: 16px;
-            padding: 12px;
-            border: 1px solid #ecedef;
+        .start-overlay .meta {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+            font-size: 0.85rem;
+            color: #5f6368;
         }
-        .play-hero .meta-grid .item {
-            text-align: center;
-        }
-        .play-hero .meta-grid .item .num {
-            font-weight: 700;
-            font-size: 1.1rem;
+        .start-overlay .meta span {
+            font-weight: 500;
             color: #1e293b;
         }
-        .play-hero .meta-grid .item .lbl {
-            font-size: 0.65rem;
-            color: #5f6368;
-            text-transform: uppercase;
+        .start-overlay .btn-start {
+            font-size: 1.2rem;
+            padding: 14px 48px;
+            border-radius: 60px;
+            background: #1a73e8;
+            color: #fff;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 16px rgba(26, 115, 232, 0.3);
+        }
+        .start-overlay .btn-start:hover {
+            transform: scale(1.04);
+            box-shadow: 0 6px 24px rgba(26, 115, 232, 0.4);
+        }
+        .start-overlay .btn-start:active {
+            transform: scale(0.96);
         }
 
-        .time-over-modal .big-icon {
-            font-size: 4rem;
-            color: #d93025;
-            margin-bottom: 12px;
-        }
-        .time-over-modal h2 {
-            color: #d93025;
+        @media (max-width: 600px) {
+            .start-overlay .meta {
+                flex-direction: column;
+                gap: 8px;
+            }
         }
 
-        .unanswered-badge {
-            background: #fce8e6;
-            color: #d93025;
-            padding: 2px 10px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .quiz-preview-card {
-            background: #f8f9fa;
-            border-radius: 16px;
-            padding: 16px;
-            border: 1px solid #ecedef;
-            margin-bottom: 12px;
-        }
-        .quiz-preview-card .q-preview {
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-        .quiz-preview-card .q-preview small {
-            font-weight: 400;
-            color: #5f6368;
+        .quiz-container {
+            position: relative;
+            min-height: 200px;
         }
     </style>
 </head>
@@ -1031,7 +1036,8 @@
         let currentQuizData = null;
         let timerInterval = null;
         let timeRemaining = 0;
-        let isQuizActive = false;
+        let isQuizActive = false; // true after start and until submit
+        let isQuizStarted = false; // true after start button click
         let playerAnswers = [];
         let quizResults = null;
 
@@ -1246,7 +1252,6 @@
             }
         }
 
-        // ── history handler ──
         window.addEventListener('popstate', (e) => {
             if (navStack.length > 1) {
                 const prev = navStack[navStack.length - 2];
@@ -1255,7 +1260,6 @@
                     navigateTo(prev.view, prev.data);
                 }
             } else {
-                // go to dashboard
                 showDashboardView();
             }
         });
@@ -1270,7 +1274,6 @@
             document.getElementById("stepType").style.display = "none";
             document.getElementById("createdArea").style.display = "block";
 
-            // activate dashboard tab
             document.querySelectorAll("#tabBar .tab-btn").forEach(b => b.classList.remove("active"));
             document.querySelector("#tabBar .tab-btn[data-tab='dashboard']")?.classList.add("active");
             document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
@@ -1336,7 +1339,6 @@
                     `;
             });
 
-            // Stats summary
             const totalPlays = ids.reduce((s, id) => s + getQuizPlays(id).length, 0);
             const totalQs = ids.reduce((s, id) => s + (all[id].questions?.length || 0), 0);
 
@@ -1351,7 +1353,6 @@
             container.innerHTML = html;
         }
 
-        // ── OPEN QUIZ (from dashboard) ──
         window.openQuiz = function(id) {
             const data = getQuizData(id);
             if (!data) { showToast("Quiz not found"); return; }
@@ -1364,11 +1365,17 @@
             document.querySelector("#tabBar .tab-btn[data-tab='play']")?.classList.add("active");
             document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
             document.getElementById("panelPlay").classList.add("active");
+            // reset states
+            isQuizStarted = false;
+            isQuizActive = false;
+            quizResults = null;
+            playerAnswers = [];
+            if (timerInterval) { clearInterval(timerInterval);
+                timerInterval = null; }
             renderAssessmentFromData(data);
             pushState('play', { id });
         };
 
-        // ── DELETE QUIZ ──
         window.deleteQuiz = function(id) {
             if (!confirm("Delete this quiz and all its data?")) return;
             deleteQuizData(id);
@@ -1381,7 +1388,6 @@
             document.getElementById("stepUpload").style.display = "block";
             document.getElementById("stepType").style.display = "none";
             document.getElementById("createdArea").style.display = "none";
-            // reset
             document.getElementById("quizNameInput").value = "My Custom Quiz";
             document.getElementById("bulkTextArea").value =
                 `What is the capital of France? ,Paris,London,Berlin,Madrid,Paris\nWho wrote Hamlet? ,Shakespeare,Dickens,Hemingway,Tolstoy,Shakespeare\nWhat is 2+2? ,3,4,5,6,4`;
@@ -1432,6 +1438,13 @@
                     currentQuizData = qd;
                     selectedTemplate = qd.template || "default";
                     applyTemplate(selectedTemplate);
+                    // reset states
+                    isQuizStarted = false;
+                    isQuizActive = false;
+                    quizResults = null;
+                    playerAnswers = [];
+                    if (timerInterval) { clearInterval(timerInterval);
+                        timerInterval = null; }
                     renderAssessmentFromData(qd);
                     return;
                 }
@@ -1440,86 +1453,59 @@
         }
 
         // ================================================================
-        //  RENDER ASSESSMENT (with Play button)
+        //  RENDER ASSESSMENT (with start overlay)
         // ================================================================
-        function renderAssessmentFromData(data) {
+        function renderAssessmentFromData(data, started = false) {
+            // If started flag is true, we start the quiz
+            if (started) {
+                isQuizStarted = true;
+                isQuizActive = true;
+                // start timer if enabled
+                if (data.timerEnabled) {
+                    const total = data.timerSeconds * data.questions.length;
+                    timeRemaining = total;
+                    startTotalTimer(data);
+                }
+            }
+
+            // If quizResults exist, show score modal instead? We'll let the render functions handle that.
             const container = document.getElementById("renderZone");
             const t = templates[data.template] || templates.default;
 
-            // Check if this is a shared view (no teacher controls)
-            const isShared = !document.querySelector("#tabBar .tab-btn[data-tab='dashboard']") ||
-                document.querySelector("#tabBar .tab-btn[data-tab='dashboard']")?.style.display === "none";
-
-            // If quiz is already active or finished, show the quiz interface
-            if (isQuizActive || quizResults) {
-                renderQuizContent(data, container, t);
-                return;
-            }
-
-            // Show play button hero
-            const totalTime = data.timerEnabled ? data.timerSeconds * data.questions.length : 0;
-            container.innerHTML = `
-                    <div class="play-hero">
-                        <div class="icon">${data.logo ? `<img src="${data.logo}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid ${t.accent};">` : '<i class="fas fa-clipboard-list"></i>'}</div>
-                        <h2>${data.title || 'Quiz'}</h2>
-                        <p class="sub">${data.questions.length} questions • ${data.mode === 'quiz' ? 'Quiz Mode' : 'Mocktest Mode'}</p>
-                        <div class="meta-grid">
-                            <div class="item"><div class="num">${data.questions.length}</div><div class="lbl">Questions</div></div>
-                            <div class="item"><div class="num">${data.mode === 'quiz' ? '📝' : '📖'}</div><div class="lbl">${data.mode}</div></div>
-                            ${data.timerEnabled ? `<div class="item"><div class="num">${totalTime}s</div><div class="lbl">Total Time</div></div>` : '<div class="item"><div class="num">∞</div><div class="lbl">No Timer</div></div>'}
-                        </div>
-                        <button class="btn btn-primary btn-lg" id="startQuizBtn" style="margin-top:8px;">
-                            <i class="fas fa-play"></i> Start Quiz
-                        </button>
-                    </div>
-                `;
-
-            document.getElementById("startQuizBtn")?.addEventListener("click", () => {
-                startQuiz(data);
-            });
-        }
-
-        // ── Start Quiz ──
-        function startQuiz(data) {
-            isQuizActive = true;
-            quizResults = null;
-            playerAnswers = new Array(data.questions.length).fill(null);
-            const totalTime = data.timerEnabled ? data.timerSeconds * data.questions.length : 0;
-            timeRemaining = totalTime;
-
-            renderQuizContent(data, document.getElementById("renderZone"), templates[data.template] || templates.default);
-
-            if (data.timerEnabled && totalTime > 0) {
-                startTotalTimer(data);
-            }
-        }
-
-        // ── Render Quiz Content ──
-        function renderQuizContent(data, container, t) {
+            // Build the quiz content
+            let contentHtml = '';
             if (data.mode === "quiz") {
-                renderQuizInterface(data, container, t);
+                contentHtml = buildQuizHtml(data, t);
             } else {
-                renderMockInterface(data, container, t);
+                contentHtml = buildMockHtml(data, t);
+            }
+
+            container.innerHTML = contentHtml;
+
+            // Attach events and overlay
+            if (data.mode === "quiz") {
+                attachQuizEvents(data, t, started);
+            } else {
+                attachMockEvents(data, t, started);
+            }
+
+            // If not started, add overlay
+            if (!started && !quizResults) {
+                addStartOverlay(container, data);
             }
         }
 
-        // ================================================================
-        //  QUIZ MODE (paginated)
-        // ================================================================
-        function renderQuizInterface(data, container, t) {
+        // ── Build Quiz HTML ──
+        function buildQuizHtml(data, t) {
             const questions = data.questions;
             const totalTime = data.timerEnabled ? data.timerSeconds * questions.length : 0;
-            const isShared = !document.querySelector("#tabBar .tab-btn[data-tab='dashboard']") ||
-                document.querySelector("#tabBar .tab-btn[data-tab='dashboard']")?.style.display === "none";
-
             let timerHtml = '';
             if (data.timerEnabled && totalTime > 0) {
                 timerHtml =
-                    `<div class="timer-badge total-timer" id="quizTotalTimer">⏱️ ${formatTime(timeRemaining)}</div>`;
+                    `<div class="timer-badge total-timer" id="quizTotalTimer">⏱️ ${formatTime(totalTime)}</div>`;
             }
-
-            container.innerHTML = `
-                    <div style="background:${t.bg};border-radius:24px;padding:16px;border:1px solid ${t.border};">
+            let html = `
+                    <div class="quiz-container" style="background:${t.bg};border-radius:24px;padding:16px;border:1px solid ${t.border};">
                         <div class="flex-between" style="margin-bottom:8px;">
                             <div style="display:flex;align-items:center;gap:8px;">
                                 ${data.logo ? `<img src="${data.logo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">` : ''}
@@ -1535,17 +1521,62 @@
                             <span id="quizCounter" style="font-size:0.8rem;color:#5f6368;">1 / ${questions.length}</span>
                             <button id="quizNextBtn" class="btn btn-primary btn-sm">Next <i class="fas fa-chevron-right"></i></button>
                         </div>
-                        ${isQuizActive && data.timerEnabled && totalTime > 0 ? `<div style="margin-top:12px;text-align:center;font-size:0.7rem;color:#5f6368;">⏱️ Timer is running — submit before time runs out!</div>` : ''}
                     </div>
                 `;
+            return html;
+        }
 
-            let bookletDiv = document.getElementById("quizBookNav");
-            let slidesContainer = document.getElementById("quizSlides");
-            let slides = [];
-            let answersLocal = playerAnswers || new Array(questions.length).fill(null);
+        // ── Build Mock HTML ──
+        function buildMockHtml(data, t) {
+            const questions = data.questions;
+            const totalTime = data.timerEnabled ? data.timerSeconds * questions.length : 0;
+            let timerHtml = '';
+            if (data.timerEnabled && totalTime > 0) {
+                timerHtml =
+                    `<div class="timer-badge total-timer" id="mockTotalTimer">⏱️ ${formatTime(totalTime)}</div>`;
+            }
+            let html = `
+                    <div class="quiz-container" style="background:${t.bg};border-radius:24px;padding:16px;border:1px solid ${t.border};">
+                        <div class="mock-header-sticky" style="background:${t.cardBg};">
+                            <div class="flex-between" style="margin-bottom:8px;">
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    ${data.logo ? `<img src="${data.logo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">` : ''}
+                                    <span style="font-weight:600;color:${t.text};font-size:0.95rem;">${data.title}</span>
+                                </div>
+                                ${timerHtml}
+                            </div>
+                            <div class="booklet-wrap" style="position:static;box-shadow:none;padding:4px 0;border-bottom:none;">
+                                <div class="booklet" id="mockBookNav"></div>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#5f6368;padding-top:4px;">
+                                <span id="mockAnsweredCount">0 / ${questions.length} answered</span>
+                                <span id="mockProgressText">0%</span>
+                            </div>
+                            <div class="progress-bar" style="margin:6px 0 0;"><div id="mockProgressFill" class="progress-fill" style="width:0%;"></div></div>
+                            <button id="submitMockBtn" class="btn btn-success btn-sm" style="margin-top:10px;width:100%;">
+                                <i class="fas fa-check-double"></i> Submit Mocktest
+                            </button>
+                        </div>
+                        <div class="mock-question-list" id="mockQuestionsList"></div>
+                    </div>
+                `;
+            return html;
+        }
+
+        // ── Attach Quiz Events ──
+        function attachQuizEvents(data, t, started) {
+            const questions = data.questions;
+            const container = document.getElementById("renderZone");
+            const bookletDiv = document.getElementById("quizBookNav");
+            const slidesContainer = document.getElementById("quizSlides");
+            let answersLocal = playerAnswers.length === questions.length ? playerAnswers : new Array(questions.length)
+                .fill(null);
+            playerAnswers = answersLocal;
             let currentIdx = 0;
+            let slides = [];
 
             // Build booklet
+            bookletDiv.innerHTML = '';
             for (let i = 0; i < questions.length; i++) {
                 let btn = document.createElement("button");
                 btn.innerText = i + 1;
@@ -1556,6 +1587,7 @@
             }
 
             // Build slides
+            slidesContainer.innerHTML = '';
             questions.forEach((q, idx) => {
                 let slide = document.createElement("div");
                 slide.className = "question-card";
@@ -1578,7 +1610,7 @@
                 q.options.forEach((opt, oi) => {
                     let optDiv = document.createElement("div");
                     optDiv.className = "option-row";
-                    if (answered) optDiv.classList.add("disabled");
+                    if (answered || !isQuizActive) optDiv.classList.add("disabled");
                     if (answered && opt === answerText) {
                         if (opt === q.correct) optDiv.classList.add("correct-feedback");
                         else optDiv.classList.add("wrong-feedback");
@@ -1595,12 +1627,16 @@
                             if (answersLocal[idx] === null && isQuizActive) {
                                 answersLocal[idx] = opt;
                                 playerAnswers = answersLocal;
-                                updateBookletState(idx, true);
-                                updateProgress();
-                                // re-render this slide
-                                renderQuizInterface(data, container, t);
+                                // re-render the whole quiz to update UI
+                                renderAssessmentFromData(data, true);
                                 // restore position
-                                setTimeout(() => showSlide(idx), 50);
+                                setTimeout(() => {
+                                    const slides2 = document.querySelectorAll(
+                                    "#quizSlides .question-card");
+                                    slides2.forEach((s, i) => s.style.display = i === currentIdx ?
+                                        "block" : "none");
+                                    updateProgress();
+                                }, 50);
                                 // auto advance
                                 if (idx < questions.length - 1) {
                                     setTimeout(() => showSlide(idx + 1), 400);
@@ -1626,20 +1662,20 @@
                 });
                 let target = btns[index];
                 if (target) target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            }
-
-            function updateBookletState(idx, answered) {
-                let btns = bookletDiv.querySelectorAll(".booklet-btn");
-                if (answered) btns[idx].classList.add("answered");
-                else btns[idx].classList.remove("answered");
+                updateProgress();
             }
 
             function updateProgress() {
                 let answeredCount = answersLocal.filter(a => a !== null).length;
                 let percent = (answeredCount / questions.length) * 100;
-                document.getElementById("quizProgressFill").style.width = percent + "%";
-                for (let i = 0; i < questions.length; i++) updateBookletState(i, answersLocal[i] !== null);
-                // Check if all answered
+                const fill = document.getElementById("quizProgressFill");
+                if (fill) fill.style.width = percent + "%";
+                let btns = bookletDiv.querySelectorAll(".booklet-btn");
+                btns.forEach((b, i) => {
+                    if (answersLocal[i] !== null) b.classList.add("answered");
+                    else b.classList.remove("answered");
+                });
+                // auto-submit if all answered
                 if (answeredCount === questions.length && isQuizActive) {
                     setTimeout(() => {
                         if (isQuizActive) {
@@ -1656,7 +1692,6 @@
             document.getElementById("quizNextBtn").onclick = () => {
                 if (currentIdx < questions.length - 1) showSlide(currentIdx + 1);
                 else {
-                    // Submit
                     if (isQuizActive) {
                         isQuizActive = false;
                         if (timerInterval) { clearInterval(timerInterval);
@@ -1666,55 +1701,22 @@
                 }
             };
 
+            // init
             showSlide(0);
-            updateProgress();
         }
 
-        // ================================================================
-        //  MOCK MODE (scrollable)
-        // ================================================================
-        function renderMockInterface(data, container, t) {
+        // ── Attach Mock Events ──
+        function attachMockEvents(data, t, started) {
             const questions = data.questions;
-            const totalTime = data.timerEnabled ? data.timerSeconds * questions.length : 0;
-            const answersLocal = playerAnswers || new Array(questions.length).fill(null);
-
-            let timerHtml = '';
-            if (data.timerEnabled && totalTime > 0) {
-                timerHtml =
-                    `<div class="timer-badge total-timer" id="mockTotalTimer">⏱️ ${formatTime(timeRemaining)}</div>`;
-            }
-
-            container.innerHTML = `
-                    <div style="background:${t.bg};border-radius:24px;padding:16px;border:1px solid ${t.border};">
-                        <div class="mock-header-sticky" style="background:${t.cardBg};">
-                            <div class="flex-between" style="margin-bottom:8px;">
-                                <div style="display:flex;align-items:center;gap:8px;">
-                                    ${data.logo ? `<img src="${data.logo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">` : ''}
-                                    <span style="font-weight:600;color:${t.text};font-size:0.95rem;">${data.title}</span>
-                                </div>
-                                ${timerHtml}
-                            </div>
-                            <div class="booklet-wrap" style="position:static;box-shadow:none;padding:4px 0;border-bottom:none;">
-                                <div class="booklet" id="mockBookNav"></div>
-                            </div>
-                            <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#5f6368;padding-top:4px;">
-                                <span id="mockAnsweredCount">${answersLocal.filter(a=>a!==null).length} / ${questions.length} answered</span>
-                                <span id="mockProgressText">${Math.round((answersLocal.filter(a=>a!==null).length/questions.length)*100)}%</span>
-                            </div>
-                            <div class="progress-bar" style="margin:6px 0 0;"><div id="mockProgressFill" class="progress-fill" style="width:${(answersLocal.filter(a=>a!==null).length/questions.length)*100}%;"></div></div>
-                            ${isQuizActive && data.timerEnabled && totalTime > 0 ? `<div style="margin-top:6px;text-align:center;font-size:0.65rem;color:#5f6368;">⏱️ Timer running — submit before time runs out!</div>` : ''}
-                            <button id="submitMockBtn" class="btn btn-success btn-sm" style="margin-top:10px;width:100%;">
-                                <i class="fas fa-check-double"></i> Submit Mocktest
-                            </button>
-                        </div>
-                        <div class="mock-question-list" id="mockQuestionsList"></div>
-                    </div>
-                `;
-
-            let bookletDiv = document.getElementById("mockBookNav");
-            let questionsDiv = document.getElementById("mockQuestionsList");
+            const container = document.getElementById("renderZone");
+            const bookletDiv = document.getElementById("mockBookNav");
+            const questionsDiv = document.getElementById("mockQuestionsList");
+            let answersLocal = playerAnswers.length === questions.length ? playerAnswers : new Array(questions.length)
+                .fill(null);
+            playerAnswers = answersLocal;
 
             // Build booklet
+            bookletDiv.innerHTML = '';
             for (let i = 0; i < questions.length; i++) {
                 let btn = document.createElement("button");
                 btn.innerText = i + 1;
@@ -1728,6 +1730,7 @@
             }
 
             // Build questions
+            questionsDiv.innerHTML = '';
             const letters = ['A', 'B', 'C', 'D'];
             questions.forEach((q, idx) => {
                 let qCard = document.createElement("div");
@@ -1750,7 +1753,7 @@
                 q.options.forEach((opt, oi) => {
                     let label = document.createElement("label");
                     label.className = "mock-option";
-                    if (answered) label.classList.add("disabled");
+                    if (answered || !isQuizActive) label.classList.add("disabled");
                     if (answered && opt === answerText) {
                         if (opt === q.correct) label.style.borderColor = "#0f9d58";
                         else label.style.borderColor = "#d93025";
@@ -1769,17 +1772,14 @@
                             if (isQuizActive) {
                                 answersLocal[idx] = e.target.value;
                                 playerAnswers = answersLocal;
-                                let btns = bookletDiv.querySelectorAll(".booklet-btn");
-                                btns[idx].classList.add("answered");
-                                updateMockProgress();
-                                // re-render
-                                renderMockInterface(data, container, t);
+                                // re-render mock
+                                renderAssessmentFromData(data, true);
                                 setTimeout(() => {
                                     let el = document.getElementById(`mock_q_${idx}`);
                                     if (el) el.scrollIntoView({ behavior: 'smooth',
                                     block: 'center' });
+                                    updateMockProgress();
                                 }, 50);
-                                // auto submit if all answered
                                 if (answersLocal.filter(a => a !== null).length === questions
                                     .length) {
                                     setTimeout(() => {
@@ -1803,9 +1803,12 @@
             function updateMockProgress() {
                 let answered = answersLocal.filter(a => a !== null).length;
                 let pct = Math.round((answered / questions.length) * 100);
-                document.getElementById("mockAnsweredCount").innerText = `${answered} / ${questions.length} answered`;
-                document.getElementById("mockProgressText").innerText = `${pct}%`;
-                document.getElementById("mockProgressFill").style.width = pct + "%";
+                const countEl = document.getElementById("mockAnsweredCount");
+                const pctEl = document.getElementById("mockProgressText");
+                const fillEl = document.getElementById("mockProgressFill");
+                if (countEl) countEl.innerText = `${answered} / ${questions.length} answered`;
+                if (pctEl) pctEl.innerText = `${pct}%`;
+                if (fillEl) fillEl.style.width = pct + "%";
                 let btns = bookletDiv.querySelectorAll(".booklet-btn");
                 btns.forEach((b, i) => {
                     if (answersLocal[i] !== null) b.classList.add("answered");
@@ -1835,6 +1838,36 @@
             }, 300);
         }
 
+        // ── Add Start Overlay ──
+        function addStartOverlay(container, data) {
+            const existing = container.querySelector('.start-overlay');
+            if (existing) existing.remove();
+
+            const overlay = document.createElement('div');
+            overlay.className = 'start-overlay';
+            const totalTime = data.timerEnabled ? data.timerSeconds * data.questions.length : 0;
+            overlay.innerHTML = `
+                    <div class="icon"><i class="fas fa-play-circle"></i></div>
+                    <h3>${data.title}</h3>
+                    <p class="sub">${data.questions.length} questions • ${data.mode === 'quiz' ? 'Quiz Mode' : 'Mocktest Mode'}</p>
+                    <div class="meta">
+                        <span>⏱️ ${data.timerEnabled ? totalTime+'s total' : 'No timer'}</span>
+                        <span>📝 ${data.mode}</span>
+                    </div>
+                    <button class="btn-start" id="startOverlayBtn"><i class="fas fa-play"></i> Start Quiz</button>
+                `;
+            container.querySelector('.quiz-container')?.appendChild(overlay);
+
+            document.getElementById('startOverlayBtn').addEventListener('click', () => {
+                // start the quiz
+                renderAssessmentFromData(data, true);
+                // after render, hide overlay
+                const ov = container.querySelector('.start-overlay');
+                if (ov) ov.classList.add('hidden');
+                // ensure timer starts
+            });
+        }
+
         // ================================================================
         //  TOTAL TIMER
         // ================================================================
@@ -1857,7 +1890,6 @@
                     timerInterval = null;
                     if (isQuizActive) {
                         isQuizActive = false;
-                        // Time's over - show modal
                         showTimeOverModal(data);
                     }
                 }
@@ -1920,7 +1952,6 @@
                 mode: data.mode
             };
 
-            // Save play
             if (currentShortId) {
                 addQuizPlay(currentShortId, {
                     score: correctCount,
@@ -1931,7 +1962,6 @@
                 });
             }
 
-            // Show score modal
             showScoreModal(quizResults);
         }
 
@@ -1967,7 +1997,6 @@
                 `;
             document.body.appendChild(modal);
 
-            // Chart
             let ctx = document.getElementById("scoreCanvas").getContext("2d");
             new Chart(ctx, {
                 type: 'doughnut',
@@ -1985,9 +2014,7 @@
                 modal.remove();
                 isQuizActive = false;
                 quizResults = null;
-                // reset player answers
                 playerAnswers = [];
-                // go back to play view
                 if (currentShortId) {
                     const data = getQuizData(currentShortId);
                     if (data) renderAssessmentFromData(data);
@@ -2032,7 +2059,7 @@
         }
 
         // ================================================================
-        //  RESOLVE SHARED QUIZ (from URL)
+        //  RESOLVE SHARED QUIZ
         // ================================================================
         function resolveSharedQuiz() {
             const params = new URLSearchParams(window.location.search);
@@ -2045,12 +2072,10 @@
                     selectedTemplate = data.template || "default";
                     applyTemplate(selectedTemplate);
 
-                    // Show only Play tab for shared users
                     document.getElementById("stepUpload").style.display = "none";
                     document.getElementById("stepType").style.display = "none";
                     document.getElementById("createdArea").style.display = "block";
 
-                    // Hide teacher tabs
                     document.querySelectorAll("#tabBar .tab-btn").forEach(b => {
                         if (b.dataset.tab === "play") {
                             b.classList.add("active");
@@ -2062,11 +2087,10 @@
                     document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
                     document.getElementById("panelPlay").classList.add("active");
 
-                    // Set share link
                     const url = `${window.location.origin}${window.location.pathname}?q=${id}`;
                     document.getElementById("shareLinkInput").value = url;
 
-                    // Reset state
+                    isQuizStarted = false;
                     isQuizActive = false;
                     quizResults = null;
                     playerAnswers = [];
@@ -2113,6 +2137,7 @@
                                 playerAnswers = [];
                                 if (timerInterval) { clearInterval(timerInterval);
                                     timerInterval = null; }
+                                isQuizStarted = false;
                             }
                             renderAssessmentFromData(data);
                         }
@@ -2130,7 +2155,6 @@
         //  CREATE FLOW EVENTS
         // ================================================================
 
-        // File upload
         document.getElementById("chooseFileBtn").onclick = () => document.getElementById("fileInput").click();
         document.getElementById("fileInput").onchange = (e) => {
             const file = e.target.files[0];
@@ -2156,7 +2180,6 @@
 
         document.getElementById("bulkTextArea").addEventListener("input", processBulk);
 
-        // Logo
         document.getElementById("logoUpload").onchange = (e) => {
             const file = e.target.files[0];
             if (file) {
@@ -2170,7 +2193,6 @@
             }
         };
 
-        // Template selector
         document.querySelectorAll(".template-item").forEach(el => {
             el.addEventListener("click", () => {
                 document.querySelectorAll(".template-item").forEach(t => t.classList.remove("active"));
@@ -2180,7 +2202,6 @@
             });
         });
 
-        // Mode buttons
         document.getElementById("chooseQuizBtn").onclick = () => {
             currentMode = "quiz";
             document.getElementById("chooseQuizBtn").className = "btn btn-primary";
@@ -2192,12 +2213,10 @@
             document.getElementById("chooseQuizBtn").className = "btn btn-outline";
         };
 
-        // Timer checkbox
         document.getElementById("enableTimerCheck").onchange = function() {
             document.getElementById("timerSeconds").disabled = !this.checked;
         };
 
-        // Next button
         document.getElementById("nextToTypeBtn").onclick = () => {
             if (questionsBank.length === 0) return showToast("Please add some questions first");
             quizTitle = document.getElementById("quizNameInput").value || "My Quiz";
@@ -2207,14 +2226,12 @@
             pushState('create', { step: 'template' });
         };
 
-        // Back from type
         document.getElementById("backFromTypeBtn").onclick = () => {
             document.getElementById("stepType").style.display = "none";
             document.getElementById("stepUpload").style.display = "block";
             pushState('create', { step: 'upload' });
         };
 
-        // Cancel create (back to dashboard)
         document.getElementById("cancelCreateBtn").onclick = () => {
             showDashboardView();
         };
@@ -2240,6 +2257,7 @@
             saveQuizData(id, data);
             currentShortId = id;
             currentQuizData = data;
+            isQuizStarted = false;
             isQuizActive = false;
             quizResults = null;
             playerAnswers = [];
@@ -2252,7 +2270,6 @@
             document.getElementById("stepUpload").style.display = "none";
             document.getElementById("stepType").style.display = "none";
 
-            // Show play tab
             document.querySelectorAll("#tabBar .tab-btn").forEach(b => {
                 b.style.display = "flex";
                 b.classList.remove("active");
@@ -2263,7 +2280,6 @@
 
             document.getElementById("shareLinkInput").value = url;
 
-            // Copy link
             document.getElementById("copyLinkBtn").onclick = () => {
                 navigator.clipboard.writeText(url).then(() => showToast("Link copied!")).catch(() => {
                     const inp = document.getElementById("shareLinkInput");
@@ -2273,7 +2289,6 @@
                 });
             };
 
-            // Share buttons
             document.getElementById("shareWhatsApp").onclick = () => {
                 window.open(`https://wa.me/?text=Take my quiz! ${encodeURIComponent(url)}`, '_blank');
             };
@@ -2299,15 +2314,12 @@
 
             const hasShared = resolveSharedQuiz();
             if (!hasShared) {
-                // Show dashboard by default
                 showDashboardView();
             }
 
-            // Process bulk on load (with example data)
             processBulk();
         };
 
-        // Expose for inline onclick
         window.showCreateView = showCreateView;
         window.showDashboardView = showDashboardView;
     </script>
