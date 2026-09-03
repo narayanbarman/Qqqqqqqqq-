@@ -1739,7 +1739,7 @@
         }
 
         // ================================================================
-        // MOCK EVENTS
+        // MOCK EVENTS - FIXED: proper answer tracking
         // ================================================================
         function attachMockEvents(data, t) {
             const questions = data.questions;
@@ -1798,18 +1798,22 @@
                         const radio = label.querySelector('input');
                         radio.addEventListener("change", (e) => {
                             if (isQuizActive) {
+                                // Store answer
                                 answersLocal[idx] = e.target.value;
-                                playerAnswers = answersLocal;
-                                // Re-render with started=true to keep hero hidden
-                                isQuizStarted = true;
-                                isQuizActive = true;
-                                renderAssessmentFromData(data, true);
-                                setTimeout(() => {
-                                    let el = document.getElementById(`mock_q_${idx}`);
-                                    if (el) el.scrollIntoView({ behavior: 'smooth',
-                                        block: 'center' });
-                                    updateMockProgress();
-                                }, 50);
+                                // CRITICAL: Update the global playerAnswers
+                                playerAnswers = [...answersLocal];
+                                // Update UI without full re-render
+                                updateMockProgress();
+                                // Update booklet
+                                let btns = bookletDiv.querySelectorAll(".booklet-btn");
+                                btns[idx].classList.add("answered");
+                                // Mark selected
+                                optsWrap.querySelectorAll('.mock-option').forEach(el => {
+                                    el.classList.remove('selected');
+                                });
+                                label.classList.add('selected');
+
+                                // Check if all answered
                                 if (answersLocal.filter(a => a !== null).length === questions
                                     .length) {
                                     setTimeout(() => {
@@ -1839,14 +1843,9 @@
                 if (countEl) countEl.innerText = `${answered} / ${questions.length} answered`;
                 if (pctEl) pctEl.innerText = `${pct}%`;
                 if (fillEl) fillEl.style.width = pct + "%";
-                let btns = bookletDiv.querySelectorAll(".booklet-btn");
-                btns.forEach((b, i) => {
-                    if (answersLocal[i] !== null) b.classList.add("answered");
-                    else b.classList.remove("answered");
-                });
             }
 
-            // Submit button
+            // Submit button - FIXED: uses current answersLocal
             const submitBtn = document.getElementById("submitMockBtn");
             if (submitBtn) {
                 submitBtn.onclick = () => {
@@ -1857,6 +1856,7 @@
                         isQuizActive = false;
                         if (timerInterval) { clearInterval(timerInterval);
                             timerInterval = null; }
+                        // Pass the current answers
                         submitQuiz(data, answersLocal);
                     }
                 };
@@ -1943,6 +1943,7 @@
         // SUBMIT QUIZ
         // ================================================================
         function submitQuiz(data, answers) {
+            console.log("Submitting with answers:", answers);
             const questions = data.questions;
             const results = questions.map((q, i) => ({
                 question: q.text,
