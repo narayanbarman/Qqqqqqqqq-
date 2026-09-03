@@ -241,7 +241,7 @@
             border-radius: 60px;
             padding: 12px 18px;
             margin: 10px 0;
-            border: 1px solid #ecedef;
+            border: 2px solid transparent;
             cursor: pointer;
             transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1);
             font-weight: 500;
@@ -268,6 +268,7 @@
             flex-shrink: 0;
             transition: 0.2s;
         }
+        /* Correct feedback: green border + background */
         .option-row.correct-feedback {
             background: #e6f4ea;
             border-color: #0f9d58;
@@ -277,6 +278,7 @@
             background: #0f9d58;
             color: #fff;
         }
+        /* Wrong feedback: red border + background */
         .option-row.wrong-feedback {
             background: #fce8e6;
             border-color: #d93025;
@@ -286,6 +288,7 @@
             background: #d93025;
             color: #fff;
         }
+        /* Highlight correct answer (when user picked wrong) */
         .option-row.highlight-correct {
             background: #e6f4ea;
             border-color: #0f9d58;
@@ -919,6 +922,22 @@
         .quiz-container {
             transition: opacity 0.4s ease, transform 0.3s ease;
         }
+
+        /* Small submit button beside timer */
+        .mock-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .mock-header-actions .btn {
+            white-space: nowrap;
+        }
+        @media (max-width: 480px) {
+            .mock-header-actions {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1487,8 +1506,6 @@
             const container = document.getElementById("renderZone");
             const t = templates[data.template] || templates.default;
 
-            // If quizResults exist, show score modal? We'll let the render functions handle that.
-
             // Build the quiz content
             let contentHtml = '';
             if (data.mode === "quiz") {
@@ -1536,7 +1553,6 @@
                     if (wrapperEl) {
                         wrapperEl.classList.remove('disabled');
                         wrapperEl.classList.add('enabled');
-                        // Also enable nested interactive elements explicitly if needed
                         wrapperEl.querySelectorAll('.option-row, .mock-option').forEach(el => {
                             el.style.pointerEvents = 'auto';
                             el.style.opacity = '1';
@@ -1624,7 +1640,10 @@
                                     ${data.logo ? `<img src="${data.logo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">` : ''}
                                     <span style="font-weight:600;color:${t.text};font-size:0.95rem;">${data.title}</span>
                                 </div>
-                                ${timerHtml}
+                                <div class="mock-header-actions">
+                                    ${timerHtml}
+                                    <button id="submitMockBtn" class="btn btn-success btn-sm"><i class="fas fa-check-double"></i> Submit</button>
+                                </div>
                             </div>
                             <div class="booklet-wrap" style="position:static;box-shadow:none;padding:4px 0;border-bottom:none;">
                                 <div class="booklet" id="mockBookNav"></div>
@@ -1634,9 +1653,6 @@
                                 <span id="mockProgressText">0%</span>
                             </div>
                             <div class="progress-bar" style="margin:6px 0 0;"><div id="mockProgressFill" class="progress-fill" style="width:0%;"></div></div>
-                            <button id="submitMockBtn" class="btn btn-success btn-sm" style="margin-top:10px;width:100%;">
-                                <i class="fas fa-check-double"></i> Submit Mocktest
-                            </button>
                         </div>
                         <div class="mock-question-list" id="mockQuestionsList"></div>
                     </div>
@@ -1722,7 +1738,7 @@
                                 this.classList.add('correct-feedback');
                             } else {
                                 this.classList.add('wrong-feedback');
-                                // Highlight correct answer
+                                // Highlight correct answer with green border
                                 allOpts.forEach(o => {
                                     if (o.innerText.trim() === q.correct) {
                                         o.classList.add('highlight-correct');
@@ -1859,23 +1875,30 @@
                         label.style.borderColor = "#1a73e8";
                         label.style.background = "#e8f0fe";
                     }
+                    // Ensure radio reflects selected state
+                    const isChecked = answered && opt === answerText;
                     label.innerHTML = `
-                            <input type="radio" name="mock_q_${idx}" value="${opt}" ${answered ? 'disabled' : ''} ${answered && opt === answerText ? 'checked' : ''}>
+                            <input type="radio" name="mock_q_${idx}" value="${opt}" ${answered ? 'disabled' : ''} ${isChecked ? 'checked' : ''}>
                             <span class="opt-label">${letters[oi] || oi+1}. ${opt}</span>
                         `;
+                    // If not answered, allow selection
                     if (!answered && isQuizActive) {
-                        label.querySelector("input").addEventListener("change", (e) => {
+                        const radio = label.querySelector('input');
+                        radio.addEventListener("change", (e) => {
                             if (isQuizActive) {
+                                // Set answer
                                 answersLocal[idx] = e.target.value;
                                 playerAnswers = answersLocal;
-                                // re-render mock to update UI
+                                // Re-render mock to reflect selection
                                 renderAssessmentFromData(data, true);
+                                // Scroll to keep position
                                 setTimeout(() => {
                                     let el = document.getElementById(`mock_q_${idx}`);
                                     if (el) el.scrollIntoView({ behavior: 'smooth',
                                     block: 'center' });
                                     updateMockProgress();
                                 }, 50);
+                                // Auto-submit if all answered
                                 if (answersLocal.filter(a => a !== null).length === questions
                                     .length) {
                                     setTimeout(() => {
@@ -1912,16 +1935,21 @@
                 });
             }
 
-            document.getElementById("submitMockBtn").onclick = () => {
-                if (isQuizActive) {
-                    const unanswered = answersLocal.filter(a => a === null).length;
-                    if (unanswered > 0 && !confirm(`You have ${unanswered} unanswered. Submit anyway?`)) return;
-                    isQuizActive = false;
-                    if (timerInterval) { clearInterval(timerInterval);
-                        timerInterval = null; }
-                    submitQuiz(data, answersLocal);
-                }
-            };
+            // Submit button (already in header)
+            const submitBtn = document.getElementById("submitMockBtn");
+            if (submitBtn) {
+                submitBtn.onclick = () => {
+                    if (isQuizActive) {
+                        const unanswered = answersLocal.filter(a => a === null).length;
+                        if (unanswered > 0 && !confirm(`You have ${unanswered} unanswered. Submit anyway?`))
+                            return;
+                        isQuizActive = false;
+                        if (timerInterval) { clearInterval(timerInterval);
+                            timerInterval = null; }
+                        submitQuiz(data, answersLocal);
+                    }
+                };
+            }
 
             updateMockProgress();
             // scroll to first unanswered
