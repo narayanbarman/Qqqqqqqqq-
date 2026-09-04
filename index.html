@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" />
     <title>QuizCraft — Create, Share & Track Quizzes</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Google Fonts for Bengali support -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
@@ -1048,7 +1049,7 @@
             <button id="cancelCreateBtn" class="btn btn-outline btn-block mt-2"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
         </div>
 
-        <!-- ====== STEP 2: TEMPLATE + MODE + TIMER ====== -->
+        <!-- ====== STEP 2: TEMPLATE + MODE + TIMER + FONT ====== -->
         <div id="stepType" style="display:none;" class="card">
             <h3 style="font-size:1rem;margin-bottom:6px;">✨ Choose Theme</h3>
             <div class="template-scroll" id="templateList">
@@ -1079,6 +1080,14 @@
                     <input type="number" id="timerSeconds" value="10" min="3" max="120" style="width:80px;border-radius:30px;padding:4px 8px;border:1px solid #dadce0;font-size:0.8rem;" />
                 </div>
                 <small style="color:#5f6368;font-size:0.65rem;">Total time = seconds × questions.</small>
+            </div>
+            <!-- Font selector -->
+            <div style="background:#f8f9fa;border-radius:16px;padding:12px;margin:10px 0;">
+                <label style="font-size:0.8rem;font-weight:600;color:#5f6368;display:block;margin-bottom:4px;"><i class="fas fa-font"></i> Font Style</label>
+                <select id="fontSelector" style="width:100%;padding:8px 12px;border-radius:60px;border:1px solid #dadce0;font-size:0.85rem;background:white;font-family:'Inter',sans-serif;">
+                    <option value="inter">Inter (Default)</option>
+                    <option value="noto-sans-bengali">Noto Sans Bengali</option>
+                </select>
             </div>
             <button id="finalCreateBtn" class="btn btn-success btn-block"><i class="fas fa-check-circle"></i> Create Assessment</button>
             <button id="backFromTypeBtn" class="btn btn-outline btn-block mt-2"><i class="fas fa-arrow-left"></i> Back</button>
@@ -1144,6 +1153,7 @@
         let quizResults = null;
         let currentView = 'create'; // default to create page
         let currentViewData = null;
+        let selectedFont = 'inter'; // default
 
         const templates = {
             default: { bg: "#f0f2f5", cardBg: "#ffffff", accent: "#1a73e8", text: "#202124", border: "#ecedef",
@@ -1323,6 +1333,7 @@
                 quizTitle,
                 quizLogo,
                 currentMode,
+                selectedFont,
                 questionsBank: questionsBank.length > 0 ? questionsBank : []
             };
             try {
@@ -1345,6 +1356,7 @@
                     quizTitle = state.quizTitle || 'My Custom Quiz';
                     quizLogo = state.quizLogo || null;
                     currentMode = state.currentMode || 'quiz';
+                    selectedFont = state.selectedFont || 'inter';
                     if (state.questionsBank && state.questionsBank.length > 0) {
                         questionsBank = state.questionsBank;
                     }
@@ -1488,6 +1500,7 @@
             document.getElementById("nextToTypeBtn").disabled = true;
             document.getElementById("enableTimerCheck").checked = timerEnabled;
             document.getElementById("timerSeconds").value = timerSeconds;
+            document.getElementById("fontSelector").value = selectedFont || 'inter';
             document.querySelector(".template-item[data-template='default']")?.classList.add("active");
             document.querySelectorAll(".template-item").forEach(t => {
                 if (t.dataset.template !== "default") t.classList.remove("active");
@@ -1589,6 +1602,13 @@
             container.appendChild(hero);
 
             container.appendChild(wrapper);
+
+            // Apply selected font to the wrapper
+            const font = data.font || 'inter';
+            const fontClass = font === 'noto-sans-bengali' ? 'noto-sans-bengali' : '';
+            if (fontClass) {
+                wrapper.classList.add(fontClass);
+            }
 
             if (data.mode === "quiz") {
                 attachQuizEvents(data, t);
@@ -1695,7 +1715,7 @@
         }
 
         // ================================================================
-        // QUIZ EVENTS
+        // QUIZ EVENTS - FIXED FEEDBACK
         // ================================================================
         function attachQuizEvents(data, t) {
             const questions = data.questions;
@@ -1735,13 +1755,20 @@
 
                 let optsDiv = slide.querySelector(".options-area");
                 const letters = ['A', 'B', 'C', 'D'];
+                // We need to store the correct option element reference
+                let correctOptionEl = null;
                 q.options.forEach((opt, oi) => {
                     let optDiv = document.createElement("div");
                     optDiv.className = "option-row";
                     optDiv.style.backgroundColor = t.optionBg;
                     optDiv.style.borderColor = t.border;
                     optDiv.innerHTML =
-                        `<span class="opt-letter">${letters[oi] || oi+1}</span><span>${opt}</span>`;
+                        `<span class="opt-letter">${letters[oi] || oi+1}</span><span class="opt-text">${opt}</span>`;
+
+                    // Store the correct option element for later highlighting
+                    if (opt === q.correct) {
+                        correctOptionEl = optDiv;
+                    }
 
                     if (answered) {
                         optDiv.classList.add("disabled");
@@ -1771,13 +1798,18 @@
                                 // Wrong: add red to this
                                 this.classList.add('wrong-feedback');
                                 // Immediately highlight correct answer with green
-                                allOpts.forEach(o => {
-                                    // Compare text content without the letter prefix
-                                    const text = o.innerText.trim();
-                                    if (text === q.correct) {
-                                        o.classList.add('highlight-correct');
-                                    }
-                                });
+                                // Use the stored correctOptionEl
+                                if (correctOptionEl) {
+                                    correctOptionEl.classList.add('highlight-correct');
+                                } else {
+                                    // fallback: find by text
+                                    allOpts.forEach(o => {
+                                        const textEl = o.querySelector('.opt-text');
+                                        if (textEl && textEl.textContent === q.correct) {
+                                            o.classList.add('highlight-correct');
+                                        }
+                                    });
+                                }
                             }
 
                             updateBookletState(idx, true);
@@ -2358,6 +2390,11 @@
             saveState();
         };
 
+        document.getElementById("fontSelector").onchange = function() {
+            selectedFont = this.value;
+            saveState();
+        };
+
         document.getElementById("nextToTypeBtn").onclick = () => {
             if (questionsBank.length === 0) return showToast("Please add some questions first");
             quizTitle = document.getElementById("quizNameInput").value || "My Quiz";
@@ -2392,6 +2429,7 @@
                 logo: quizLogo,
                 timerEnabled: document.getElementById("enableTimerCheck").checked,
                 timerSeconds: parseInt(document.getElementById("timerSeconds").value) || 10,
+                font: document.getElementById("fontSelector").value,
                 createdAt: Date.now()
             };
 
