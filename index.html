@@ -4,8 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" />
     <title>QuizCraft — Create, Share & Track Quizzes</title>
-    <!-- Google Fonts: 20 English + 5 Bengali -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@400;500;600;700&family=Oswald:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&family=Roboto+Condensed:wght@300;400;700&family=PT+Sans:wght@400;700&family=Rubik:wght@300;400;500;600;700&family=Barlow:wght@300;400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&family=Karla:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Serif+Bengali:wght@300;400;500;600;700&family=Tiro+Bangla:wght@400&family=Anek+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
@@ -18,191 +17,1155 @@
             padding: 0;
             box-sizing: border-box;
         }
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5a4bd1;
+            --primary-light: #a29bfe;
+            --success: #00b894;
+            --danger: #fd79a8;
+            --warning: #fdcb6e;
+            --bg: #f8f9fe;
+            --card: #ffffff;
+            --text: #2d3436;
+            --text-secondary: #636e72;
+            --border: #e9ecef;
+            --shadow: 0 8px 32px rgba(108, 92, 231, 0.12);
+            --shadow-hover: 0 12px 48px rgba(108, 92, 231, 0.20);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --transition: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
         body {
-            font-family: 'Inter', sans-serif;
-            background: #f0f2f5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
             min-height: 100vh;
             padding: 0;
             margin: 0;
-            transition: background 0.3s;
-            -webkit-tap-highlight-color: transparent;
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        /* ── Font classes ── */
-        .font-inter {
-            font-family: 'Inter', sans-serif;
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
         }
-        .font-roboto {
-            font-family: 'Roboto', sans-serif;
+        ::-webkit-scrollbar-track {
+            background: transparent;
         }
-        .font-open-sans {
-            font-family: 'Open Sans', sans-serif;
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-light);
+            border-radius: 10px;
         }
-        .font-lato {
-            font-family: 'Lato', sans-serif;
-        }
-        .font-montserrat {
-            font-family: 'Montserrat', sans-serif;
-        }
-        .font-poppins {
-            font-family: 'Poppins', sans-serif;
-        }
-        .font-nunito {
-            font-family: 'Nunito', sans-serif;
-        }
-        .font-raleway {
-            font-family: 'Raleway', sans-serif;
-        }
-        .font-merriweather {
-            font-family: 'Merriweather', serif;
-        }
-        .font-playfair-display {
-            font-family: 'Playfair Display', serif;
-        }
-        .font-oswald {
-            font-family: 'Oswald', sans-serif;
-        }
-        .font-quicksand {
-            font-family: 'Quicksand', sans-serif;
-        }
-        .font-work-sans {
-            font-family: 'Work Sans', sans-serif;
-        }
-        .font-source-sans-pro {
-            font-family: 'Source Sans Pro', sans-serif;
-        }
-        .font-roboto-condensed {
-            font-family: 'Roboto Condensed', sans-serif;
-        }
-        .font-pt-sans {
-            font-family: 'PT Sans', sans-serif;
-        }
-        .font-rubik {
-            font-family: 'Rubik', sans-serif;
-        }
-        .font-barlow {
-            font-family: 'Barlow', sans-serif;
-        }
-        .font-fira-sans {
-            font-family: 'Fira Sans', sans-serif;
-        }
-        .font-karla {
-            font-family: 'Karla', sans-serif;
-        }
-        .font-noto-sans-bengali {
-            font-family: 'Noto Sans Bengali', sans-serif;
-        }
-        .font-hind-siliguri {
-            font-family: 'Hind Siliguri', sans-serif;
-        }
-        .font-noto-serif-bengali {
-            font-family: 'Noto Serif Bengali', serif;
-        }
-        .font-tiro-bangla {
-            font-family: 'Tiro Bangla', serif;
-        }
-        .font-anek-bengali {
-            font-family: 'Anek Bengali', sans-serif;
-        }
-        /* Ensure all text elements inherit the font */
-        [class*="font-"] * {
-            font-family: inherit;
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
         }
 
         .app-full {
             width: 100%;
-            max-width: 100%;
-            margin: 0;
-            padding: 6px 4px;
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 12px 10px;
         }
+        @media (min-width: 768px) {
+            .app-full {
+                padding: 20px 16px;
+            }
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes pulseGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 0 12px rgba(108, 92, 231, 0);
+            }
+        }
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        @keyframes correctPop {
+            0% {
+                transform: scale(1);
+            }
+            40% {
+                transform: scale(1.06);
+            }
+            100% {
+                transform: scale(1.02);
+            }
+        }
+        @keyframes wrongShake {
+            0%,
+            100% {
+                transform: translateX(0) scale(1);
+            }
+            15% {
+                transform: translateX(-8px) scale(0.97);
+            }
+            30% {
+                transform: translateX(8px) scale(0.97);
+            }
+            45% {
+                transform: translateX(-5px) scale(0.97);
+            }
+            60% {
+                transform: translateX(5px) scale(0.97);
+            }
+            80% {
+                transform: translateX(-2px) scale(0.97);
+            }
+        }
+        @keyframes checkmark {
+            0% {
+                transform: scale(0) rotate(-45deg);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+        @keyframes confettiDrop {
+            0% {
+                transform: translateY(-40px) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            60% {
+                transform: translateY(10px) rotate(180deg) scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0) rotate(360deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .animate-in-delay-1 {
+            animation-delay: 0.08s;
+            opacity: 0;
+        }
+        .animate-in-delay-2 {
+            animation-delay: 0.15s;
+            opacity: 0;
+        }
+        .animate-in-delay-3 {
+            animation-delay: 0.22s;
+            opacity: 0;
+        }
+        .animate-in-delay-4 {
+            animation-delay: 0.30s;
+            opacity: 0;
+        }
+
+        /* ── Card ── */
         .card {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            padding: 14px 12px;
-            margin-bottom: 10px;
-            border: none;
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 20px 16px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(108, 92, 231, 0.06);
+            transition: box-shadow var(--transition), transform var(--transition);
         }
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+        @media (max-width: 480px) {
+            .card {
+                padding: 16px 12px;
+                border-radius: 16px;
+            }
+        }
+
+        /* ── Buttons ── */
         .btn {
             border: none;
-            padding: 8px 16px;
+            padding: 10px 22px;
             border-radius: 60px;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all var(--transition);
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            background: #f1f3f4;
-            color: #1e293b;
-            text-decoration: none;
+            justify-content: center;
+            gap: 8px;
+            background: #f1f3f5;
+            color: var(--text);
             font-family: 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.2);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+        }
+        .btn:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
         .btn:active {
             transform: scale(0.96);
         }
         .btn-primary {
-            background: #1a73e8;
+            background: var(--primary);
             color: #fff;
+            box-shadow: 0 4px 16px rgba(108, 92, 231, 0.3);
         }
         .btn-primary:hover {
-            background: #1557b0;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.35);
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(108, 92, 231, 0.4);
         }
         .btn-success {
-            background: #0f9d58;
+            background: var(--success);
             color: #fff;
+            box-shadow: 0 4px 16px rgba(0, 184, 148, 0.3);
         }
         .btn-success:hover {
-            background: #0d7a45;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(15, 157, 88, 0.35);
+            background: #00a381;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 184, 148, 0.4);
         }
         .btn-danger {
-            background: #d93025;
+            background: var(--danger);
             color: #fff;
+            box-shadow: 0 4px 16px rgba(253, 121, 168, 0.3);
         }
         .btn-danger:hover {
-            background: #b71c1c;
+            background: #e86898;
+            transform: translateY(-2px);
         }
         .btn-outline {
             background: transparent;
-            border: 1px solid #dadce0;
+            border: 2px solid var(--border);
+            color: var(--text-secondary);
         }
         .btn-outline:hover {
-            background: #f1f3f4;
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(108, 92, 231, 0.05);
+            transform: translateY(-2px);
         }
         .btn-sm {
-            padding: 5px 12px;
-            font-size: 0.7rem;
+            padding: 6px 14px;
+            font-size: 0.72rem;
         }
         .btn-block {
             width: 100%;
-            justify-content: center;
         }
+        .btn-glow {
+            animation: pulseGlow 2s infinite;
+        }
+
+        /* ── Upload Area ── */
         .upload-area {
-            border: 2px dashed #dadce0;
-            border-radius: 16px;
-            background: #fafafa;
-            padding: 16px;
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-sm);
+            background: #fafbff;
+            padding: 24px 16px;
             text-align: center;
             margin: 10px 0;
-            transition: 0.2s;
+            transition: all var(--transition);
             cursor: pointer;
+            position: relative;
         }
         .upload-area:hover {
-            border-color: #1a73e8;
-            background: #f0f7ff;
+            border-color: var(--primary);
+            background: #f6f4ff;
+            transform: translateY(-2px);
         }
-        .error-line {
-            background: #fce8e6;
-            border-left: 4px solid #d93025;
-            padding: 6px 10px;
-            border-radius: 10px;
-            margin: 4px 0;
+        .upload-area.dragover {
+            border-color: var(--primary);
+            background: #edeaff;
+            transform: scale(1.01);
+        }
+        .upload-area .icon {
+            font-size: 2.5rem;
+            color: var(--primary-light);
+            margin-bottom: 8px;
+            display: block;
+        }
+        .upload-area p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* ── Inputs ── */
+        .input-group {
+            margin: 12px 0;
+        }
+        .input-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            display: block;
+            letter-spacing: 0.3px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 11px 16px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            transition: all var(--transition);
+            font-family: 'Inter', sans-serif;
+            background: #fafbff;
+            color: var(--text);
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.1);
+            background: #fff;
+        }
+        .input-field::placeholder {
+            color: #b2bec3;
+        }
+        textarea.input-field {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .quiz-name-input {
+            font-size: 1.3rem;
+            font-weight: 700;
+            border: none;
+            border-bottom: 3px solid var(--border);
+            padding: 6px 0;
+            width: 100%;
+            outline: none;
+            background: transparent;
+            color: var(--text);
+            transition: border-color var(--transition);
+        }
+        .quiz-name-input:focus {
+            border-color: var(--primary);
+        }
+
+        /* ── Template Scroll ── */
+        .template-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 6px 0 12px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        .template-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .template-item {
+            background: #f1f3f5;
+            border-radius: 60px;
+            padding: 7px 16px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all var(--transition);
+            flex-shrink: 0;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .template-item:hover {
+            transform: translateY(-2px);
+            background: #e9ecf0;
+        }
+        .template-item.active {
+            border-color: var(--primary);
+            background: #edeaff;
+            color: var(--primary);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.15);
+        }
+        .template-item i {
+            margin-right: 4px;
+        }
+
+        /* ── Question Cards ── */
+        .question-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 18px 16px;
+            margin-bottom: 14px;
+            border: 1px solid var(--border);
+            transition: all var(--transition);
+            animation: fadeInUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .question-card:hover {
+            border-color: var(--primary-light);
+        }
+        .question-card .q-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
             font-size: 0.7rem;
+            font-weight: 700;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        /* ── Options ── */
+        .option-row {
+            background: #fafbff;
+            border-radius: 60px;
+            padding: 11px 18px;
+            margin: 8px 0;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            user-select: none;
+            position: relative;
+            font-size: 0.9rem;
+        }
+        .option-row:hover:not(.disabled) {
+            background: #f1f3ff;
+            border-color: var(--primary-light);
+            transform: translateX(4px);
+        }
+        .option-row .opt-letter {
+            display: inline-flex;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e9ecf0;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+            transition: all var(--transition);
+        }
+        .option-row.correct-feedback {
+            background: #e6f9f1 !important;
+            border-color: var(--success) !important;
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(0, 184, 148, 0.2);
+            animation: correctPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .option-row.correct-feedback .opt-letter {
+            background: var(--success);
+            color: #fff;
+        }
+        .option-row.correct-feedback::after {
+            content: "✓";
+            position: absolute;
+            right: 16px;
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.1rem;
+            animation: checkmark 0.4s ease;
+        }
+        .option-row.wrong-feedback {
+            background: #fde8ef !important;
+            border-color: var(--danger) !important;
+            box-shadow: 0 4px 16px rgba(253, 121, 168, 0.2);
+            animation: wrongShake 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .option-row.wrong-feedback .opt-letter {
+            background: var(--danger);
+            color: #fff;
+        }
+        .option-row.wrong-feedback::after {
+            content: "✗";
+            position: absolute;
+            right: 16px;
+            color: var(--danger);
+            font-weight: 700;
+            font-size: 1.1rem;
+            animation: checkmark 0.4s ease;
+        }
+        .option-row.highlight-correct {
+            background: #e6f9f1 !important;
+            border-color: var(--success) !important;
+            box-shadow: 0 0 0 3px var(--success), 0 4px 16px rgba(0, 184, 148, 0.15);
+            transform: scale(1.02);
+            animation: correctPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .option-row.highlight-correct .opt-letter {
+            background: var(--success);
+            color: #fff;
+        }
+        .option-row.highlight-correct::after {
+            content: "✓";
+            position: absolute;
+            right: 16px;
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.1rem;
+            animation: checkmark 0.4s ease;
+        }
+        .option-row.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .option-row.disabled:not(.correct-feedback):not(.wrong-feedback):not(.highlight-correct) {
+            opacity: 0.4;
+        }
+
+        /* ── Progress ── */
+        .progress-bar {
+            background: var(--border);
+            border-radius: 100px;
+            height: 6px;
+            overflow: hidden;
+            margin: 14px 0;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            width: 0%;
+            height: 100%;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 100px;
+        }
+
+        /* ── Booklet ── */
+        .booklet-wrap {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--card);
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 14px;
+            border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+        }
+        .booklet {
+            display: flex;
+            gap: 5px;
+            overflow-x: auto;
+            padding: 4px 2px 8px;
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
+            flex-wrap: nowrap;
+        }
+        .booklet::-webkit-scrollbar {
+            height: 3px;
+        }
+        .booklet::-webkit-scrollbar-thumb {
+            background: var(--primary-light);
+            border-radius: 4px;
+        }
+        .booklet-btn {
+            min-width: 34px;
+            height: 34px;
+            border-radius: 34px;
+            background: #f1f3f5;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+            transition: all var(--transition);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+        }
+        .booklet-btn:hover {
+            background: #e9ecf0;
+            transform: scale(1.05);
+        }
+        .booklet-btn.answered {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(108, 92, 231, 0.25);
+        }
+        .booklet-btn.active-q {
+            border: 2px solid var(--primary);
+            background: #edeaff;
+            transform: scale(1.1);
+            color: var(--primary);
+        }
+        .booklet-btn.answered.active-q {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+            color: #fff;
+        }
+
+        /* ── Timer ── */
+        .timer-badge {
+            background: var(--text);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-family: 'Inter', monospace;
+            font-weight: 600;
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .timer-badge.warning {
+            background: var(--danger);
+            animation: pulseGlow 1.2s infinite;
+        }
+        .timer-badge.total-timer {
+            font-size: 0.95rem;
+            padding: 6px 18px;
+            background: var(--text);
+        }
+        .timer-badge.total-timer.warning {
+            background: var(--danger);
+        }
+
+        /* ── Modal ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2000;
+            padding: 16px;
+        }
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-card {
+            background: var(--card);
+            border-radius: 28px;
+            max-width: 480px;
+            width: 100%;
+            padding: 28px 24px;
+            text-align: center;
+            animation: fadeInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.2);
+        }
+        .modal-card .big-icon {
+            font-size: 4rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .modal-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+        .modal-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        /* ── Recap ── */
+        .recap-item {
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            margin: 8px 0;
+            text-align: left;
+            border-left: 4px solid var(--border);
+            background: #fafbff;
+            transition: all var(--transition);
+        }
+        .recap-item:hover {
+            transform: translateX(4px);
+        }
+        .recap-item.correct-recap {
+            background: #e6f9f1;
+            border-left-color: var(--success);
+        }
+        .recap-item.wrong-recap {
+            background: #fde8ef;
+            border-left-color: var(--danger);
+        }
+        .recap-item.unanswered-recap {
+            background: #f1f3f5;
+            border-left-color: #b2bec3;
+        }
+        .recap-item .q-text {
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        .recap-item .q-detail {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 3px;
+        }
+        .recap-item .q-detail strong {
+            color: var(--text);
+        }
+
+        /* ── Dashboard ── */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+            margin: 12px 0;
+        }
+        .stat-card {
+            background: #fafbff;
+            border-radius: var(--radius-sm);
+            padding: 14px 10px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all var(--transition);
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        .stat-card .stat-number {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+        .stat-card .stat-label {
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .quiz-list-item {
+            background: #fafbff;
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            margin: 6px 0;
+            border: 1px solid var(--border);
+            transition: all var(--transition);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .quiz-list-item:hover {
+            transform: translateX(4px);
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow);
+        }
+        .quiz-list-item .ql-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+        .quiz-list-item .ql-meta {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .quiz-list-item .ql-stats {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            font-size: 0.75rem;
+        }
+        .quiz-list-item .ql-stats span {
+            background: var(--border);
+            padding: 2px 10px;
+            border-radius: 40px;
+            font-weight: 500;
+        }
+
+        .attempt-item {
+            background: #fafbff;
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            margin: 6px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border);
+            transition: all var(--transition);
+        }
+        .attempt-item:hover {
+            background: #f1f3ff;
+        }
+        .attempt-item .score-badge {
+            font-weight: 700;
+            padding: 3px 12px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+        }
+        .attempt-item .score-badge.high {
+            background: #e6f9f1;
+            color: var(--success);
+        }
+        .attempt-item .score-badge.medium {
+            background: #fef9e7;
+            color: #fdcb6e;
+        }
+        .attempt-item .score-badge.low {
+            background: #fde8ef;
+            color: var(--danger);
+        }
+
+        /* ── Tab Bar ── */
+        .tab-bar {
+            display: flex;
+            gap: 4px;
+            background: #f1f3f5;
+            border-radius: 60px;
+            padding: 4px;
+            margin-bottom: 14px;
+        }
+        .tab-bar .tab-btn {
+            border: none;
+            padding: 8px 16px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all var(--transition);
+            background: transparent;
+            color: var(--text-secondary);
+            flex: 1;
+            min-width: 50px;
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .tab-bar .tab-btn.active {
+            background: var(--card);
+            color: var(--primary);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+        .tab-bar .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .tab-bar .tab-btn.primary-tab {
+            color: var(--primary);
+        }
+        .tab-bar .tab-btn.primary-tab.active {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(108, 92, 231, 0.3);
+        }
+        @media (max-width: 480px) {
+            .tab-bar .tab-btn .btn-label {
+                display: none;
+            }
+            .tab-bar .tab-btn {
+                padding: 8px 12px;
+                min-width: 40px;
+            }
+            .tab-bar .tab-btn i {
+                font-size: 1rem;
+            }
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeInUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* ── Mocktest ── */
+        .mock-question-list {
+            max-height: 55vh;
+            overflow-y: auto;
+            padding-right: 3px;
+            scroll-behavior: smooth;
+        }
+        .mock-question-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .mock-question-list::-webkit-scrollbar-thumb {
+            background: var(--primary-light);
+            border-radius: 4px;
+        }
+
+        .mock-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 9px 16px;
+            border-radius: 60px;
+            border: 2px solid var(--border);
+            margin: 6px 0;
+            cursor: pointer;
+            transition: all var(--transition);
+            background: #fafbff;
+        }
+        .mock-option:hover {
+            background: #f1f3ff;
+            border-color: var(--primary-light);
+            transform: translateX(4px);
+        }
+        .mock-option input[type="radio"] {
+            accent-color: var(--primary);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .mock-option.selected {
+            background: #edeaff;
+            border-color: var(--primary);
+            box-shadow: 0 2px 12px rgba(108, 92, 231, 0.12);
+        }
+        .mock-option .opt-label {
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        .mock-option.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .mock-header-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--card);
+            padding: 10px 0 6px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 10px;
+            border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+        }
+        .mock-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 8px;
+        }
+
+        /* ── Start Hero ── */
+        .start-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            background: linear-gradient(135deg, #fafbff, #f1f3ff);
+            border-radius: 60px;
+            padding: 8px 16px;
+            margin-bottom: 14px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(108, 92, 231, 0.06);
+        }
+        .start-hero .info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text);
+            flex-wrap: wrap;
+        }
+        .start-hero .info span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .start-hero .info i {
+            color: var(--primary);
+        }
+        .start-hero .btn-start {
+            padding: 8px 28px;
+            border-radius: 60px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition);
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.3);
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+        }
+        .start-hero .btn-start:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 32px rgba(108, 92, 231, 0.4);
+        }
+        .start-hero .btn-start:active {
+            transform: scale(0.96);
+        }
+        @media (max-width: 480px) {
+            .start-hero {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: 20px;
+                padding: 12px 14px;
+            }
+            .start-hero .info {
+                justify-content: center;
+                font-size: 0.8rem;
+                gap: 8px;
+            }
+            .start-hero .btn-start {
+                text-align: center;
+                padding: 10px 16px;
+            }
+        }
+
+        .quiz-container.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+            transition: opacity 0.4s ease;
+        }
+        .quiz-container.enabled {
+            pointer-events: auto;
+            opacity: 1;
+        }
+        .quiz-container {
+            transition: opacity 0.4s ease;
+        }
+
+        /* ── Empty State ── */
+        .empty-state {
+            text-align: center;
+            padding: 32px 16px;
+            color: var(--text-secondary);
+        }
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--primary-light);
+            margin-bottom: 12px;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+        .empty-state h4 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        .empty-state .sub {
+            font-size: 0.85rem;
+            color: #b2bec3;
+        }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--text);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+        .toast.success {
+            background: var(--success);
+        }
+        .toast.error {
+            background: var(--danger);
+        }
+
+        .mt-2 {
+            margin-top: 10px;
+        }
+        .mt-3 {
+            margin-top: 14px;
+        }
+        .gap-2 {
+            gap: 6px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .text-muted {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+        .fw-600 {
+            font-weight: 600;
         }
         .flex-between {
             display: flex;
@@ -217,997 +1180,56 @@
             justify-content: center;
             gap: 6px;
         }
-        @media (max-width: 600px) {
-            .card {
-                padding: 12px 10px;
-            }
-            .app-full {
-                padding: 4px 2px;
-            }
-        }
-        .template-scroll {
+
+        /* ── Share ── */
+        .share-link-wrapper {
             display: flex;
             gap: 8px;
-            overflow-x: auto;
-            padding: 6px 0 12px;
-            margin: 6px 0;
-            scrollbar-width: thin;
-            -webkit-overflow-scrolling: touch;
-        }
-        .template-item {
-            background: #f8f9fa;
-            border-radius: 60px;
-            padding: 6px 14px;
-            font-size: 0.75rem;
-            white-space: nowrap;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-            flex-shrink: 0;
-            font-family: 'Inter', sans-serif;
-        }
-        .template-item.active {
-            border-color: #1a73e8;
-            background: #e8f0fe;
-        }
-        .template-item i {
-            margin-right: 4px;
-        }
-        .input-group {
-            margin: 10px 0;
-        }
-        .input-label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #5f6368;
-            margin-bottom: 4px;
-            display: block;
-        }
-        .input-field {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #dadce0;
-            border-radius: 14px;
-            font-size: 0.85rem;
-            transition: 0.2s;
-            font-family: 'Inter', sans-serif;
-            background: #fff;
-            color: #1e293b;
-        }
-        .input-field:focus {
-            outline: none;
-            border-color: #1a73e8;
-            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
-        }
-        textarea.input-field {
-            resize: vertical;
-            min-height: 80px;
-        }
-        .question-card {
-            background: #fff;
-            border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 12px;
-            border: 1px solid #ecedef;
-            transition: 0.2s;
-            animation: fadeSlideUp 0.25s ease;
-        }
-        .question-card:hover {
-            border-color: #dadce0;
-        }
-        .option-row {
-            background: #f8f9fa;
-            border-radius: 60px;
-            padding: 10px 16px;
-            margin: 8px 0;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            user-select: none;
-            position: relative;
-            font-size: 0.9rem;
-        }
-        .option-row:hover {
-            background: #f1f3f4;
-            border-color: #dadce0;
-        }
-        .option-row .opt-letter {
-            display: inline-flex;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background: #e8eaed;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.7rem;
-            color: #5f6368;
-            flex-shrink: 0;
-            transition: 0.3s;
-        }
-        .option-row.correct-feedback {
-            background: #e6f4ea !important;
-            border-color: #0f9d58 !important;
-            transform: scale(1.02);
-            box-shadow: 0 4px 16px rgba(15, 157, 88, 0.25);
-        }
-        .option-row.correct-feedback .opt-letter {
-            background: #0f9d58;
-            color: #fff;
-            transform: scale(1.08);
-        }
-        .option-row.correct-feedback::after {
-            content: "✓";
-            position: absolute;
-            right: 14px;
-            color: #0f9d58;
-            font-weight: 700;
-            font-size: 1rem;
-        }
-        .option-row.wrong-feedback {
-            background: #fce8e6 !important;
-            border-color: #d93025 !important;
-            transform: scale(0.97);
-            box-shadow: 0 4px 16px rgba(217, 48, 37, 0.2);
-        }
-        .option-row.wrong-feedback .opt-letter {
-            background: #d93025;
-            color: #fff;
-            transform: scale(0.9);
-        }
-        .option-row.wrong-feedback::after {
-            content: "✗";
-            position: absolute;
-            right: 14px;
-            color: #d93025;
-            font-weight: 700;
-            font-size: 1rem;
-        }
-        .option-row.highlight-correct {
-            background: #e6f4ea !important;
-            border-color: #0f9d58 !important;
-            box-shadow: 0 0 0 3px #0f9d58, 0 4px 16px rgba(15, 157, 88, 0.2);
-            transform: scale(1.02);
-        }
-        .option-row.highlight-correct .opt-letter {
-            background: #0f9d58;
-            color: #fff;
-            transform: scale(1.05);
-        }
-        .option-row.highlight-correct::after {
-            content: "✓";
-            position: absolute;
-            right: 14px;
-            color: #0f9d58;
-            font-weight: 700;
-            font-size: 1rem;
-        }
-        .option-row.disabled {
-            pointer-events: none;
-            opacity: 0.6;
-        }
-        .option-row.disabled:not(.correct-feedback):not(.wrong-feedback):not(.highlight-correct) {
-            opacity: 0.5;
-        }
-        .progress-bar {
-            background: #ecedef;
-            border-radius: 100px;
-            height: 5px;
-            overflow: hidden;
-            margin: 12px 0;
-        }
-        .progress-fill {
-            background: #1a73e8;
-            width: 0%;
-            height: 100%;
-            transition: width 0.4s ease;
-        }
-        .booklet-wrap {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: #fff;
-            padding: 8px 0;
-            border-bottom: 1px solid #ecedef;
-            margin-bottom: 12px;
-            border-radius: 0 0 14px 14px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        }
-        .booklet {
-            display: flex;
-            gap: 5px;
-            overflow-x: auto;
-            padding: 3px 2px 6px;
-            scrollbar-width: thin;
-            -webkit-overflow-scrolling: touch;
-            flex-wrap: nowrap;
-        }
-        .booklet::-webkit-scrollbar {
-            height: 3px;
-        }
-        .booklet::-webkit-scrollbar-thumb {
-            background: #dadce0;
-            border-radius: 4px;
-        }
-        .booklet-btn {
-            min-width: 32px;
-            height: 32px;
-            border-radius: 32px;
-            background: #f1f3f4;
-            border: none;
-            font-weight: 500;
-            cursor: pointer;
-            font-size: 0.7rem;
-            flex-shrink: 0;
-            transition: 0.2s;
-            color: #1e293b;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Inter', sans-serif;
-        }
-        .booklet-btn:hover {
-            background: #e8eaed;
-            transform: scale(1.05);
-        }
-        .booklet-btn.answered {
-            background: #1a73e8;
-            color: #fff;
-        }
-        .booklet-btn.active-q {
-            border: 2px solid #1a73e8;
-            background: #e8f0fe;
-            transform: scale(1.08);
-        }
-        .booklet-btn.answered.active-q {
-            background: #1557b0;
-            border-color: #0d47a1;
-        }
-        .booklet-btn.timeout {
-            background: #d93025;
-            color: #fff;
-        }
-        .timer-badge {
-            background: #1e293b;
-            color: #fff;
-            padding: 4px 12px;
-            border-radius: 40px;
-            font-family: 'Inter', monospace;
-            font-weight: 600;
-            font-size: 0.75rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .timer-badge.warning {
-            background: #d93025;
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-        .timer-badge.total-timer {
-            font-size: 0.95rem;
-            padding: 6px 16px;
-            background: #1e293b;
-        }
-        .timer-badge.total-timer.warning {
-            background: #d93025;
-        }
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            visibility: hidden;
-            opacity: 0;
-            transition: 0.25s;
-            z-index: 2000;
-            padding: 16px;
-        }
-        .modal-overlay.active {
-            visibility: visible;
-            opacity: 1;
-        }
-        .modal-card {
-            background: #fff;
-            border-radius: 28px;
-            max-width: 520px;
-            width: 100%;
-            padding: 24px 20px;
-            text-align: center;
-            animation: popIn 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        @keyframes popIn {
-            from {
-                transform: scale(0.95) translateY(10px);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1) translateY(0);
-                opacity: 1;
-            }
-        }
-        .recap-item {
-            border-radius: 14px;
-            padding: 10px 14px;
-            margin: 8px 0;
-            text-align: left;
-            border-left: 4px solid #fef7e0;
-            background: #fef7e0;
-        }
-        .recap-item.correct-recap {
-            background: #e6f4ea;
-            border-left-color: #0f9d58;
-        }
-        .recap-item.wrong-recap {
-            background: #fce8e6;
-            border-left-color: #d93025;
-        }
-        .recap-item.unanswered-recap {
-            background: #f1f3f4;
-            border-left-color: #9aa0a6;
-        }
-        .recap-item .q-text {
-            font-weight: 500;
-            font-size: 0.85rem;
-        }
-        .recap-item .q-detail {
-            font-size: 0.75rem;
-            color: #5f6368;
-            margin-top: 3px;
-        }
-        .recap-item .q-detail strong {
-            color: #1e293b;
-        }
-        .copy-link-btn {
-            background: #e8eaed;
-            border-radius: 60px;
-            padding: 6px 16px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 500;
-            transition: 0.2s;
-            border: none;
-            font-family: 'Inter', sans-serif;
-        }
-        .copy-link-btn:hover {
-            background: #dadce0;
-        }
-        .quiz-name-input {
-            font-size: 1.2rem;
-            font-weight: 600;
-            border: none;
-            border-bottom: 2px solid #dadce0;
-            padding: 4px 0;
-            width: 100%;
-            outline: none;
-            background: transparent;
-            font-family: 'Inter', sans-serif;
-            color: #1e293b;
-        }
-        .quiz-name-input:focus {
-            border-color: #1a73e8;
-        }
-        .logo-preview {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #ecedef;
-        }
-        @keyframes fadeSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-            gap: 10px;
-            margin: 12px 0;
-        }
-        .stat-card {
-            background: #f8f9fa;
-            border-radius: 14px;
-            padding: 12px 10px;
-            text-align: center;
-            border: 1px solid #ecedef;
-        }
-        .stat-card .stat-number {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #1a73e8;
-        }
-        .stat-card .stat-label {
-            font-size: 0.6rem;
-            color: #5f6368;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 2px;
-        }
-        .quiz-list-item {
-            background: #f8f9fa;
-            border-radius: 14px;
-            padding: 12px 14px;
-            margin: 6px 0;
-            border: 1px solid #ecedef;
-            transition: 0.2s;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             flex-wrap: wrap;
-            gap: 6px;
+            justify-content: center;
         }
-        .quiz-list-item:hover {
-            background: #f1f3f4;
-            border-color: #dadce0;
-        }
-        .quiz-list-item .ql-title {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #1e293b;
-        }
-        .quiz-list-item .ql-meta {
-            font-size: 0.65rem;
-            color: #5f6368;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .quiz-list-item .ql-stats {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            font-size: 0.75rem;
-        }
-        .quiz-list-item .ql-stats span {
-            background: #e8eaed;
-            padding: 2px 8px;
-            border-radius: 40px;
-            font-weight: 500;
-        }
-        .attempt-item {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 10px 14px;
-            margin: 6px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #ecedef;
-            transition: 0.2s;
-        }
-        .attempt-item:hover {
-            background: #f1f3f4;
-        }
-        .attempt-item .score-badge {
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 40px;
-            font-size: 0.75rem;
-        }
-        .attempt-item .score-badge.high {
-            background: #e6f4ea;
-            color: #0f9d58;
-        }
-        .attempt-item .score-badge.medium {
-            background: #fef7e0;
-            color: #e37400;
-        }
-        .attempt-item .score-badge.low {
-            background: #fce8e6;
-            color: #d93025;
-        }
-        .tab-bar {
-            display: flex;
-            gap: 3px;
-            background: #f1f3f4;
-            border-radius: 60px;
-            padding: 3px;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-        }
-        .tab-bar .tab-btn {
-            border: none;
-            padding: 6px 14px;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: 0.2s;
-            background: transparent;
-            color: #5f6368;
+        .share-link-wrapper input {
             flex: 1;
-            min-width: 50px;
+            min-width: 160px;
+            padding: 10px 16px;
+            border: 2px solid var(--border);
+            border-radius: 60px;
+            font-size: 0.8rem;
+            background: #fafbff;
             font-family: 'Inter', sans-serif;
-            white-space: nowrap;
+            color: var(--text);
+            transition: border-color var(--transition);
         }
-        .tab-bar .tab-btn.active {
-            background: #fff;
-            color: #1a73e8;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        }
-        .tab-bar .tab-btn:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.5);
-        }
-        .tab-bar .tab-btn.primary-tab {
-            color: #1a73e8;
-        }
-        .tab-bar .tab-btn.primary-tab.active {
-            background: #1a73e8;
-            color: #fff;
-        }
-        .tab-bar .tab-btn .btn-label {
-            display: inline;
-        }
-        @media (max-width: 480px) {
-            .tab-bar .tab-btn .btn-label {
-                display: none;
-            }
-            .tab-bar .tab-btn i {
-                font-size: 1rem;
-            }
-            .tab-bar .tab-btn {
-                padding: 6px 10px;
-                min-width: 40px;
-            }
-        }
-        .tab-panel {
-            display: none;
-            animation: fadeSlideUp 0.3s ease;
-        }
-        .tab-panel.active {
-            display: block;
-        }
-        .mock-question-list {
-            max-height: 55vh;
-            overflow-y: auto;
-            padding-right: 3px;
-            scroll-behavior: smooth;
-        }
-        .mock-question-list::-webkit-scrollbar {
-            width: 4px;
-        }
-        .mock-question-list::-webkit-scrollbar-thumb {
-            background: #dadce0;
-            border-radius: 4px;
-        }
-        .mock-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 14px;
-            border-radius: 60px;
-            border: 1px solid #ecedef;
-            margin: 6px 0;
-            cursor: pointer;
-            transition: 0.15s;
-            background: #fafafa;
-        }
-        .mock-option:hover {
-            background: #f1f3f4;
-            border-color: #dadce0;
-        }
-        .mock-option input[type="radio"] {
-            accent-color: #1a73e8;
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-        .mock-option.selected {
-            background: #e8f0fe;
-            border-color: #1a73e8;
-        }
-        .mock-option .opt-label {
-            font-weight: 500;
-            font-size: 0.85rem;
-        }
-        .mock-option.disabled {
-            opacity: 0.6;
-            pointer-events: none;
-        }
-        .mock-header-sticky {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: #fff;
-            padding: 10px 0 6px;
-            border-bottom: 1px solid #ecedef;
-            margin-bottom: 10px;
-            border-radius: 0 0 14px 14px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        }
-        .mock-header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 6px;
-            padding-bottom: 6px;
-            border-bottom: 1px solid #ecedef;
-            margin-bottom: 8px;
-        }
-        .mock-header-top .btn {
-            margin: 0;
-        }
-        .empty-state {
-            text-align: center;
-            padding: 30px 16px;
-            color: #5f6368;
-        }
-        .empty-state i {
-            font-size: 2.5rem;
-            color: #dadce0;
-            margin-bottom: 10px;
-        }
-        .empty-state .sub {
-            font-size: 0.8rem;
-            color: #9aa0a6;
-        }
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1e293b;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 60px;
-            font-weight: 500;
-            font-size: 0.8rem;
-            z-index: 3000;
-            opacity: 0;
-            transition: 0.3s;
-            pointer-events: none;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            max-width: 90%;
-            text-align: center;
-        }
-        .toast.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .mt-2 {
-            margin-top: 10px;
-        }
-        .mt-3 {
-            margin-top: 14px;
-        }
-        .mb-2 {
-            margin-bottom: 10px;
-        }
-        .gap-2 {
-            gap: 6px;
-        }
-        .text-center {
-            text-align: center;
-        }
-        .text-muted {
-            color: #5f6368;
-            font-size: 0.75rem;
-        }
-        .fw-600 {
-            font-weight: 600;
+        .share-link-wrapper input:focus {
+            outline: none;
+            border-color: var(--primary);
         }
 
-        /* ── COMPACT START HERO ── */
-        .start-hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-            background: #f8f9fa;
-            border-radius: 60px;
-            padding: 8px 16px;
-            margin-bottom: 14px;
-            border: 1px solid #ecedef;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
-        }
-        .start-hero .info {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 0.85rem;
-            color: #1e293b;
-            font-weight: 500;
-            flex-wrap: wrap;
-        }
-        .start-hero .info span {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .start-hero .info i {
-            color: #1a73e8;
-        }
-        .start-hero .btn-start {
-            padding: 8px 28px;
-            border-radius: 60px;
-            background: #1a73e8;
-            color: #fff;
-            border: none;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 12px rgba(26, 115, 232, 0.25);
-            font-size: 0.9rem;
-            font-family: 'Inter', sans-serif;
-            white-space: nowrap;
-        }
-        .start-hero .btn-start:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(26, 115, 232, 0.35);
-        }
-        .start-hero .btn-start:active {
-            transform: scale(0.96);
-        }
-        .start-hero .btn-start i {
-            margin-right: 6px;
-        }
+        /* ── Responsive fine-tune ── */
         @media (max-width: 480px) {
-            .start-hero {
-                flex-direction: column;
-                align-items: stretch;
-                border-radius: 20px;
-                padding: 12px 16px;
+            .app-full {
+                padding: 8px 6px;
+            }
+            .card {
+                padding: 14px 10px;
+                border-radius: 14px;
+            }
+            .question-card {
+                padding: 14px 12px;
+            }
+            .option-row {
+                padding: 9px 14px;
+                font-size: 0.85rem;
+            }
+            .modal-card {
+                padding: 20px 16px;
             }
             .start-hero .info {
-                justify-content: center;
-                font-size: 0.8rem;
-                gap: 10px;
+                font-size: 0.75rem;
             }
-            .start-hero .btn-start {
-                text-align: center;
-                justify-content: center;
-                padding: 10px 16px;
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
-        }
-
-        .quiz-container.disabled {
-            pointer-events: none;
-            opacity: 0.7;
-            transition: opacity 0.4s ease;
-        }
-        .quiz-container.disabled .option-row,
-        .quiz-container.disabled .mock-option {
-            cursor: default;
-        }
-        .quiz-container.enabled {
-            pointer-events: auto;
-            opacity: 1;
-        }
-        .quiz-container.enabled .option-row,
-        .quiz-container.enabled .mock-option {
-            cursor: pointer;
-        }
-        .quiz-container {
-            transition: opacity 0.4s ease, transform 0.3s ease;
-        }
-        .mock-header-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .mock-header-actions .btn {
-            white-space: nowrap;
-        }
-        @media (max-width: 480px) {
-            .mock-header-actions {
-                justify-content: flex-end;
-                flex-wrap: wrap;
-            }
-            .mock-header-top {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .mock-header-top .btn {
-                justify-content: center;
-            }
-            .mock-header-actions {
-                justify-content: center;
-            }
-        }
-
-        /* ── FEEDBACK ANIMATIONS ── */
-        @keyframes correctPop {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.06);
-            }
-            100% {
-                transform: scale(1.02);
-            }
-        }
-        @keyframes wrongShake {
-            0% {
-                transform: translateX(0) scale(1);
-            }
-            20% {
-                transform: translateX(-5px) scale(0.98);
-            }
-            40% {
-                transform: translateX(5px) scale(0.98);
-            }
-            60% {
-                transform: translateX(-3px) scale(0.98);
-            }
-            80% {
-                transform: translateX(3px) scale(0.98);
-            }
-            100% {
-                transform: translateX(0) scale(0.97);
-            }
-        }
-        @keyframes correctHighlight {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1.02);
-            }
-        }
-        .option-row.correct-feedback {
-            animation: correctPop 0.4s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
-        }
-        .option-row.wrong-feedback {
-            animation: wrongShake 0.5s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
-        }
-        .option-row.highlight-correct {
-            animation: correctHighlight 0.4s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
-        }
-
-        /* ── FONT PREVIEW ── */
-        .font-preview-box {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin-top: 8px;
-            border: 1px solid #ecedef;
-            min-height: 70px;
-        }
-        .font-preview-box .preview-en,
-        .font-preview-box .preview-bn {
-            font-size: 1rem;
-            color: #1e293b;
-            margin: 2px 0;
-        }
-        .font-preview-box .preview-label {
-            font-size: 0.65rem;
-            color: #5f6368;
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-        .font-select-wrapper select {
-            appearance: none;
-            -webkit-appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235f6368' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-            padding-right: 40px;
-            width: 100%;
-            padding: 8px 12px;
-            border-radius: 60px;
-            border: 1px solid #dadce0;
-            font-size: 0.85rem;
-            background-color: white;
-            font-family: 'Inter', sans-serif;
-        }
-        /* Apply font to each option in the dropdown so users see the font name in its own style */
-        .font-select-wrapper select option {
-            padding: 6px 8px;
-        }
-        .font-select-wrapper select option[value="inter"] {
-            font-family: 'Inter', sans-serif;
-        }
-        .font-select-wrapper select option[value="roboto"] {
-            font-family: 'Roboto', sans-serif;
-        }
-        .font-select-wrapper select option[value="open-sans"] {
-            font-family: 'Open Sans', sans-serif;
-        }
-        .font-select-wrapper select option[value="lato"] {
-            font-family: 'Lato', sans-serif;
-        }
-        .font-select-wrapper select option[value="montserrat"] {
-            font-family: 'Montserrat', sans-serif;
-        }
-        .font-select-wrapper select option[value="poppins"] {
-            font-family: 'Poppins', sans-serif;
-        }
-        .font-select-wrapper select option[value="nunito"] {
-            font-family: 'Nunito', sans-serif;
-        }
-        .font-select-wrapper select option[value="raleway"] {
-            font-family: 'Raleway', sans-serif;
-        }
-        .font-select-wrapper select option[value="merriweather"] {
-            font-family: 'Merriweather', serif;
-        }
-        .font-select-wrapper select option[value="playfair-display"] {
-            font-family: 'Playfair Display', serif;
-        }
-        .font-select-wrapper select option[value="oswald"] {
-            font-family: 'Oswald', sans-serif;
-        }
-        .font-select-wrapper select option[value="quicksand"] {
-            font-family: 'Quicksand', sans-serif;
-        }
-        .font-select-wrapper select option[value="work-sans"] {
-            font-family: 'Work Sans', sans-serif;
-        }
-        .font-select-wrapper select option[value="source-sans-pro"] {
-            font-family: 'Source Sans Pro', sans-serif;
-        }
-        .font-select-wrapper select option[value="roboto-condensed"] {
-            font-family: 'Roboto Condensed', sans-serif;
-        }
-        .font-select-wrapper select option[value="pt-sans"] {
-            font-family: 'PT Sans', sans-serif;
-        }
-        .font-select-wrapper select option[value="rubik"] {
-            font-family: 'Rubik', sans-serif;
-        }
-        .font-select-wrapper select option[value="barlow"] {
-            font-family: 'Barlow', sans-serif;
-        }
-        .font-select-wrapper select option[value="fira-sans"] {
-            font-family: 'Fira Sans', sans-serif;
-        }
-        .font-select-wrapper select option[value="karla"] {
-            font-family: 'Karla', sans-serif;
-        }
-        .font-select-wrapper select option[value="noto-sans-bengali"] {
-            font-family: 'Noto Sans Bengali', sans-serif;
-        }
-        .font-select-wrapper select option[value="hind-siliguri"] {
-            font-family: 'Hind Siliguri', sans-serif;
-        }
-        .font-select-wrapper select option[value="noto-serif-bengali"] {
-            font-family: 'Noto Serif Bengali', serif;
-        }
-        .font-select-wrapper select option[value="tiro-bangla"] {
-            font-family: 'Tiro Bangla', serif;
-        }
-        .font-select-wrapper select option[value="anek-bengali"] {
-            font-family: 'Anek Bengali', sans-serif;
         }
     </style>
 </head>
@@ -1218,23 +1240,25 @@
 
         <!-- ====== STEP 1: CREATE / UPLOAD ====== -->
         <div id="stepUpload" class="card" style="display:none;">
-            <div class="flex-between">
+            <div class="flex-between" style="margin-bottom:4px;">
                 <input type="text" id="quizNameInput" class="quiz-name-input" placeholder="Quiz Title" value="My Custom Quiz" />
-                <div style="display:flex;align-items:center;gap:6px;">
-                    <label for="logoUpload" style="cursor:pointer;font-size:0.7rem;color:#5f6368;"><i class="fas fa-camera"></i> Logo</label>
+                <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+                    <label for="logoUpload" style="cursor:pointer;font-size:0.7rem;color:var(--text-secondary);"><i class="fas fa-camera"></i> Logo</label>
                     <input type="file" id="logoUpload" accept="image/*" style="display:none" />
                 </div>
             </div>
             <div id="logoPreview" style="margin-bottom:6px;"></div>
+
             <div class="input-group">
                 <label class="input-label"><i class="fas fa-upload"></i> Bulk Upload Questions</label>
                 <div class="upload-area" id="dropzone">
-                    <i class="fas fa-cloud-upload-alt fa-2x" style="color:#1a73e8;"></i>
-                    <p style="font-size:0.75rem;margin-top:3px;">Drag &amp; drop or click (.csv, .xlsx, .txt)</p>
+                    <span class="icon"><i class="fas fa-cloud-upload-alt"></i></span>
+                    <p style="font-size:0.75rem;">Drag &amp; drop or click to upload (.csv, .xlsx, .txt)</p>
                     <input type="file" id="fileInput" accept=".csv,.xlsx,.txt" style="display:none" />
-                    <button class="btn btn-outline btn-sm" id="chooseFileBtn" style="margin-top:4px;"><i class="fas fa-folder-open"></i> Browse</button>
+                    <button class="btn btn-outline btn-sm" id="chooseFileBtn" style="margin-top:6px;"><i class="fas fa-folder-open"></i> Browse</button>
                 </div>
             </div>
+
             <div class="input-group">
                 <label class="input-label"><i class="fas fa-paste"></i> Paste CSV — <span class="text-muted">question, optA, optB, optC, optD, correct</span></label>
                 <textarea id="bulkTextArea" class="input-field" rows="3" placeholder="Paste your CSV here or use the example below as a guide...">What is the capital of France? ,Paris,London,Berlin,Madrid,Paris
@@ -1243,13 +1267,13 @@
             </div>
             <div id="validationErrors"></div>
             <div id="parsedPreview"></div>
-            <button id="nextToTypeBtn" class="btn btn-primary btn-block" style="margin-top:10px;" disabled>Next: Choose Template &amp; Mode →</button>
+            <button id="nextToTypeBtn" class="btn btn-primary btn-block btn-glow" style="margin-top:10px;" disabled>Next: Choose Template &amp; Mode →</button>
             <button id="cancelCreateBtn" class="btn btn-outline btn-block mt-2"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
         </div>
 
-        <!-- ====== STEP 2: TEMPLATE + MODE + TIMER + FONT ====== -->
+        <!-- ====== STEP 2: TEMPLATE + MODE + TIMER ====== -->
         <div id="stepType" style="display:none;" class="card">
-            <h3 style="font-size:1rem;margin-bottom:6px;">✨ Choose Theme</h3>
+            <h3 style="font-size:1rem;margin-bottom:6px;color:var(--text);">✨ Choose Theme</h3>
             <div class="template-scroll" id="templateList">
                 <div class="template-item active" data-template="default">🌿 Default</div>
                 <div class="template-item" data-template="ocean">🌊 Ocean</div>
@@ -1264,65 +1288,25 @@
                 <div class="template-item" data-template="golden">✨ Golden</div>
                 <div class="template-item" data-template="mono">⚪ Mono</div>
             </div>
+
             <div class="flex-between" style="margin:12px 0;">
                 <button id="chooseQuizBtn" class="btn btn-primary"><i class="fas fa-play"></i> Quiz Mode</button>
-                <button id="chooseMockBtn" class="btn btn-outline"><i class="fas fa-clock"></i> Mocktest Mode</button>
+                <button id="chooseMockBtn" class="btn btn-outline"><i class="fas fa-clock"></i> Mocktest</button>
             </div>
-            <div style="background:#f8f9fa;border-radius:16px;padding:12px;margin:10px 0;">
+
+            <div style="background:#fafbff;border-radius:var(--radius-sm);padding:12px;margin:10px 0;">
                 <div class="flex-between">
-                    <label style="font-size:0.8rem;"><i class="fas fa-hourglass-half"></i> Enable Timer</label>
-                    <div><input type="checkbox" id="enableTimerCheck" checked /> <span style="font-size:0.7rem;">total time</span></div>
+                    <label style="font-size:0.8rem;font-weight:500;"><i class="fas fa-hourglass-half"></i> Enable Timer</label>
+                    <div><input type="checkbox" id="enableTimerCheck" checked /> <span style="font-size:0.7rem;color:var(--text-secondary);">total</span></div>
                 </div>
                 <div class="flex-between" style="margin-top:8px;">
-                    <label style="font-size:0.8rem;">Seconds per question:</label>
-                    <input type="number" id="timerSeconds" value="10" min="3" max="120" style="width:80px;border-radius:30px;padding:4px 8px;border:1px solid #dadce0;font-size:0.8rem;" />
+                    <label style="font-size:0.8rem;font-weight:500;">Seconds per question:</label>
+                    <input type="number" id="timerSeconds" value="10" min="3" max="120" style="width:80px;border-radius:60px;padding:4px 10px;border:2px solid var(--border);font-size:0.8rem;background:white;" />
                 </div>
-                <small style="color:#5f6368;font-size:0.65rem;">Total time = seconds × questions.</small>
+                <small style="color:var(--text-secondary);font-size:0.65rem;">Total time = seconds × questions</small>
             </div>
-            <!-- Font selector with live preview -->
-            <div style="background:#f8f9fa;border-radius:16px;padding:12px;margin:10px 0;">
-                <label style="font-size:0.8rem;font-weight:600;color:#5f6368;display:block;margin-bottom:4px;"><i class="fas fa-font"></i> Font Style</label>
-                <div class="font-select-wrapper">
-                    <select id="fontSelector">
-                        <optgroup label="English Fonts">
-                            <option value="inter">Inter</option>
-                            <option value="roboto">Roboto</option>
-                            <option value="open-sans">Open Sans</option>
-                            <option value="lato">Lato</option>
-                            <option value="montserrat">Montserrat</option>
-                            <option value="poppins">Poppins</option>
-                            <option value="nunito">Nunito</option>
-                            <option value="raleway">Raleway</option>
-                            <option value="merriweather">Merriweather</option>
-                            <option value="playfair-display">Playfair Display</option>
-                            <option value="oswald">Oswald</option>
-                            <option value="quicksand">Quicksand</option>
-                            <option value="work-sans">Work Sans</option>
-                            <option value="source-sans-pro">Source Sans Pro</option>
-                            <option value="roboto-condensed">Roboto Condensed</option>
-                            <option value="pt-sans">PT Sans</option>
-                            <option value="rubik">Rubik</option>
-                            <option value="barlow">Barlow</option>
-                            <option value="fira-sans">Fira Sans</option>
-                            <option value="karla">Karla</option>
-                        </optgroup>
-                        <optgroup label="Bengali Fonts">
-                            <option value="noto-sans-bengali">Noto Sans Bengali</option>
-                            <option value="hind-siliguri">Hind Siliguri</option>
-                            <option value="noto-serif-bengali">Noto Serif Bengali</option>
-                            <option value="tiro-bangla">Tiro Bangla</option>
-                            <option value="anek-bengali">Anek Bengali</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <!-- Live Preview -->
-                <div class="font-preview-box" id="fontPreviewBox">
-                    <div class="preview-label">Preview</div>
-                    <div class="preview-en" id="fontPreviewEn">The quick brown fox jumps over the lazy dog.</div>
-                    <div class="preview-bn" id="fontPreviewBn">সব মানুষ স্বাধীনভাবে সমান মর্যাদা ও অধিকার নিয়ে জন্মগ্রহণ করে।</div>
-                </div>
-            </div>
-            <button id="finalCreateBtn" class="btn btn-success btn-block"><i class="fas fa-check-circle"></i> Create Assessment</button>
+
+            <button id="finalCreateBtn" class="btn btn-success btn-block btn-glow"><i class="fas fa-check-circle"></i> Create Assessment</button>
             <button id="backFromTypeBtn" class="btn btn-outline btn-block mt-2"><i class="fas fa-arrow-left"></i> Back</button>
         </div>
 
@@ -1331,19 +1315,19 @@
             <div class="tab-bar" id="tabBar">
                 <button class="tab-btn active" data-tab="play"><i class="fas fa-play"></i> <span class="btn-label">Play</span></button>
                 <button class="tab-btn" data-tab="share"><i class="fas fa-link"></i> <span class="btn-label">Share</span></button>
-                <button class="tab-btn" data-tab="dashboard"><i class="fas fa-chart-bar"></i> <span class="btn-label">Dashboard</span></button>
-                <button class="tab-btn primary-tab" data-tab="create"><i class="fas fa-plus-circle"></i> <span class="btn-label">Create New</span></button>
+                <button class="tab-btn" data-tab="dashboard"><i class="fas fa-chart-bar"></i> <span class="btn-label">Stats</span></button>
+                <button class="tab-btn primary-tab" data-tab="create"><i class="fas fa-plus-circle"></i> <span class="btn-label">New</span></button>
             </div>
             <div class="tab-panel active" id="panelPlay">
                 <div id="renderZone" style="margin-top:3px;width:100%;"></div>
             </div>
             <div class="tab-panel" id="panelShare">
                 <div style="text-align:center;padding:16px 0;">
-                    <i class="fas fa-share-alt" style="font-size:2rem;color:#1a73e8;margin-bottom:8px;display:block;"></i>
+                    <i class="fas fa-share-alt" style="font-size:2.5rem;color:var(--primary);margin-bottom:8px;display:block;"></i>
                     <h4 style="margin-bottom:6px;font-size:1rem;">Share Your Quiz</h4>
-                    <p style="font-size:0.8rem;color:#5f6368;margin-bottom:12px;">Anyone with this link can take your quiz</p>
-                    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
-                        <input type="text" id="shareLinkInput" readonly style="flex:1;min-width:160px;padding:8px 14px;border:1px solid #dadce0;border-radius:60px;font-size:0.8rem;background:#f8f9fa;font-family:'Inter',sans-serif;color:#1e293b;" />
+                    <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:14px;">Anyone with this link can take your quiz</p>
+                    <div class="share-link-wrapper">
+                        <input type="text" id="shareLinkInput" readonly />
                         <button class="btn btn-primary" id="copyLinkBtn"><i class="fas fa-copy"></i> Copy</button>
                     </div>
                     <div style="margin-top:12px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">
@@ -1355,7 +1339,7 @@
             </div>
             <div class="tab-panel" id="panelDashboard">
                 <div id="dashboardContent">
-                    <div class="text-center" style="padding:20px 0;color:#5f6368;">
+                    <div class="text-center" style="padding:20px 0;color:var(--text-secondary);">
                         <i class="fas fa-spinner fa-pulse fa-2x"></i>
                         <p style="margin-top:10px;font-size:0.85rem;">Loading stats…</p>
                     </div>
@@ -1386,40 +1370,11 @@
         let quizResults = null;
         let currentView = 'create';
         let currentViewData = null;
-        let selectedFont = 'inter';
-
-        // Map font values to CSS class names
-        const fontClassMap = {
-            'inter': 'font-inter',
-            'roboto': 'font-roboto',
-            'open-sans': 'font-open-sans',
-            'lato': 'font-lato',
-            'montserrat': 'font-montserrat',
-            'poppins': 'font-poppins',
-            'nunito': 'font-nunito',
-            'raleway': 'font-raleway',
-            'merriweather': 'font-merriweather',
-            'playfair-display': 'font-playfair-display',
-            'oswald': 'font-oswald',
-            'quicksand': 'font-quicksand',
-            'work-sans': 'font-work-sans',
-            'source-sans-pro': 'font-source-sans-pro',
-            'roboto-condensed': 'font-roboto-condensed',
-            'pt-sans': 'font-pt-sans',
-            'rubik': 'font-rubik',
-            'barlow': 'font-barlow',
-            'fira-sans': 'font-fira-sans',
-            'karla': 'font-karla',
-            'noto-sans-bengali': 'font-noto-sans-bengali',
-            'hind-siliguri': 'font-hind-siliguri',
-            'noto-serif-bengali': 'font-noto-serif-bengali',
-            'tiro-bangla': 'font-tiro-bangla',
-            'anek-bengali': 'font-anek-bengali'
-        };
+        let navStack = [];
 
         const templates = {
-            default: { bg: "#f0f2f5", cardBg: "#ffffff", accent: "#1a73e8", text: "#202124", border: "#ecedef",
-                optionBg: "#f8f9fa" },
+            default: { bg: "#f8f9fe", cardBg: "#ffffff", accent: "#6c5ce7", text: "#2d3436", border: "#e9ecef",
+                optionBg: "#fafbff" },
             ocean: { bg: "#e8f4f8", cardBg: "#ffffff", accent: "#0077b6", text: "#023e8a", border: "#caf0f8",
                 optionBg: "#f0f9ff" },
             forest: { bg: "#eaf4e4", cardBg: "#ffffff", accent: "#2e7d32", text: "#1b5e20", border: "#c8e6c9",
@@ -1451,14 +1406,16 @@
                 c.style.backgroundColor = t.cardBg;
                 c.style.borderColor = t.border;
             });
+            // Also apply to question cards and option rows dynamically via JS
         }
 
-        function showToast(msg, dur = 2600) {
+        function showToast(msg, type = '', dur = 2600) {
             const el = document.getElementById("toast");
             el.textContent = msg;
-            el.classList.add("show");
+            el.className = 'toast ' + type;
+            el.classList.add('show');
             clearTimeout(el._t);
-            el._t = setTimeout(() => el.classList.remove("show"), dur);
+            el._t = setTimeout(() => el.classList.remove('show'), dur);
         }
 
         // ================================================================
@@ -1532,18 +1489,18 @@
             const div = document.getElementById("parsedPreview");
             if (!questions.length) {
                 div.innerHTML =
-                    `<div style="background:#f8f9fa;border-radius:14px;padding:10px;text-align:center;color:#5f6368;font-size:0.8rem;">
+                    `<div style="background:#fafbff;border-radius:var(--radius-sm);padding:10px;text-align:center;color:var(--text-secondary);font-size:0.8rem;">
                             <i class="fas fa-info-circle"></i> No questions loaded yet. Add your questions above or use the example as a guide.
                         </div>`;
                 return false;
             }
             let html =
-                `<div style="max-height:140px;overflow:auto;background:#f8f9fa;border-radius:14px;padding:8px;"><strong style="font-size:0.85rem;">✅ ${questions.length} questions loaded</strong><br/>`;
+                `<div style="max-height:140px;overflow:auto;background:#fafbff;border-radius:var(--radius-sm);padding:8px;"><strong style="font-size:0.85rem;color:var(--text);">✅ ${questions.length} questions loaded</strong><br/>`;
             questions.forEach((q, idx) => {
                 html +=
-                    `<div style="background:#fff;border-radius:10px;padding:4px 10px;margin:4px 0;display:flex;justify-content:space-between;align-items:center;border:1px solid #ecedef;font-size:0.8rem;">
+                    `<div style="background:white;border-radius:10px;padding:4px 12px;margin:4px 0;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border);font-size:0.8rem;">
                             <span><b>${idx+1}.</b> ${q.text.substring(0,50)}${q.text.length>50?'…':''}</span>
-                            <button class="btn btn-outline btn-sm addImgBtn" data-idx="${idx}" style="padding:1px 8px;font-size:0.65rem;"><i class="fas fa-image"></i></button>
+                            <button class="btn btn-outline btn-sm addImgBtn" data-idx="${idx}" style="padding:1px 10px;font-size:0.65rem;"><i class="fas fa-image"></i></button>
                         </div>`;
             });
             html += `</div>`;
@@ -1563,7 +1520,8 @@
             const raw = document.getElementById("bulkTextArea").value;
             const { questions, errors } = parseBulkToQuestions(raw);
             const errDiv = document.getElementById("validationErrors");
-            errDiv.innerHTML = errors.map(e => `<div class="error-line">⚠️ ${e}</div>`).join('');
+            errDiv.innerHTML = errors.map(e => `<div style="background:#fde8ef;border-left:4px solid var(--danger);padding:6px 12px;border-radius:10px;margin:4px 0;font-size:0.7rem;">⚠️ ${e}</div>`)
+                .join('');
             if (questions.length) {
                 questionsBank = questions;
                 renderPreview(questionsBank);
@@ -1574,7 +1532,7 @@
                 document.getElementById("nextToTypeBtn").disabled = true;
                 if (!errors.length) {
                     errDiv.innerHTML =
-                        `<div style="background:#f8f9fa;border-radius:10px;padding:6px 10px;font-size:0.75rem;color:#5f6368;">
+                        `<div style="background:#fafbff;border-radius:10px;padding:6px 12px;font-size:0.75rem;color:var(--text-secondary);">
                             <i class="fas fa-lightbulb"></i> Add questions above or use the example as a starting point.
                         </div>`;
                 }
@@ -1595,7 +1553,6 @@
                 quizTitle,
                 quizLogo,
                 currentMode,
-                selectedFont,
                 questionsBank: questionsBank.length > 0 ? questionsBank : []
             };
             try {
@@ -1618,7 +1575,6 @@
                     quizTitle = state.quizTitle || 'My Custom Quiz';
                     quizLogo = state.quizLogo || null;
                     currentMode = state.currentMode || 'quiz';
-                    selectedFont = state.selectedFont || 'inter';
                     if (state.questionsBank && state.questionsBank.length > 0) {
                         questionsBank = state.questionsBank;
                     }
@@ -1631,8 +1587,6 @@
         // ================================================================
         // NAVIGATION
         // ================================================================
-        let navStack = [];
-
         function navigateTo(view, data) {
             if (currentView && view !== currentView) {
                 navStack.push({ view: currentView, data: currentViewData });
@@ -1699,15 +1653,15 @@
                 container.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-clipboard-list"></i>
-                            <h4 style="margin-bottom:3px;font-size:1rem;">No quizzes yet</h4>
-                            <p class="sub">Click <strong>+</strong> to create your first quiz</p>
+                            <h4>No quizzes yet</h4>
+                            <p class="sub">Click <strong>+ New</strong> to create your first quiz</p>
                             <button class="btn btn-primary mt-3" onclick="navigateTo('create')"><i class="fas fa-plus"></i> Create New Quiz</button>
                         </div>
                     `;
                 return;
             }
 
-            let html = `<div style="margin-bottom:10px;"><h4 style="font-size:0.95rem;color:#1e293b;">📚 Your Quizzes</h4></div>`;
+            let html = `<div style="margin-bottom:10px;"><h4 style="font-size:0.95rem;color:var(--text);">📚 Your Quizzes</h4></div>`;
 
             ids.forEach(id => {
                 const q = all[id];
@@ -1734,10 +1688,10 @@
                             <div class="ql-stats">
                                 <span><i class="fas fa-users"></i> ${total}</span>
                                 <span><i class="fas fa-star"></i> ${avg || '-'}</span>
-                                <span style="background:${total && pass/total >= 0.6 ? '#e6f4ea' : '#fce8e6'};">
+                                <span style="background:${total && pass/total >= 0.6 ? '#e6f9f1' : '#fde8ef'};">
                                     ${total ? Math.round((pass/total)*100)+'%' : '—'}
                                 </span>
-                                <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();deleteQuiz('${id}')" style="color:#d93025;border-color:#fce8e6;padding:2px 8px;font-size:0.65rem;">
+                                <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();deleteQuiz('${id}')" style="color:var(--danger);border-color:#fde8ef;padding:2px 10px;font-size:0.65rem;">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -1750,9 +1704,9 @@
 
             html += `
                     <div class="stat-grid" style="margin-top:12px;">
-                        <div class="stat-card"><div class="stat-number">${ids.length}</div><div class="stat-label">Total Quizzes</div></div>
-                        <div class="stat-card"><div class="stat-number">${totalQs}</div><div class="stat-label">Total Questions</div></div>
-                        <div class="stat-card"><div class="stat-number">${totalPlays}</div><div class="stat-label">Total Plays</div></div>
+                        <div class="stat-card"><div class="stat-number">${ids.length}</div><div class="stat-label">Quizzes</div></div>
+                        <div class="stat-card"><div class="stat-number">${totalQs}</div><div class="stat-label">Questions</div></div>
+                        <div class="stat-card"><div class="stat-number">${totalPlays}</div><div class="stat-label">Plays</div></div>
                     </div>
                 `;
 
@@ -1762,7 +1716,7 @@
         window.deleteQuiz = function(id) {
             if (!confirm("Delete this quiz and all its data?")) return;
             deleteQuizData(id);
-            showToast("Quiz deleted");
+            showToast("Quiz deleted", 'success');
             renderFullDashboard();
         };
 
@@ -1773,7 +1727,7 @@
             document.getElementById("quizNameInput").value = quizTitle || "My Custom Quiz";
             document.getElementById("bulkTextArea").value =
                 `What is the capital of France? ,Paris,London,Berlin,Madrid,Paris\nWho wrote Hamlet? ,Shakespeare,Dickens,Hemingway,Tolstoy,Shakespeare\nWhat is 2+2? ,3,4,5,6,4`;
-            document.getElementById("logoPreview").innerHTML = quizLogo ? `<img src="${quizLogo}" class="logo-preview">` :
+            document.getElementById("logoPreview").innerHTML = quizLogo ? `<img src="${quizLogo}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--border);">` :
                 "";
             questionsBank = [];
             document.getElementById("parsedPreview").innerHTML = "";
@@ -1781,9 +1735,6 @@
             document.getElementById("nextToTypeBtn").disabled = true;
             document.getElementById("enableTimerCheck").checked = timerEnabled;
             document.getElementById("timerSeconds").value = timerSeconds;
-            document.getElementById("fontSelector").value = selectedFont || 'inter';
-            // Update font preview
-            updateFontPreview(selectedFont || 'inter');
             document.querySelector(".template-item[data-template='default']")?.classList.add("active");
             document.querySelectorAll(".template-item").forEach(t => {
                 if (t.dataset.template !== "default") t.classList.remove("active");
@@ -1795,20 +1746,6 @@
             currentMode = "quiz";
             processBulk();
             pushState('create', null);
-        }
-
-        // Update font preview – using the same class mapping
-        function updateFontPreview(fontValue) {
-            const previewEn = document.getElementById('fontPreviewEn');
-            const previewBn = document.getElementById('fontPreviewBn');
-            if (!previewEn || !previewBn) return;
-            const fontClass = fontClassMap[fontValue] || 'font-inter';
-            // Remove any existing font class
-            previewEn.className = 'preview-en';
-            previewBn.className = 'preview-bn';
-            // Add the new font class
-            previewEn.classList.add(fontClass);
-            previewBn.classList.add(fontClass);
         }
 
         function showShareView() {
@@ -1845,7 +1782,7 @@
                     pushState('play', { id: data.id });
                     return;
                 } else {
-                    showToast("Quiz not found");
+                    showToast("Quiz not found", 'error');
                     navigateTo('create');
                     return;
                 }
@@ -1875,19 +1812,15 @@
             const wrapper = document.createElement('div');
             wrapper.id = 'quizContainerWrapper';
             wrapper.className = 'quiz-container' + (started ? ' enabled' : ' disabled');
-            // Apply font class to wrapper
-            const fontClass = fontClassMap[data.font] || 'font-inter';
-            wrapper.classList.add(fontClass);
-
             wrapper.innerHTML = contentHtml;
 
             container.innerHTML = '';
 
-            // Start hero – compact bar
+            // Start hero
             const totalTime = data.timerEnabled ? data.timerSeconds * data.questions.length : 0;
             const hero = document.createElement('div');
             hero.id = 'startHero';
-            hero.className = 'start-hero';
+            hero.className = 'start-hero animate-in';
             hero.innerHTML = `
                 <div class="info">
                     <span><i class="fas fa-list-ul"></i> ${data.questions.length} questions</span>
@@ -1905,7 +1838,7 @@
                 attachMockEvents(data, t);
             }
 
-            // Start button listener
+            // Start button
             const startBtn = document.getElementById('startQuizBtn');
             if (startBtn) {
                 startBtn.addEventListener('click', () => {
@@ -1913,7 +1846,7 @@
                     if (heroEl) {
                         heroEl.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
                         heroEl.style.opacity = '0';
-                        heroEl.style.transform = 'translateY(-10px)';
+                        heroEl.style.transform = 'translateY(-20px)';
                         setTimeout(() => heroEl.remove(), 300);
                     }
                     const wrapperEl = document.getElementById('quizContainerWrapper');
@@ -1932,7 +1865,7 @@
                     }
                     isQuizActive = true;
                     isQuizStarted = true;
-                    showToast('Quiz started! Good luck! 🍀');
+                    showToast('Quiz started! Good luck! 🍀', 'success');
                 });
             }
         }
@@ -1946,10 +1879,10 @@
                     `<div class="timer-badge total-timer" id="quizTotalTimer">⏱️ ${formatTime(total)}</div>`;
             }
             let html = `
-                    <div style="background:${t.bg};border-radius:20px;padding:14px;border:1px solid ${t.border};">
+                    <div style="background:${t.bg};border-radius:var(--radius);padding:14px;border:1px solid ${t.border};">
                         <div class="flex-between" style="margin-bottom:6px;">
                             <div style="display:flex;align-items:center;gap:6px;">
-                                ${data.logo ? `<img src="${data.logo}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;">` : ''}
+                                ${data.logo ? `<img src="${data.logo}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:2px solid ${t.border};" />` : ''}
                                 <span style="font-weight:600;color:${t.text};font-size:0.85rem;">${data.title}</span>
                             </div>
                             ${timerHtml}
@@ -1959,7 +1892,7 @@
                         <div class="progress-bar"><div id="quizProgressFill" class="progress-fill"></div></div>
                         <div class="flex-between" style="margin-top:12px;">
                             <button id="quizPrevBtn" class="btn btn-outline btn-sm"><i class="fas fa-chevron-left"></i> Prev</button>
-                            <span id="quizCounter" style="font-size:0.75rem;color:#5f6368;">1 / ${questions.length}</span>
+                            <span id="quizCounter" style="font-size:0.75rem;color:var(--text-secondary);">1 / ${questions.length}</span>
                             <button id="quizNextBtn" class="btn btn-primary btn-sm">Next <i class="fas fa-chevron-right"></i></button>
                         </div>
                     </div>
@@ -1976,14 +1909,14 @@
                     `<div class="timer-badge total-timer" id="mockTotalTimer">⏱️ ${formatTime(total)}</div>`;
             }
             let html = `
-                    <div style="background:${t.bg};border-radius:20px;padding:14px;border:1px solid ${t.border};">
+                    <div style="background:${t.bg};border-radius:var(--radius);padding:14px;border:1px solid ${t.border};">
                         <div class="mock-header-sticky" style="background:${t.cardBg};">
                             <div class="mock-header-top">
                                 <div style="display:flex;align-items:center;gap:6px;">
-                                    ${data.logo ? `<img src="${data.logo}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;">` : ''}
+                                    ${data.logo ? `<img src="${data.logo}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:2px solid ${t.border};" />` : ''}
                                     <span style="font-weight:600;color:${t.text};font-size:0.85rem;">${data.title}</span>
                                 </div>
-                                <div class="mock-header-actions">
+                                <div class="mock-header-actions" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                                     ${timerHtml}
                                     <button id="submitMockBtn" class="btn btn-success btn-sm"><i class="fas fa-check-double"></i> Submit</button>
                                 </div>
@@ -1991,7 +1924,7 @@
                             <div class="booklet-wrap" style="position:static;box-shadow:none;padding:3px 0;border-bottom:none;">
                                 <div class="booklet" id="mockBookNav"></div>
                             </div>
-                            <div style="display:flex;justify-content:space-between;font-size:0.65rem;color:#5f6368;padding-top:3px;">
+                            <div style="display:flex;justify-content:space-between;font-size:0.65rem;color:var(--text-secondary);padding-top:3px;">
                                 <span id="mockAnsweredCount">0 / ${questions.length} answered</span>
                                 <span id="mockProgressText">0%</span>
                             </div>
@@ -2037,8 +1970,11 @@
                 let answered = answersLocal[idx] !== null;
 
                 slide.innerHTML = `
-                        <h4 style="color:${t.text};margin-bottom:6px;font-size:0.95rem;">${idx+1}. ${q.text}</h4>
-                        ${q.image ? `<img src="${q.image}" style="max-width:100%;max-height:120px;border-radius:14px;margin:6px 0;object-fit:contain;">` : ''}
+                        <h4 style="color:${t.text};margin-bottom:6px;font-size:0.95rem;display:flex;align-items:center;">
+                            <span class="q-number">${idx+1}</span>
+                            <span>${q.text}</span>
+                        </h4>
+                        ${q.image ? `<img src="${q.image}" style="max-width:100%;max-height:120px;border-radius:var(--radius-sm);margin:6px 0;object-fit:contain;" />` : ''}
                         <div class="options-area"></div>
                     `;
 
@@ -2134,9 +2070,6 @@
                     if (answersLocal[i] !== null) b.classList.add("answered");
                     else b.classList.remove("answered");
                 });
-                if (answeredCount === questions.length && isQuizActive) {
-                    // All answered, but wait for user to press Next on last question
-                }
             }
 
             document.getElementById("quizPrevBtn").onclick = () => { if (currentIdx > 0) showSlide(currentIdx - 1); };
@@ -2199,8 +2132,11 @@
                 const answerText = answersLocal[idx] || '';
 
                 qCard.innerHTML = `
-                        <h4 style="color:${t.text};font-size:0.9rem;margin-bottom:4px;">${idx+1}. ${q.text}</h4>
-                        ${q.image ? `<img src="${q.image}" style="max-width:100%;max-height:100px;border-radius:10px;margin:4px 0;object-fit:contain;">` : ''}
+                        <h4 style="color:${t.text};font-size:0.9rem;margin-bottom:4px;display:flex;align-items:center;">
+                            <span class="q-number">${idx+1}</span>
+                            <span>${q.text}</span>
+                        </h4>
+                        ${q.image ? `<img src="${q.image}" style="max-width:100%;max-height:100px;border-radius:var(--radius-sm);margin:4px 0;object-fit:contain;" />` : ''}
                         <div class="mock-options-wrap" style="margin-top:6px;"></div>
                     `;
 
@@ -2238,10 +2174,6 @@
                         let btns = bookletDiv.querySelectorAll(".booklet-btn");
                         btns[idx].classList.add("answered");
                         updateMockProgress();
-
-                        if (answersLocal.filter(a => a !== null).length === questions.length) {
-                            // All answered, but user must click Submit
-                        }
                     });
 
                     optsWrap.appendChild(label);
@@ -2329,20 +2261,20 @@
             modal.className = "modal-overlay active time-over-modal";
             modal.innerHTML = `
                     <div class="modal-card">
-                        <div class="big-icon"><i class="fas fa-hourglass-end" style="font-size:3.5rem;color:#d93025;margin-bottom:8px;display:block;"></i></div>
-                        <h2 style="color:#d93025;font-size:1.3rem;">⏰ Time's Over!</h2>
-                        <p style="color:#5f6368;margin:6px 0 12px;font-size:0.9rem;">You ran out of time. Let's see your results.</p>
-                        <div style="background:#f8f9fa;border-radius:14px;padding:10px;margin-bottom:12px;">
+                        <span class="big-icon"><i class="fas fa-hourglass-end" style="color:var(--danger);"></i></span>
+                        <h2 style="color:var(--danger);">Time's Over!</h2>
+                        <p>You ran out of time. Let's see your results.</p>
+                        <div style="background:#fafbff;border-radius:var(--radius-sm);padding:10px;margin-bottom:12px;">
                             <div style="display:flex;justify-content:space-between;font-size:0.85rem;">
                                 <span>Answered:</span>
                                 <strong>${answers.filter(a=>a!==null).length} / ${data.questions.length}</strong>
                             </div>
                             <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-top:3px;">
                                 <span>Unanswered:</span>
-                                <strong style="color:#d93025;">${answers.filter(a=>a===null).length}</strong>
+                                <strong style="color:var(--danger);">${answers.filter(a=>a===null).length}</strong>
                             </div>
                         </div>
-                        <button class="btn btn-primary btn-lg btn-block" id="showResultsFromTimeBtn" style="justify-content:center;">
+                        <button class="btn btn-primary btn-block" id="showResultsFromTimeBtn" style="justify-content:center;">
                             <i class="fas fa-chart-bar"></i> Show Results
                         </button>
                     </div>
@@ -2398,24 +2330,24 @@
         function showScoreModal(results) {
             const { score, total, unanswered, results: items } = results;
             const percent = Math.round((score / total) * 100);
+            const emoji = percent >= 80 ? '🌟' : percent >= 60 ? '👏' : '📚';
+            const msg = percent >= 80 ? 'Excellent!' : percent >= 60 ? 'Good job!' : 'Keep practicing!';
 
             let modal = document.createElement("div");
             modal.className = "modal-overlay active";
             modal.innerHTML = `
                     <div class="modal-card">
-                        <h2 style="color:#1a73e8;margin-bottom:3px;font-size:1.3rem;"><i class="fas fa-chart-simple"></i> Your Results</h2>
+                        <span class="big-icon">${emoji}</span>
+                        <h2>Your Results</h2>
+                        <p style="color:var(--text-secondary);">${score} / ${total} correct • ${msg}</p>
                         <div style="position:relative;width:120px;margin:10px auto;">
                             <canvas id="scoreCanvas" width="140" height="140"></canvas>
-                            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.6rem;font-weight:700;color:#1e293b;">
-                                ${percent}<span style="font-size:0.7rem;">%</span>
+                            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.6rem;font-weight:800;color:var(--text);">
+                                ${percent}<span style="font-size:0.7rem;color:var(--text-secondary);">%</span>
                             </div>
                         </div>
-                        <p style="font-size:1rem;font-weight:600;">${score} / ${total} correct</p>
-                        ${unanswered > 0 ? `<p style="font-size:0.8rem;color:#d93025;">⚠️ ${unanswered} question(s) unanswered</p>` : ''}
-                        <p style="font-size:0.8rem;color:#5f6368;margin-bottom:12px;">
-                            ${percent >= 80 ? '🌟 Excellent!' : percent >= 60 ? '👏 Good job!' : '📚 Keep practicing!'}
-                        </p>
-                        <div class="flex-between" style="gap:6px;">
+                        ${unanswered > 0 ? `<p style="font-size:0.8rem;color:var(--danger);">⚠️ ${unanswered} unanswered</p>` : ''}
+                        <div class="flex-between" style="gap:6px;margin-top:12px;">
                             <button id="recapBtn" class="btn btn-outline btn-sm"><i class="fas fa-list-ul"></i> Recap</button>
                             <button id="closeScoreBtn" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Done</button>
                         </div>
@@ -2429,7 +2361,7 @@
                 data: {
                     labels: ['Correct', 'Wrong', 'Unanswered'],
                     datasets: [{ data: [score, total - score - unanswered, unanswered], backgroundColor: [
-                            '#0f9d58', '#d93025', '#9aa0a6'
+                            '#00b894', '#fd79a8', '#b2bec3'
                         ], borderWidth: 0, cutout: '68%' }]
                 },
                 options: { responsive: true, plugins: { legend: { display: false } } }
@@ -2453,7 +2385,7 @@
             let modal = document.createElement("div");
             modal.className = "modal-overlay active";
             let html =
-                `<div class="modal-card" style="max-width:600px;max-height:75vh;overflow:auto;text-align:left;padding:20px 16px;">
+                `<div class="modal-card" style="max-width:600px;max-height:70vh;overflow:auto;text-align:left;padding:20px 16px;">
                         <h3 style="text-align:center;margin-bottom:10px;font-size:1.1rem;"><i class="fas fa-receipt"></i> Detailed Recap</h3>`;
             results.forEach((r, i) => {
                 let cls = r.isCorrect ? "correct-recap" : r.isUnanswered ? "unanswered-recap" : "wrong-recap";
@@ -2527,7 +2459,7 @@
                     pushState('play', { id });
                     return true;
                 } else {
-                    showToast("Quiz not found");
+                    showToast("Quiz not found", 'error');
                 }
             }
             return false;
@@ -2601,6 +2533,42 @@
             else reader.readAsText(file);
         };
 
+        // Drag and drop support
+        const dropzone = document.getElementById('dropzone');
+        if (dropzone) {
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.classList.add('dragover');
+            });
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('dragover');
+            });
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        if (file.name.endsWith('.xlsx')) {
+                            const data = new Uint8Array(ev.target.result);
+                            const workbook = XLSX.read(data, { type: 'array' });
+                            const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                            const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+                            const csv = rows.map(r => r.join(',')).join('\n');
+                            document.getElementById("bulkTextArea").value = csv;
+                            processBulk();
+                        } else {
+                            document.getElementById("bulkTextArea").value = ev.target.result;
+                            processBulk();
+                        }
+                    };
+                    if (file.name.endsWith('.xlsx')) reader.readAsArrayBuffer(file);
+                    else reader.readAsText(file);
+                }
+            });
+        }
+
         document.getElementById("bulkTextArea").addEventListener("input", processBulk);
 
         document.getElementById("logoUpload").onchange = (e) => {
@@ -2610,7 +2578,7 @@
                 reader.onload = (ev) => {
                     quizLogo = ev.target.result;
                     document.getElementById("logoPreview").innerHTML =
-                        `<img src="${quizLogo}" class="logo-preview">`;
+                        `<img src="${quizLogo}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--border);" />`;
                     saveState();
                 };
                 reader.readAsDataURL(file);
@@ -2651,14 +2619,8 @@
             saveState();
         };
 
-        document.getElementById("fontSelector").onchange = function() {
-            selectedFont = this.value;
-            updateFontPreview(selectedFont);
-            saveState();
-        };
-
         document.getElementById("nextToTypeBtn").onclick = () => {
-            if (questionsBank.length === 0) return showToast("Please add some questions first");
+            if (questionsBank.length === 0) return showToast("Please add some questions first", 'error');
             quizTitle = document.getElementById("quizNameInput").value || "My Quiz";
             document.getElementById("stepUpload").style.display = "none";
             document.getElementById("stepType").style.display = "block";
@@ -2680,7 +2642,7 @@
         // FINAL CREATE
         // ================================================================
         document.getElementById("finalCreateBtn").onclick = () => {
-            if (questionsBank.length === 0) return showToast("Please load questions first");
+            if (questionsBank.length === 0) return showToast("Please load questions first", 'error');
 
             const id = generateId();
             const data = {
@@ -2691,7 +2653,6 @@
                 logo: quizLogo,
                 timerEnabled: document.getElementById("enableTimerCheck").checked,
                 timerSeconds: parseInt(document.getElementById("timerSeconds").value) || 10,
-                font: document.getElementById("fontSelector").value,
                 createdAt: Date.now()
             };
 
@@ -2722,11 +2683,11 @@
             document.getElementById("shareLinkInput").value = url;
 
             document.getElementById("copyLinkBtn").onclick = () => {
-                navigator.clipboard.writeText(url).then(() => showToast("Link copied!")).catch(() => {
+                navigator.clipboard.writeText(url).then(() => showToast("Link copied!", 'success')).catch(() => {
                     const inp = document.getElementById("shareLinkInput");
                     inp.select();
                     document.execCommand("copy");
-                    showToast("Link copied!");
+                    showToast("Link copied!", 'success');
                 });
             };
 
@@ -2742,7 +2703,7 @@
             };
 
             renderAssessmentFromData(data);
-            showToast("✅ Quiz created! Share the link with students.");
+            showToast("✅ Quiz created! Share the link.", 'success');
             pushState('play', { id });
         };
 
