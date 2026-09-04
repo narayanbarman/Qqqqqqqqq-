@@ -386,7 +386,7 @@
             border-color: var(--primary);
         }
 
-        /* Helper text for CSV */
+        /* CSV Helper */
         .csv-helper {
             display: flex;
             flex-wrap: wrap;
@@ -407,7 +407,7 @@
         .csv-helper .btn-load-example {
             background: transparent;
             border: 1px solid var(--border);
-            padding: 2px 12px;
+            padding: 3px 14px;
             border-radius: 40px;
             font-size: 0.65rem;
             cursor: pointer;
@@ -415,11 +415,23 @@
             font-weight: 600;
             transition: all var(--transition);
             font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
         .csv-helper .btn-load-example:hover {
             background: var(--primary);
             color: #fff;
             border-color: var(--primary);
+        }
+        .csv-helper .btn-load-example.loaded {
+            background: var(--danger);
+            color: #fff;
+            border-color: var(--danger);
+        }
+        .csv-helper .btn-load-example.loaded:hover {
+            background: #e86898;
+            border-color: #e86898;
         }
 
         /* ── Template Scroll ── */
@@ -697,19 +709,22 @@
             color: #fff;
         }
         .timer-badge.total-timer {
-            background: #f1f3f5;
-            color: var(--text-secondary);
-            padding: 6px 14px;
+            background: #1e293b;
+            color: #fff;
+            padding: 6px 16px;
             border-radius: 40px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
         }
         .timer-badge.total-timer i {
-            color: var(--primary);
+            color: var(--primary-light);
         }
         .timer-badge.total-timer.warning {
             background: var(--danger);
             color: #fff;
+            animation: pulseGlow 1.2s infinite;
         }
         .timer-badge.total-timer.warning i {
             color: #fff;
@@ -1405,6 +1420,10 @@
                 font-size: 0.85rem;
                 padding: 10px 20px;
             }
+            .timer-badge.total-timer {
+                font-size: 0.7rem;
+                padding: 4px 10px;
+            }
         }
     </style>
 </head>
@@ -1556,6 +1575,7 @@
         let currentView = 'create';
         let currentViewData = null;
         let navStack = [];
+        let exampleLoaded = false;
 
         const templates = {
             default: { bg: "#f8f9fe", cardBg: "#ffffff", accent: "#6c5ce7", text: "#2d3436", border: "#e9ecef",
@@ -1723,13 +1743,28 @@
             }
         }
 
-        // Load example
+        // ── Load / Unload Example ──
+        const EXAMPLE_DATA =
+            `What is the capital of France? ,Paris,London,Berlin,Madrid,Paris\nWho wrote Hamlet? ,Shakespeare,Dickens,Hemingway,Tolstoy,Shakespeare\nWhat is 2+2? ,3,4,5,6,4`;
+
         document.getElementById("loadExampleBtn").addEventListener('click', function() {
-            const example =
-                `What is the capital of France? ,Paris,London,Berlin,Madrid,Paris\nWho wrote Hamlet? ,Shakespeare,Dickens,Hemingway,Tolstoy,Shakespeare\nWhat is 2+2? ,3,4,5,6,4`;
-            document.getElementById("bulkTextArea").value = example;
+            const textarea = document.getElementById("bulkTextArea");
+            if (exampleLoaded) {
+                // Unload: clear the textarea
+                textarea.value = '';
+                this.innerHTML = '<i class="fas fa-file-alt"></i> Load Example';
+                this.classList.remove('loaded');
+                exampleLoaded = false;
+                showToast("Example unloaded. Add your own questions.", '');
+            } else {
+                // Load: set example data
+                textarea.value = EXAMPLE_DATA;
+                this.innerHTML = '<i class="fas fa-times"></i> Unload Example';
+                this.classList.add('loaded');
+                exampleLoaded = true;
+                showToast("Example loaded! Edit it or add your own.", 'success');
+            }
             processBulk();
-            showToast("Example loaded! You can edit it or add your own.", 'success');
         });
 
         // ================================================================
@@ -1927,6 +1962,11 @@
             document.getElementById("nextToTypeBtn").disabled = true;
             document.getElementById("enableTimerCheck").checked = timerEnabled;
             document.getElementById("timerSeconds").value = timerSeconds;
+            // Reset example button
+            const exampleBtn = document.getElementById("loadExampleBtn");
+            exampleBtn.innerHTML = '<i class="fas fa-file-alt"></i> Load Example';
+            exampleBtn.classList.remove('loaded');
+            exampleLoaded = false;
             document.querySelector(".template-item[data-template='default']")?.classList.add("active");
             document.querySelectorAll(".template-item").forEach(t => {
                 if (t.dataset.template !== "default") t.classList.remove("active");
@@ -1988,6 +2028,33 @@
         }
 
         // ================================================================
+        // TIME FORMATTING - Professional HH:MM:SS
+        // ================================================================
+        function formatTime(sec) {
+            if (sec < 0) sec = 0;
+            const h = Math.floor(sec / 3600);
+            const m = Math.floor((sec % 3600) / 60);
+            const s = sec % 60;
+            if (h > 0) {
+                return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            }
+            return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        }
+
+        // ── Human-readable time for start hero ──
+        function formatTimeHuman(sec) {
+            if (sec < 0) sec = 0;
+            const h = Math.floor(sec / 3600);
+            const m = Math.floor((sec % 3600) / 60);
+            const s = sec % 60;
+            let parts = [];
+            if (h > 0) parts.push(`${h}h`);
+            if (m > 0) parts.push(`${m}m`);
+            if (s > 0 || parts.length === 0) parts.push(`${s}s`);
+            return parts.join(' ');
+        }
+
+        // ================================================================
         // RENDER ASSESSMENT
         // ================================================================
         function renderAssessmentFromData(data, started = false) {
@@ -2008,7 +2075,7 @@
 
             container.innerHTML = '';
 
-            // Start hero
+            // Start hero - compact with human-readable time
             const totalTime = data.timerEnabled ? data.timerSeconds * data.questions.length : 0;
             const hero = document.createElement('div');
             hero.id = 'startHero';
@@ -2016,7 +2083,7 @@
             hero.innerHTML = `
                 <div class="info">
                     <span><i class="fas fa-list-ul"></i> ${data.questions.length} questions</span>
-                    ${data.timerEnabled ? `<span><i class="fas fa-clock"></i> ${totalTime}s total</span>` : '<span>∞ No timer</span>'}
+                    ${data.timerEnabled ? `<span><i class="fas fa-clock"></i> ${formatTimeHuman(totalTime)}</span>` : '<span>∞ No timer</span>'}
                 </div>
                 <button class="btn-start" id="startQuizBtn"><i class="fas fa-play"></i> Start ${data.mode === 'quiz' ? 'Quiz' : 'Mocktest'}</button>
             `;
@@ -2103,7 +2170,7 @@
             if (data.timerEnabled) {
                 const total = data.timerSeconds * questions.length;
                 timerHtml =
-                    `<div class="timer-badge" id="mockTotalTimer"><i class="fas fa-clock"></i> ${formatTime(total)}</div>`;
+                    `<div class="timer-badge total-timer" id="mockTotalTimer"><i class="fas fa-clock"></i> ${formatTime(total)}</div>`;
             }
             let html = `
                     <div style="background:${t.bg};border-radius:var(--radius);padding:0;border:1px solid ${t.border};overflow:hidden;">
@@ -2615,16 +2682,6 @@
             document.body.appendChild(modal);
             document.getElementById("closeRecapFinal").onclick = () => modal.remove();
             modal.addEventListener("click", (e) => { if (e.target === modal) modal.remove(); });
-        }
-
-        // ================================================================
-        // HELPERS
-        // ================================================================
-        function formatTime(sec) {
-            if (sec < 0) sec = 0;
-            const m = Math.floor(sec / 60);
-            const s = sec % 60;
-            return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
         }
 
         // ================================================================
