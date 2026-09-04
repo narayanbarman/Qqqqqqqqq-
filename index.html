@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" />
     <title>QuizCraft — Create, Share & Track Quizzes</title>
-    <!-- Google Fonts for Bengali and other styles -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Serif+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Google Fonts: 20 English + 5 Bengali -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@400;500;600;700&family=Oswald:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&family=Roboto+Condensed:wght@300;400;700&family=PT+Sans:wght@400;700&family=Rubik:wght@300;400;500;600;700&family=Barlow:wght@300;400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&family=Karla:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Serif+Bengali:wght@300;400;500;600;700&family=Tiro+Bangla:wght@400&family=Anek+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
@@ -31,6 +31,63 @@
         .font-inter {
             font-family: 'Inter', sans-serif;
         }
+        .font-roboto {
+            font-family: 'Roboto', sans-serif;
+        }
+        .font-open-sans {
+            font-family: 'Open Sans', sans-serif;
+        }
+        .font-lato {
+            font-family: 'Lato', sans-serif;
+        }
+        .font-montserrat {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .font-nunito {
+            font-family: 'Nunito', sans-serif;
+        }
+        .font-raleway {
+            font-family: 'Raleway', sans-serif;
+        }
+        .font-merriweather {
+            font-family: 'Merriweather', serif;
+        }
+        .font-playfair-display {
+            font-family: 'Playfair Display', serif;
+        }
+        .font-oswald {
+            font-family: 'Oswald', sans-serif;
+        }
+        .font-quicksand {
+            font-family: 'Quicksand', sans-serif;
+        }
+        .font-work-sans {
+            font-family: 'Work Sans', sans-serif;
+        }
+        .font-source-sans-pro {
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        .font-roboto-condensed {
+            font-family: 'Roboto Condensed', sans-serif;
+        }
+        .font-pt-sans {
+            font-family: 'PT Sans', sans-serif;
+        }
+        .font-rubik {
+            font-family: 'Rubik', sans-serif;
+        }
+        .font-barlow {
+            font-family: 'Barlow', sans-serif;
+        }
+        .font-fira-sans {
+            font-family: 'Fira Sans', sans-serif;
+        }
+        .font-karla {
+            font-family: 'Karla', sans-serif;
+        }
         .font-noto-sans-bengali {
             font-family: 'Noto Sans Bengali', sans-serif;
         }
@@ -40,11 +97,14 @@
         .font-noto-serif-bengali {
             font-family: 'Noto Serif Bengali', serif;
         }
+        .font-tiro-bangla {
+            font-family: 'Tiro Bangla', serif;
+        }
+        .font-anek-bengali {
+            font-family: 'Anek Bengali', sans-serif;
+        }
         /* Ensure all text elements inherit */
-        .font-inter *,
-        .font-noto-sans-bengali *,
-        .font-hind-siliguri *,
-        .font-noto-serif-bengali * {
+        [class*="font-"] * {
             font-family: inherit;
         }
 
@@ -1032,6 +1092,134 @@
         .option-row.highlight-correct {
             animation: correctHighlight 0.4s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
         }
+
+        /* ── FONT PREVIEW ── */
+        .font-preview-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-top: 8px;
+            border: 1px solid #ecedef;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .font-preview-box .preview-en {
+            font-size: 1rem;
+            color: #1e293b;
+        }
+        .font-preview-box .preview-bn {
+            font-size: 1rem;
+            color: #1e293b;
+        }
+        .font-preview-box .preview-label {
+            font-size: 0.65rem;
+            color: #5f6368;
+            font-weight: 500;
+        }
+        .font-select-wrapper {
+            position: relative;
+        }
+        .font-select-wrapper select {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235f6368' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+        .font-select-wrapper select option {
+            padding: 6px 8px;
+        }
+        /* Show font name in the dropdown */
+        .font-select-wrapper select option[value="inter"] {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-select-wrapper select option[value="roboto"] {
+            font-family: 'Roboto', sans-serif;
+        }
+        .font-select-wrapper select option[value="open-sans"] {
+            font-family: 'Open Sans', sans-serif;
+        }
+        .font-select-wrapper select option[value="lato"] {
+            font-family: 'Lato', sans-serif;
+        }
+        .font-select-wrapper select option[value="montserrat"] {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .font-select-wrapper select option[value="poppins"] {
+            font-family: 'Poppins', sans-serif;
+        }
+        .font-select-wrapper select option[value="nunito"] {
+            font-family: 'Nunito', sans-serif;
+        }
+        .font-select-wrapper select option[value="raleway"] {
+            font-family: 'Raleway', sans-serif;
+        }
+        .font-select-wrapper select option[value="merriweather"] {
+            font-family: 'Merriweather', serif;
+        }
+        .font-select-wrapper select option[value="playfair-display"] {
+            font-family: 'Playfair Display', serif;
+        }
+        .font-select-wrapper select option[value="oswald"] {
+            font-family: 'Oswald', sans-serif;
+        }
+        .font-select-wrapper select option[value="quicksand"] {
+            font-family: 'Quicksand', sans-serif;
+        }
+        .font-select-wrapper select option[value="work-sans"] {
+            font-family: 'Work Sans', sans-serif;
+        }
+        .font-select-wrapper select option[value="source-sans-pro"] {
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        .font-select-wrapper select option[value="roboto-condensed"] {
+            font-family: 'Roboto Condensed', sans-serif;
+        }
+        .font-select-wrapper select option[value="pt-sans"] {
+            font-family: 'PT Sans', sans-serif;
+        }
+        .font-select-wrapper select option[value="rubik"] {
+            font-family: 'Rubik', sans-serif;
+        }
+        .font-select-wrapper select option[value="barlow"] {
+            font-family: 'Barlow', sans-serif;
+        }
+        .font-select-wrapper select option[value="fira-sans"] {
+            font-family: 'Fira Sans', sans-serif;
+        }
+        .font-select-wrapper select option[value="karla"] {
+            font-family: 'Karla', sans-serif;
+        }
+        .font-select-wrapper select option[value="noto-sans-bengali"] {
+            font-family: 'Noto Sans Bengali', sans-serif;
+        }
+        .font-select-wrapper select option[value="hind-siliguri"] {
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+        .font-select-wrapper select option[value="noto-serif-bengali"] {
+            font-family: 'Noto Serif Bengali', serif;
+        }
+        .font-select-wrapper select option[value="tiro-bangla"] {
+            font-family: 'Tiro Bangla', serif;
+        }
+        .font-select-wrapper select option[value="anek-bengali"] {
+            font-family: 'Anek Bengali', sans-serif;
+        }
+        /* Group labels in select */
+        .font-select-wrapper select optgroup {
+            font-weight: 600;
+            color: #1a73e8;
+            background: #f8f9fa;
+        }
+        .font-select-wrapper select optgroup option {
+            font-weight: 400;
+            color: #1e293b;
+            padding-left: 12px;
+        }
     </style>
 </head>
 <body>
@@ -1102,15 +1290,48 @@
                 </div>
                 <small style="color:#5f6368;font-size:0.65rem;">Total time = seconds × questions.</small>
             </div>
-            <!-- Font selector - rich options -->
+            <!-- Font selector with preview -->
             <div style="background:#f8f9fa;border-radius:16px;padding:12px;margin:10px 0;">
                 <label style="font-size:0.8rem;font-weight:600;color:#5f6368;display:block;margin-bottom:4px;"><i class="fas fa-font"></i> Font Style</label>
-                <select id="fontSelector" style="width:100%;padding:8px 12px;border-radius:60px;border:1px solid #dadce0;font-size:0.85rem;background:white;font-family:'Inter',sans-serif;">
-                    <option value="inter">Inter (Default)</option>
-                    <option value="noto-sans-bengali">Noto Sans Bengali</option>
-                    <option value="hind-siliguri">Hind Siliguri (Bengali)</option>
-                    <option value="noto-serif-bengali">Noto Serif Bengali</option>
-                </select>
+                <div class="font-select-wrapper">
+                    <select id="fontSelector" style="width:100%;padding:8px 12px;border-radius:60px;border:1px solid #dadce0;font-size:0.85rem;background:white;font-family:'Inter',sans-serif;">
+                        <optgroup label="English Fonts">
+                            <option value="inter">Inter</option>
+                            <option value="roboto">Roboto</option>
+                            <option value="open-sans">Open Sans</option>
+                            <option value="lato">Lato</option>
+                            <option value="montserrat">Montserrat</option>
+                            <option value="poppins">Poppins</option>
+                            <option value="nunito">Nunito</option>
+                            <option value="raleway">Raleway</option>
+                            <option value="merriweather">Merriweather</option>
+                            <option value="playfair-display">Playfair Display</option>
+                            <option value="oswald">Oswald</option>
+                            <option value="quicksand">Quicksand</option>
+                            <option value="work-sans">Work Sans</option>
+                            <option value="source-sans-pro">Source Sans Pro</option>
+                            <option value="roboto-condensed">Roboto Condensed</option>
+                            <option value="pt-sans">PT Sans</option>
+                            <option value="rubik">Rubik</option>
+                            <option value="barlow">Barlow</option>
+                            <option value="fira-sans">Fira Sans</option>
+                            <option value="karla">Karla</option>
+                        </optgroup>
+                        <optgroup label="Bengali Fonts">
+                            <option value="noto-sans-bengali">Noto Sans Bengali</option>
+                            <option value="hind-siliguri">Hind Siliguri</option>
+                            <option value="noto-serif-bengali">Noto Serif Bengali</option>
+                            <option value="tiro-bangla">Tiro Bangla</option>
+                            <option value="anek-bengali">Anek Bengali</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <!-- Live Preview -->
+                <div class="font-preview-box" id="fontPreviewBox">
+                    <div class="preview-label">Preview</div>
+                    <div class="preview-en" id="fontPreviewEn">The quick brown fox jumps over the lazy dog.</div>
+                    <div class="preview-bn" id="fontPreviewBn">সব মানুষ স্বাধীনভাবে সমান মর্যাদা ও অধিকার নিয়ে জন্মগ্রহণ করে।</div>
+                </div>
             </div>
             <button id="finalCreateBtn" class="btn btn-success btn-block"><i class="fas fa-check-circle"></i> Create Assessment</button>
             <button id="backFromTypeBtn" class="btn btn-outline btn-block mt-2"><i class="fas fa-arrow-left"></i> Back</button>
@@ -1174,9 +1395,38 @@
         let isQuizStarted = false;
         let playerAnswers = [];
         let quizResults = null;
-        let currentView = 'create'; // default to create page
+        let currentView = 'create';
         let currentViewData = null;
         let selectedFont = 'inter';
+
+        // Map font values to CSS class names
+        const fontClassMap = {
+            'inter': 'font-inter',
+            'roboto': 'font-roboto',
+            'open-sans': 'font-open-sans',
+            'lato': 'font-lato',
+            'montserrat': 'font-montserrat',
+            'poppins': 'font-poppins',
+            'nunito': 'font-nunito',
+            'raleway': 'font-raleway',
+            'merriweather': 'font-merriweather',
+            'playfair-display': 'font-playfair-display',
+            'oswald': 'font-oswald',
+            'quicksand': 'font-quicksand',
+            'work-sans': 'font-work-sans',
+            'source-sans-pro': 'font-source-sans-pro',
+            'roboto-condensed': 'font-roboto-condensed',
+            'pt-sans': 'font-pt-sans',
+            'rubik': 'font-rubik',
+            'barlow': 'font-barlow',
+            'fira-sans': 'font-fira-sans',
+            'karla': 'font-karla',
+            'noto-sans-bengali': 'font-noto-sans-bengali',
+            'hind-siliguri': 'font-hind-siliguri',
+            'noto-serif-bengali': 'font-noto-serif-bengali',
+            'tiro-bangla': 'font-tiro-bangla',
+            'anek-bengali': 'font-anek-bengali'
+        };
 
         const templates = {
             default: { bg: "#f0f2f5", cardBg: "#ffffff", accent: "#1a73e8", text: "#202124", border: "#ecedef",
@@ -1390,12 +1640,11 @@
         }
 
         // ================================================================
-        // NAVIGATION - handles back button
+        // NAVIGATION
         // ================================================================
         let navStack = [];
 
         function navigateTo(view, data) {
-            // Add current state to stack before navigating
             if (currentView && view !== currentView) {
                 navStack.push({ view: currentView, data: currentViewData });
             }
@@ -1421,18 +1670,15 @@
             }
         }
 
-        // Handle back button
         window.addEventListener('popstate', function(e) {
             if (navStack.length > 0) {
                 const prev = navStack.pop();
                 navigateTo(prev.view, prev.data);
             } else {
-                // If stack empty, go to create (home)
                 navigateTo('create');
             }
         });
 
-        // Override pushState to avoid duplicate stack entries
         function pushState(view, data) {
             if (window.history && window.history.pushState) {
                 window.history.pushState({ view, data }, '');
@@ -1547,6 +1793,8 @@
             document.getElementById("enableTimerCheck").checked = timerEnabled;
             document.getElementById("timerSeconds").value = timerSeconds;
             document.getElementById("fontSelector").value = selectedFont || 'inter';
+            // Update font preview
+            updateFontPreview(selectedFont || 'inter');
             document.querySelector(".template-item[data-template='default']")?.classList.add("active");
             document.querySelectorAll(".template-item").forEach(t => {
                 if (t.dataset.template !== "default") t.classList.remove("active");
@@ -1558,6 +1806,16 @@
             currentMode = "quiz";
             processBulk();
             pushState('create', null);
+        }
+
+        function updateFontPreview(fontValue) {
+            const previewEn = document.getElementById('fontPreviewEn');
+            const previewBn = document.getElementById('fontPreviewBn');
+            if (previewEn) {
+                const fontClass = fontClassMap[fontValue] || 'font-inter';
+                previewEn.className = 'preview-en ' + fontClass;
+                previewBn.className = 'preview-bn ' + fontClass;
+            }
         }
 
         function showShareView() {
@@ -1625,13 +1883,7 @@
             wrapper.id = 'quizContainerWrapper';
             wrapper.className = 'quiz-container' + (started ? ' enabled' : ' disabled');
             // Apply font class to wrapper
-            const fontMap = {
-                'inter': 'font-inter',
-                'noto-sans-bengali': 'font-noto-sans-bengali',
-                'hind-siliguri': 'font-hind-siliguri',
-                'noto-serif-bengali': 'font-noto-serif-bengali'
-            };
-            const fontClass = fontMap[data.font] || 'font-inter';
+            const fontClass = fontClassMap[data.font] || 'font-inter';
             wrapper.classList.add(fontClass);
 
             wrapper.innerHTML = contentHtml;
@@ -1759,7 +2011,7 @@
         }
 
         // ================================================================
-        // QUIZ EVENTS - No auto-advance; user clicks Next
+        // QUIZ EVENTS
         // ================================================================
         function attachQuizEvents(data, t) {
             const questions = data.questions;
@@ -1850,7 +2102,6 @@
 
                             updateBookletState(idx, true);
                             updateProgress();
-                            // No auto-advance - user must click Next
                         });
                     }
                     optsDiv.appendChild(optDiv);
@@ -1892,7 +2143,6 @@
                 });
                 if (answeredCount === questions.length && isQuizActive) {
                     // All answered, but wait for user to press Next on last question
-                    // No auto-submit
                 }
             }
 
@@ -1901,7 +2151,6 @@
                 if (currentIdx < questions.length - 1) {
                     showSlide(currentIdx + 1);
                 } else {
-                    // Last question: submit if all answered or ask confirmation
                     if (isQuizActive) {
                         const unanswered = answersLocal.filter(a => a === null).length;
                         if (unanswered > 0) {
@@ -1920,7 +2169,7 @@
         }
 
         // ================================================================
-        // MOCK EVENTS (changeable radios)
+        // MOCK EVENTS
         // ================================================================
         function attachMockEvents(data, t) {
             const questions = data.questions;
@@ -1998,7 +2247,7 @@
                         updateMockProgress();
 
                         if (answersLocal.filter(a => a !== null).length === questions.length) {
-                            // All answered, but no auto-submit; user must click Submit
+                            // All answered, but user must click Submit
                         }
                     });
 
@@ -2324,7 +2573,6 @@
                             renderAssessmentFromData(data);
                         }
                     }
-                    // pushState handled inside showPlayView
                 } else if (tab === "share") {
                     const url = `${window.location.origin}${window.location.pathname}?q=${currentShortId}`;
                     document.getElementById("shareLinkInput").value = url;
@@ -2412,6 +2660,7 @@
 
         document.getElementById("fontSelector").onchange = function() {
             selectedFont = this.value;
+            updateFontPreview(selectedFont);
             saveState();
         };
 
@@ -2544,7 +2793,6 @@
                     showDashboardView();
                     return;
                 }
-                // Default: show create page
                 showCreateView();
             }
 
