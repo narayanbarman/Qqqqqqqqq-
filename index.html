@@ -22,7 +22,7 @@
             --primary-dark: #5a4bd1;
             --primary-light: #a29bfe;
             --success: #00b894;
-            --danger: #fd79a8; /* kept for critical actions, but not used in feedback */
+            --danger: #fd79a8;
             --warning: #fdcb6e;
             --bg: #f8f9fe;
             --card: #ffffff;
@@ -202,19 +202,19 @@
                 transform: translateX(0) scale(1);
             }
             15% {
-                transform: translateX(-6px) scale(0.98);
+                transform: translateX(-8px) scale(0.97);
             }
             30% {
-                transform: translateX(6px) scale(0.98);
+                transform: translateX(8px) scale(0.97);
             }
             45% {
-                transform: translateX(-4px) scale(0.98);
+                transform: translateX(-5px) scale(0.97);
             }
             60% {
-                transform: translateX(4px) scale(0.98);
+                transform: translateX(5px) scale(0.97);
             }
             80% {
-                transform: translateX(-2px) scale(0.98);
+                transform: translateX(-2px) scale(0.97);
             }
         }
         @keyframes checkmark {
@@ -459,13 +459,13 @@
             border-color: var(--primary);
         }
         .csv-helper .btn-load-example.loaded {
-            background: #e86898;
+            background: var(--danger);
             color: #fff;
-            border-color: #e86898;
+            border-color: var(--danger);
         }
         .csv-helper .btn-load-example.loaded:hover {
-            background: #d0537e;
-            border-color: #d0537e;
+            background: #e86898;
+            border-color: #e86898;
         }
 
         /* ── Template Scroll ── */
@@ -545,7 +545,7 @@
             }
         }
 
-        /* ── Options (no red by default, only green for correct, and a subtle shake for wrong) ── */
+        /* ── Options ── */
         .option-row {
             background: #fafbff;
             border-radius: 60px;
@@ -581,7 +581,6 @@
             flex-shrink: 0;
             transition: all var(--transition);
         }
-        /* Correct feedback: green */
         .option-row.correct-feedback {
             background: #e6f9f1 !important;
             border-color: var(--success) !important;
@@ -602,28 +601,25 @@
             font-size: 1.1rem;
             animation: checkmark 0.4s ease;
         }
-        /* Wrong feedback: no red border, just a subtle shake and a neutral icon */
         .option-row.wrong-feedback {
-            background: #f8f9fa !important;
-            border-color: #d1d5db !important;
-            transform: scale(0.98);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            animation: wrongShake 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            background: #fde8ef !important;
+            border-color: var(--danger) !important;
+            box-shadow: 0 4px 16px rgba(253, 121, 168, 0.2);
+            animation: wrongShake 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
         .option-row.wrong-feedback .opt-letter {
-            background: #d1d5db;
+            background: var(--danger);
             color: #fff;
         }
         .option-row.wrong-feedback::after {
             content: "✗";
             position: absolute;
             right: 16px;
-            color: #9ca3af;
+            color: var(--danger);
             font-weight: 700;
             font-size: 1.1rem;
             animation: checkmark 0.4s ease;
         }
-        /* Highlight correct answer (when user picked wrong) – green */
         .option-row.highlight-correct {
             background: #e6f9f1 !important;
             border-color: var(--success) !important;
@@ -749,12 +745,12 @@
             color: var(--primary);
         }
         .timer-badge.warning {
-            background: #fef3c7;
-            color: #92400e;
+            background: var(--danger);
+            color: #fff;
             animation: pulseGlow 1.2s infinite;
         }
         .timer-badge.warning i {
-            color: #92400e;
+            color: #fff;
         }
         .timer-badge.total-timer {
             background: #1e293b;
@@ -770,12 +766,12 @@
             color: var(--primary-light);
         }
         .timer-badge.total-timer.warning {
-            background: #fef3c7;
-            color: #92400e;
+            background: var(--danger);
+            color: #fff;
             animation: pulseGlow 1.2s infinite;
         }
         .timer-badge.total-timer.warning i {
-            color: #92400e;
+            color: #fff;
         }
 
         /* ── Modal ── */
@@ -844,8 +840,8 @@
             border-left-color: var(--success);
         }
         .recap-item.wrong-recap {
-            background: #f1f3f5;
-            border-left-color: #d1d5db;
+            background: #fde8ef;
+            border-left-color: var(--danger);
         }
         .recap-item.unanswered-recap {
             background: #f1f3f5;
@@ -971,8 +967,8 @@
             color: #fdcb6e;
         }
         .attempt-item .score-badge.low {
-            background: #f1f3f5;
-            color: #9ca3af;
+            background: #fde8ef;
+            color: var(--danger);
         }
 
         /* ── Tab Bar ── */
@@ -1207,88 +1203,31 @@
             color: var(--primary);
         }
 
-        /* ── Start Hero ── */
-        .start-hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-            background: linear-gradient(135deg, #fafbff, #f1f3ff);
-            border-radius: 60px;
-            padding: 8px 16px;
-            margin-bottom: 14px;
-            border: 1px solid var(--border);
-            box-shadow: 0 2px 8px rgba(108, 92, 231, 0.06);
+        /* ── Start Button (Simplified) ── */
+        .start-btn-wrapper {
+            text-align: center;
+            padding: 12px 0 8px;
+            margin-bottom: 10px;
         }
-        .start-hero .info {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text);
-            flex-wrap: wrap;
-        }
-        .start-hero .info span {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .start-hero .info i {
-            color: var(--primary);
-        }
-        .start-hero .btn-start {
-            padding: 8px 28px;
-            border-radius: 60px;
+        .start-btn-wrapper .btn-start-simple {
             background: var(--primary);
             color: #fff;
             border: none;
+            padding: 12px 40px;
+            border-radius: 60px;
             font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
             transition: all var(--transition);
             box-shadow: 0 4px 20px rgba(108, 92, 231, 0.3);
-            font-size: 0.9rem;
             font-family: 'Inter', sans-serif;
-            white-space: nowrap;
         }
-        .start-hero .btn-start:hover {
-            transform: translateY(-2px) scale(1.02);
+        .start-btn-wrapper .btn-start-simple:hover {
+            transform: translateY(-2px);
             box-shadow: 0 8px 32px rgba(108, 92, 231, 0.4);
         }
-        .start-hero .btn-start:active {
+        .start-btn-wrapper .btn-start-simple:active {
             transform: scale(0.96);
-        }
-        @media (max-width: 480px) {
-            .start-hero {
-                flex-direction: column;
-                align-items: stretch;
-                border-radius: 20px;
-                padding: 12px 14px;
-            }
-            .start-hero .info {
-                justify-content: center;
-                font-size: 0.8rem;
-                gap: 8px;
-            }
-            .start-hero .btn-start {
-                text-align: center;
-                padding: 10px 16px;
-            }
-        }
-        @media (min-width: 768px) {
-            .start-hero {
-                padding: 12px 24px;
-                border-radius: 80px;
-            }
-            .start-hero .info {
-                font-size: 1rem;
-                gap: 20px;
-            }
-            .start-hero .btn-start {
-                padding: 12px 40px;
-                font-size: 1rem;
-            }
         }
 
         .quiz-container.disabled {
@@ -1356,7 +1295,7 @@
             background: var(--success);
         }
         .toast.error {
-            background: #e86898;
+            background: var(--danger);
         }
 
         .mt-2 {
@@ -1481,9 +1420,6 @@
             .modal-card {
                 padding: 20px 16px;
             }
-            .start-hero .info {
-                font-size: 0.75rem;
-            }
             .stat-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -1502,6 +1438,10 @@
                 font-size: 0.7rem;
                 padding: 4px 10px;
             }
+            .start-btn-wrapper .btn-start-simple {
+                font-size: 0.9rem;
+                padding: 10px 28px;
+            }
         }
         @media (min-width: 768px) {
             .quiz-footer .submit-row .btn-submit {
@@ -1517,6 +1457,10 @@
             .timer-badge.total-timer {
                 font-size: 1rem;
                 padding: 8px 20px;
+            }
+            .start-btn-wrapper .btn-start-simple {
+                font-size: 1.2rem;
+                padding: 14px 48px;
             }
         }
     </style>
@@ -1818,7 +1762,7 @@
             const raw = document.getElementById("bulkTextArea").value;
             const { questions, errors } = parseBulkToQuestions(raw);
             const errDiv = document.getElementById("validationErrors");
-            errDiv.innerHTML = errors.map(e => `<div style="background:#fde8ef;border-left:4px solid #e86898;padding:6px 12px;border-radius:10px;margin:4px 0;font-size:0.7rem;">⚠️ ${e}</div>`)
+            errDiv.innerHTML = errors.map(e => `<div style="background:#fde8ef;border-left:4px solid var(--danger);padding:6px 12px;border-radius:10px;margin:4px 0;font-size:0.7rem;">⚠️ ${e}</div>`)
                 .join('');
             if (questions.length) {
                 questionsBank = questions;
@@ -2008,10 +1952,10 @@
                             <div class="ql-stats">
                                 <span><i class="fas fa-users"></i> ${total}</span>
                                 <span><i class="fas fa-star"></i> ${avg || '-'}</span>
-                                <span style="background:${total && pass/total >= 0.6 ? '#e6f9f1' : '#f1f3f5'};">
+                                <span style="background:${total && pass/total >= 0.6 ? '#e6f9f1' : '#fde8ef'};">
                                     ${total ? Math.round((pass/total)*100)+'%' : '—'}
                                 </span>
-                                <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();deleteQuiz('${id}')" style="color:#9ca3af;border-color:#f1f3f5;padding:2px 10px;font-size:0.65rem;">
+                                <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();deleteQuiz('${id}')" style="color:var(--danger);border-color:#fde8ef;padding:2px 10px;font-size:0.65rem;">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -2119,7 +2063,7 @@
         }
 
         // ================================================================
-        // TIME FORMATTING - Professional HH:MM:SS
+        // TIME FORMATTING
         // ================================================================
         function formatTime(sec) {
             if (sec < 0) sec = 0;
@@ -2165,18 +2109,14 @@
 
             container.innerHTML = '';
 
-            const totalTime = data.timerEnabled ? data.timerSeconds * data.questions.length : 0;
-            const hero = document.createElement('div');
-            hero.id = 'startHero';
-            hero.className = 'start-hero animate-in';
-            hero.innerHTML = `
-                <div class="info">
-                    <span><i class="fas fa-list-ul"></i> ${data.questions.length} questions</span>
-                    ${data.timerEnabled ? `<span><i class="fas fa-clock"></i> ${formatTimeHuman(totalTime)}</span>` : '<span>∞ No timer</span>'}
-                </div>
-                <button class="btn-start" id="startQuizBtn"><i class="fas fa-play"></i> Start ${data.mode === 'quiz' ? 'Quiz' : 'Mocktest'}</button>
+            // ── Simplified Start Button ──
+            const startWrapper = document.createElement('div');
+            startWrapper.className = 'start-btn-wrapper';
+            startWrapper.id = 'startWrapper';
+            startWrapper.innerHTML = `
+                <button class="btn-start-simple" id="startQuizBtn">Start ${data.mode === 'quiz' ? 'Quiz' : 'Mocktest'}</button>
             `;
-            container.appendChild(hero);
+            container.appendChild(startWrapper);
 
             container.appendChild(wrapper);
 
@@ -2186,17 +2126,13 @@
                 attachMockEvents(data, t);
             }
 
+            // Start button listener
             const startBtn = document.getElementById('startQuizBtn');
             if (startBtn) {
                 startBtn.addEventListener('click', () => {
-                    const heroEl = document.getElementById('startHero');
-                    if (heroEl) {
-                        heroEl.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                        heroEl.style.opacity = '0';
-                        heroEl.style.transform = 'translateY(-20px)';
-                        setTimeout(() => heroEl.remove(), 300);
-                    }
                     const wrapperEl = document.getElementById('quizContainerWrapper');
+                    const startWrapperEl = document.getElementById('startWrapper');
+                    if (startWrapperEl) startWrapperEl.style.display = 'none';
                     if (wrapperEl) {
                         wrapperEl.classList.remove('disabled');
                         wrapperEl.classList.add('enabled');
@@ -2426,6 +2362,7 @@
                 });
             }
 
+            // Submit button
             const submitBtn = document.getElementById("submitQuizBtn");
             if (submitBtn) {
                 submitBtn.addEventListener('click', function() {
@@ -2445,6 +2382,7 @@
                 });
             }
 
+            // Navigation buttons
             document.getElementById("quizPrevBtn").onclick = () => { if (currentIdx > 0) showSlide(currentIdx - 1); };
             document.getElementById("quizNextBtn").onclick = () => {
                 if (currentIdx < questions.length - 1) {
@@ -2625,8 +2563,8 @@
             modal.className = "modal-overlay active time-over-modal";
             modal.innerHTML = `
                     <div class="modal-card">
-                        <span class="big-icon"><i class="fas fa-hourglass-end" style="color:#e86898;"></i></span>
-                        <h2 style="color:#e86898;">Time's Over!</h2>
+                        <span class="big-icon"><i class="fas fa-hourglass-end" style="color:var(--danger);"></i></span>
+                        <h2 style="color:var(--danger);">Time's Over!</h2>
                         <p>You ran out of time. Let's see your results.</p>
                         <div style="background:#fafbff;border-radius:var(--radius-sm);padding:10px;margin-bottom:12px;">
                             <div style="display:flex;justify-content:space-between;font-size:0.85rem;">
@@ -2635,7 +2573,7 @@
                             </div>
                             <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-top:3px;">
                                 <span>Unanswered:</span>
-                                <strong style="color:#e86898;">${answers.filter(a=>a===null).length}</strong>
+                                <strong style="color:var(--danger);">${answers.filter(a=>a===null).length}</strong>
                             </div>
                         </div>
                         <button class="btn btn-primary btn-block" id="showResultsFromTimeBtn" style="justify-content:center;">
@@ -2710,7 +2648,7 @@
                                 ${percent}<span style="font-size:0.7rem;color:var(--text-secondary);">%</span>
                             </div>
                         </div>
-                        ${unanswered > 0 ? `<p style="font-size:0.8rem;color:#e86898;">⚠️ ${unanswered} unanswered</p>` : ''}
+                        ${unanswered > 0 ? `<p style="font-size:0.8rem;color:var(--danger);">⚠️ ${unanswered} unanswered</p>` : ''}
                         <div class="flex-between" style="gap:6px;margin-top:12px;">
                             <button id="recapBtn" class="btn btn-outline btn-sm"><i class="fas fa-list-ul"></i> Recap</button>
                             <button id="closeScoreBtn" class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Done</button>
@@ -2725,7 +2663,7 @@
                 data: {
                     labels: ['Correct', 'Wrong', 'Unanswered'],
                     datasets: [{ data: [score, total - score - unanswered, unanswered], backgroundColor: [
-                            '#00b894', '#d1d5db', '#b2bec3'
+                            '#00b894', '#fd79a8', '#b2bec3'
                         ], borderWidth: 0, cutout: '68%' }]
                 },
                 options: { responsive: true, plugins: { legend: { display: false } } }
@@ -2887,7 +2825,6 @@
             else reader.readAsText(file);
         };
 
-        // Drag and drop support
         const dropzone = document.getElementById('dropzone');
         if (dropzone) {
             dropzone.addEventListener('dragover', (e) => {
