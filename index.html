@@ -11,7 +11,7 @@
     <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js">
     </script>
     <style>
-        /* ── Same styles as before ── */
+        /* ── Reset & Base ── */
         * {
             margin: 0;
             padding: 0;
@@ -1376,10 +1376,6 @@
             return false;
         }
 
-        function clearState() {
-            localStorage.removeItem('quizCraftState');
-        }
-
         // ================================================================
         // NAVIGATION
         // ================================================================
@@ -1491,10 +1487,6 @@
 
             container.innerHTML = html;
         }
-
-        window.openQuiz = function(id) {
-            navigateTo('play', { id });
-        };
 
         window.deleteQuiz = function(id) {
             if (!confirm("Delete this quiz and all its data?")) return;
@@ -1617,6 +1609,7 @@
                 attachMockEvents(data, t);
             }
 
+            // Start button listener
             if (!started) {
                 const startBtn = document.getElementById('startQuizBtn');
                 if (startBtn) {
@@ -1632,6 +1625,7 @@
                         if (wrapperEl) {
                             wrapperEl.classList.remove('disabled');
                             wrapperEl.classList.add('enabled');
+                            // Re-enable interactive elements
                             wrapperEl.querySelectorAll('.option-row, .mock-option').forEach(el => {
                                 el.style.pointerEvents = 'auto';
                                 el.style.opacity = '1';
@@ -1807,6 +1801,7 @@
                                 this.classList.add('correct-feedback');
                             } else {
                                 this.classList.add('wrong-feedback');
+                                // Highlight the correct option
                                 allOpts.forEach(o => {
                                     if (o.innerText.trim() === q.correct) {
                                         o.classList.add('highlight-correct');
@@ -2494,7 +2489,6 @@
 
             const hasShared = resolveSharedQuiz();
             if (!hasShared) {
-                // Restore state or go to dashboard
                 const restored = restoreState();
                 if (restored && currentView === 'play' && currentShortId) {
                     const data = getQuizData(currentShortId);
@@ -2529,12 +2523,10 @@
             processBulk();
         };
 
-        // Handle page refresh - keep state
         window.addEventListener('beforeunload', function() {
             saveState();
         });
 
-        // Expose navigation for inline onclick
         window.navigateTo = navigateTo;
         window.showCreateView = showCreateView;
         window.showDashboardView = showDashboardView;
