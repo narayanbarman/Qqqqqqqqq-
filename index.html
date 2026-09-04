@@ -45,7 +45,6 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-        /* ── Scrollbar ── */
         ::-webkit-scrollbar {
             width: 5px;
             height: 5px;
@@ -84,24 +83,6 @@
                 transform: translateY(0) scale(1);
             }
         }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-12px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
         @keyframes pulseGlow {
             0%,
             100% {
@@ -118,14 +99,6 @@
             }
             50% {
                 transform: translateY(-6px);
-            }
-        }
-        @keyframes shimmer {
-            0% {
-                background-position: -200% 0;
-            }
-            100% {
-                background-position: 200% 0;
             }
         }
         @keyframes correctPop {
@@ -173,22 +146,6 @@
 
         .animate-in {
             animation: fadeInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        .animate-in-delay-1 {
-            animation-delay: 0.08s;
-            opacity: 0;
-        }
-        .animate-in-delay-2 {
-            animation-delay: 0.15s;
-            opacity: 0;
-        }
-        .animate-in-delay-3 {
-            animation-delay: 0.22s;
-            opacity: 0;
-        }
-        .animate-in-delay-4 {
-            animation-delay: 0.30s;
-            opacity: 0;
         }
 
         /* ── Card ── */
@@ -265,15 +222,6 @@
         .btn-success:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 28px rgba(0, 184, 148, 0.4);
-        }
-        .btn-danger {
-            background: var(--danger);
-            color: #fff;
-            box-shadow: 0 4px 16px rgba(253, 121, 168, 0.3);
-        }
-        .btn-danger:hover {
-            background: #e86898;
-            transform: translateY(-2px);
         }
         .btn-outline {
             background: transparent;
@@ -990,7 +938,6 @@
             pointer-events: none;
         }
 
-        /* ── MOCK HEADER REDESIGN ── */
         .mock-header-sticky {
             position: sticky;
             top: 0;
@@ -1041,20 +988,6 @@
             align-items: center;
             gap: 10px;
             flex-wrap: wrap;
-        }
-        .mock-header-actions .timer-badge {
-            background: #f1f3f5;
-            color: var(--text-secondary);
-            padding: 6px 14px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .mock-header-actions .timer-badge i {
-            color: var(--primary);
         }
         .mock-header-actions .btn-success {
             background: linear-gradient(135deg, var(--success), #00a381);
@@ -1298,6 +1231,52 @@
             border-color: var(--primary);
         }
 
+        /* ── Quiz Footer Submit Button ── */
+        .quiz-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .quiz-footer .nav-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+        .quiz-footer .submit-row {
+            display: flex;
+            justify-content: center;
+        }
+        .quiz-footer .submit-row .btn-submit {
+            background: linear-gradient(135deg, var(--success), #00a381);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(0, 184, 148, 0.3);
+            padding: 12px 32px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-radius: 60px;
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Inter', sans-serif;
+            width: 100%;
+            justify-content: center;
+        }
+        .quiz-footer .submit-row .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 184, 148, 0.4);
+        }
+        .quiz-footer .submit-row .btn-submit:active {
+            transform: scale(0.96);
+        }
+        .quiz-footer .submit-row .btn-submit i {
+            font-size: 1.1rem;
+        }
+
         /* ── Responsive fine-tune ── */
         @media (max-width: 480px) {
             .app-full {
@@ -1326,13 +1305,13 @@
             .mock-header-actions {
                 gap: 6px;
             }
-            .mock-header-actions .timer-badge {
-                font-size: 0.7rem;
-                padding: 4px 10px;
-            }
             .mock-header-actions .btn-success {
                 font-size: 0.7rem;
                 padding: 6px 12px;
+            }
+            .quiz-footer .submit-row .btn-submit {
+                font-size: 0.85rem;
+                padding: 10px 20px;
             }
         }
     </style>
@@ -1993,10 +1972,15 @@
                         <div class="booklet-wrap"><div class="booklet" id="quizBookNav"></div></div>
                         <div id="quizSlides"></div>
                         <div class="progress-bar"><div id="quizProgressFill" class="progress-fill"></div></div>
-                        <div class="flex-between" style="margin-top:12px;">
-                            <button id="quizPrevBtn" class="btn btn-outline btn-sm"><i class="fas fa-chevron-left"></i> Prev</button>
-                            <span id="quizCounter" style="font-size:0.75rem;color:var(--text-secondary);">1 / ${questions.length}</span>
-                            <button id="quizNextBtn" class="btn btn-primary btn-sm">Next <i class="fas fa-chevron-right"></i></button>
+                        <div class="quiz-footer">
+                            <div class="nav-row">
+                                <button id="quizPrevBtn" class="btn btn-outline btn-sm"><i class="fas fa-chevron-left"></i> Prev</button>
+                                <span id="quizCounter" style="font-size:0.75rem;color:var(--text-secondary);">1 / ${questions.length}</span>
+                                <button id="quizNextBtn" class="btn btn-primary btn-sm">Next <i class="fas fa-chevron-right"></i></button>
+                            </div>
+                            <div class="submit-row">
+                                <button id="submitQuizBtn" class="btn-submit"><i class="fas fa-check-double"></i> Submit Quiz</button>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -2177,21 +2161,36 @@
                 });
             }
 
-            document.getElementById("quizPrevBtn").onclick = () => { if (currentIdx > 0) showSlide(currentIdx - 1); };
-            document.getElementById("quizNextBtn").onclick = () => {
-                if (currentIdx < questions.length - 1) {
-                    showSlide(currentIdx + 1);
-                } else {
+            // Submit button
+            const submitBtn = document.getElementById("submitQuizBtn");
+            if (submitBtn) {
+                submitBtn.addEventListener('click', function() {
                     if (isQuizActive) {
                         const unanswered = answersLocal.filter(a => a === null).length;
                         if (unanswered > 0) {
-                            if (!confirm(`You have ${unanswered} unanswered question(s). Submit anyway?`)) return;
+                            if (!confirm(`You have ${unanswered} unanswered question(s). Submit anyway?`))
+                            return;
                         }
                         isQuizActive = false;
                         if (timerInterval) { clearInterval(timerInterval);
                             timerInterval = null; }
                         submitQuiz(data, answersLocal);
+                    } else {
+                        showToast("Quiz already submitted", 'error');
                     }
+                });
+            }
+
+            // Navigation buttons
+            document.getElementById("quizPrevBtn").onclick = () => { if (currentIdx > 0) showSlide(currentIdx - 1); };
+            document.getElementById("quizNextBtn").onclick = () => {
+                if (currentIdx < questions.length - 1) {
+                    showSlide(currentIdx + 1);
+                } else {
+                    // If on last question, Next button triggers submit (optional)
+                    // We'll keep it as a convenience but also have the submit button.
+                    // Just show a hint.
+                    showToast("You're on the last question. Press Submit to finish.", '');
                 }
             };
 
