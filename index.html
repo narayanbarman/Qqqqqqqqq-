@@ -1203,31 +1203,88 @@
             color: var(--primary);
         }
 
-        /* ── Start Button (Simplified) ── */
-        .start-btn-wrapper {
-            text-align: center;
-            padding: 12px 0 8px;
-            margin-bottom: 10px;
+        /* ── Start Hero ── */
+        .start-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            background: linear-gradient(135deg, #fafbff, #f1f3ff);
+            border-radius: 60px;
+            padding: 8px 16px;
+            margin-bottom: 14px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(108, 92, 231, 0.06);
         }
-        .start-btn-wrapper .btn-start-simple {
+        .start-hero .info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text);
+            flex-wrap: wrap;
+        }
+        .start-hero .info span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .start-hero .info i {
+            color: var(--primary);
+        }
+        .start-hero .btn-start {
+            padding: 8px 28px;
+            border-radius: 60px;
             background: var(--primary);
             color: #fff;
             border: none;
-            padding: 12px 40px;
-            border-radius: 60px;
             font-weight: 700;
-            font-size: 1rem;
             cursor: pointer;
             transition: all var(--transition);
             box-shadow: 0 4px 20px rgba(108, 92, 231, 0.3);
+            font-size: 0.9rem;
             font-family: 'Inter', sans-serif;
+            white-space: nowrap;
         }
-        .start-btn-wrapper .btn-start-simple:hover {
-            transform: translateY(-2px);
+        .start-hero .btn-start:hover {
+            transform: translateY(-2px) scale(1.02);
             box-shadow: 0 8px 32px rgba(108, 92, 231, 0.4);
         }
-        .start-btn-wrapper .btn-start-simple:active {
+        .start-hero .btn-start:active {
             transform: scale(0.96);
+        }
+        @media (max-width: 480px) {
+            .start-hero {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: 20px;
+                padding: 12px 14px;
+            }
+            .start-hero .info {
+                justify-content: center;
+                font-size: 0.8rem;
+                gap: 8px;
+            }
+            .start-hero .btn-start {
+                text-align: center;
+                padding: 10px 16px;
+            }
+        }
+        @media (min-width: 768px) {
+            .start-hero {
+                padding: 12px 24px;
+                border-radius: 80px;
+            }
+            .start-hero .info {
+                font-size: 1rem;
+                gap: 20px;
+            }
+            .start-hero .btn-start {
+                padding: 12px 40px;
+                font-size: 1rem;
+            }
         }
 
         .quiz-container.disabled {
@@ -1420,6 +1477,9 @@
             .modal-card {
                 padding: 20px 16px;
             }
+            .start-hero .info {
+                font-size: 0.75rem;
+            }
             .stat-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -1438,10 +1498,6 @@
                 font-size: 0.7rem;
                 padding: 4px 10px;
             }
-            .start-btn-wrapper .btn-start-simple {
-                font-size: 0.9rem;
-                padding: 10px 28px;
-            }
         }
         @media (min-width: 768px) {
             .quiz-footer .submit-row .btn-submit {
@@ -1457,10 +1513,6 @@
             .timer-badge.total-timer {
                 font-size: 1rem;
                 padding: 8px 20px;
-            }
-            .start-btn-wrapper .btn-start-simple {
-                font-size: 1.2rem;
-                padding: 14px 48px;
             }
         }
     </style>
@@ -1788,12 +1840,14 @@
         document.getElementById("loadExampleBtn").addEventListener('click', function() {
             const textarea = document.getElementById("bulkTextArea");
             if (exampleLoaded) {
+                // Unload: clear the textarea
                 textarea.value = '';
                 this.innerHTML = '<i class="fas fa-file-alt"></i> Load Example';
                 this.classList.remove('loaded');
                 exampleLoaded = false;
                 showToast("Example unloaded. Add your own questions.", '');
             } else {
+                // Load: set example data
                 textarea.value = EXAMPLE_DATA;
                 this.innerHTML = '<i class="fas fa-times"></i> Unload Example';
                 this.classList.add('loaded');
@@ -1998,6 +2052,7 @@
             document.getElementById("nextToTypeBtn").disabled = true;
             document.getElementById("enableTimerCheck").checked = timerEnabled;
             document.getElementById("timerSeconds").value = timerSeconds;
+            // Reset example button
             const exampleBtn = document.getElementById("loadExampleBtn");
             exampleBtn.innerHTML = '<i class="fas fa-file-alt"></i> Load Example';
             exampleBtn.classList.remove('loaded');
@@ -2063,7 +2118,7 @@
         }
 
         // ================================================================
-        // TIME FORMATTING
+        // TIME FORMATTING - Professional HH:MM:SS
         // ================================================================
         function formatTime(sec) {
             if (sec < 0) sec = 0;
@@ -2076,6 +2131,7 @@
             return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
         }
 
+        // ── Human-readable time for start hero ──
         function formatTimeHuman(sec) {
             if (sec < 0) sec = 0;
             const h = Math.floor(sec / 3600);
@@ -2109,14 +2165,19 @@
 
             container.innerHTML = '';
 
-            // ── Simplified Start Button ──
-            const startWrapper = document.createElement('div');
-            startWrapper.className = 'start-btn-wrapper';
-            startWrapper.id = 'startWrapper';
-            startWrapper.innerHTML = `
-                <button class="btn-start-simple" id="startQuizBtn">Start ${data.mode === 'quiz' ? 'Quiz' : 'Mocktest'}</button>
+            // Start hero - compact with human-readable time
+            const totalTime = data.timerEnabled ? data.timerSeconds * data.questions.length : 0;
+            const hero = document.createElement('div');
+            hero.id = 'startHero';
+            hero.className = 'start-hero animate-in';
+            hero.innerHTML = `
+                <div class="info">
+                    <span><i class="fas fa-list-ul"></i> ${data.questions.length} questions</span>
+                    ${data.timerEnabled ? `<span><i class="fas fa-clock"></i> ${formatTimeHuman(totalTime)}</span>` : '<span>∞ No timer</span>'}
+                </div>
+                <button class="btn-start" id="startQuizBtn"><i class="fas fa-play"></i> Start ${data.mode === 'quiz' ? 'Quiz' : 'Mocktest'}</button>
             `;
-            container.appendChild(startWrapper);
+            container.appendChild(hero);
 
             container.appendChild(wrapper);
 
@@ -2126,13 +2187,18 @@
                 attachMockEvents(data, t);
             }
 
-            // Start button listener
+            // Start button
             const startBtn = document.getElementById('startQuizBtn');
             if (startBtn) {
                 startBtn.addEventListener('click', () => {
+                    const heroEl = document.getElementById('startHero');
+                    if (heroEl) {
+                        heroEl.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                        heroEl.style.opacity = '0';
+                        heroEl.style.transform = 'translateY(-20px)';
+                        setTimeout(() => heroEl.remove(), 300);
+                    }
                     const wrapperEl = document.getElementById('quizContainerWrapper');
-                    const startWrapperEl = document.getElementById('startWrapper');
-                    if (startWrapperEl) startWrapperEl.style.display = 'none';
                     if (wrapperEl) {
                         wrapperEl.classList.remove('disabled');
                         wrapperEl.classList.add('enabled');
@@ -2825,6 +2891,7 @@
             else reader.readAsText(file);
         };
 
+        // Drag and drop support
         const dropzone = document.getElementById('dropzone');
         if (dropzone) {
             dropzone.addEventListener('dragover', (e) => {
