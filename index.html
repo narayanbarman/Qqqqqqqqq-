@@ -66,9 +66,22 @@
             margin: 0 auto;
             padding: 12px 10px;
         }
+        @media (min-width: 640px) {
+            .app-full {
+                max-width: 680px;
+                padding: 16px 14px;
+            }
+        }
         @media (min-width: 768px) {
             .app-full {
-                padding: 20px 16px;
+                max-width: 760px;
+                padding: 20px 18px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .app-full {
+                max-width: 840px;
+                padding: 28px 24px;
             }
         }
 
@@ -125,6 +138,21 @@
                 height: 38px;
                 font-size: 1.2rem;
                 border-radius: 12px;
+            }
+        }
+        @media (min-width: 768px) {
+            .brand-header .brand-name {
+                font-size: 1.8rem;
+            }
+            .brand-header .logo {
+                width: 52px;
+                height: 52px;
+                font-size: 1.8rem;
+                border-radius: 16px;
+            }
+            .brand-header .brand-tagline {
+                font-size: 0.75rem;
+                padding: 6px 16px;
             }
         }
 
@@ -221,6 +249,12 @@
             .card {
                 padding: 16px 12px;
                 border-radius: 16px;
+            }
+        }
+        @media (min-width: 768px) {
+            .card {
+                padding: 28px 24px;
+                border-radius: 28px;
             }
         }
 
@@ -499,6 +533,16 @@
             font-weight: 700;
             margin-right: 10px;
             flex-shrink: 0;
+        }
+        @media (min-width: 768px) {
+            .question-card {
+                padding: 24px 22px;
+            }
+            .question-card .q-number {
+                width: 34px;
+                height: 34px;
+                font-size: 0.85rem;
+            }
         }
 
         /* ── Options ── */
@@ -983,6 +1027,15 @@
                 font-size: 1rem;
             }
         }
+        @media (min-width: 768px) {
+            .tab-bar .tab-btn {
+                font-size: 0.85rem;
+                padding: 10px 24px;
+            }
+            .tab-bar .tab-btn .btn-label {
+                display: inline;
+            }
+        }
 
         .tab-panel {
             display: none;
@@ -1064,6 +1117,13 @@
                 margin: -12px -10px 10px -10px;
                 padding: 12px 12px 8px;
                 border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            }
+        }
+        @media (min-width: 768px) {
+            .mock-header-sticky {
+                padding: 20px 24px 12px;
+                margin: -28px -24px 14px -24px;
+                border-radius: var(--radius) var(--radius) 0 0;
             }
         }
 
@@ -1210,6 +1270,20 @@
             .start-hero .btn-start {
                 text-align: center;
                 padding: 10px 16px;
+            }
+        }
+        @media (min-width: 768px) {
+            .start-hero {
+                padding: 12px 24px;
+                border-radius: 80px;
+            }
+            .start-hero .info {
+                font-size: 1rem;
+                gap: 20px;
+            }
+            .start-hero .btn-start {
+                padding: 12px 40px;
+                font-size: 1rem;
             }
         }
 
@@ -1423,6 +1497,22 @@
             .timer-badge.total-timer {
                 font-size: 0.7rem;
                 padding: 4px 10px;
+            }
+        }
+        @media (min-width: 768px) {
+            .quiz-footer .submit-row .btn-submit {
+                font-size: 1.1rem;
+                padding: 14px 40px;
+                width: auto;
+                min-width: 200px;
+            }
+            .mock-header-actions .btn-success {
+                font-size: 0.9rem;
+                padding: 10px 24px;
+            }
+            .timer-badge.total-timer {
+                font-size: 1rem;
+                padding: 8px 20px;
             }
         }
     </style>
