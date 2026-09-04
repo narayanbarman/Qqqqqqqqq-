@@ -30,16 +30,15 @@
             width: 100%;
             max-width: 100%;
             margin: 0;
-            padding: 8px 6px;
+            padding: 6px 4px;
         }
         .card {
             background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.02);
-            padding: 16px 14px;
-            margin-bottom: 12px;
-            transition: all 0.2s;
-            border: 1px solid transparent;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            padding: 14px 12px;
+            margin-bottom: 10px;
+            border: none;
         }
         .btn {
             border: none;
@@ -97,20 +96,9 @@
             padding: 5px 12px;
             font-size: 0.7rem;
         }
-        .btn-lg {
-            padding: 14px 32px;
-            font-size: 1rem;
-        }
         .btn-block {
             width: 100%;
             justify-content: center;
-        }
-        .btn-ghost {
-            background: transparent;
-            color: #1a73e8;
-        }
-        .btn-ghost:hover {
-            background: rgba(26, 115, 232, 0.08);
         }
         .upload-area {
             border: 2px dashed #dadce0;
@@ -147,20 +135,12 @@
             justify-content: center;
             gap: 6px;
         }
-        .grid-2col {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
         @media (max-width: 600px) {
-            .grid-2col {
-                grid-template-columns: 1fr;
-            }
             .card {
-                padding: 14px 12px;
+                padding: 12px 10px;
             }
             .app-full {
-                padding: 6px 4px;
+                padding: 4px 2px;
             }
         }
         .template-scroll {
@@ -704,6 +684,21 @@
             background: #1a73e8;
             color: #fff;
         }
+        .tab-bar .tab-btn .btn-label {
+            display: inline;
+        }
+        @media (max-width: 480px) {
+            .tab-bar .tab-btn .btn-label {
+                display: none;
+            }
+            .tab-bar .tab-btn i {
+                font-size: 1rem;
+            }
+            .tab-bar .tab-btn {
+                padding: 6px 10px;
+                min-width: 40px;
+            }
+        }
         .tab-panel {
             display: none;
             animation: fadeSlideUp 0.3s ease;
@@ -1092,10 +1087,10 @@
         <!-- ====== STEP 3: PLAY / SHARE / DASHBOARD ====== -->
         <div id="createdArea" style="display:none;" class="card">
             <div class="tab-bar" id="tabBar">
-                <button class="tab-btn active" data-tab="play"><i class="fas fa-play"></i> Play</button>
-                <button class="tab-btn" data-tab="share"><i class="fas fa-link"></i> Share</button>
-                <button class="tab-btn" data-tab="dashboard"><i class="fas fa-chart-bar"></i> Dashboard</button>
-                <button class="tab-btn primary-tab" data-tab="create"><i class="fas fa-plus-circle"></i> + Create New</button>
+                <button class="tab-btn active" data-tab="play"><i class="fas fa-play"></i> <span class="btn-label">Play</span></button>
+                <button class="tab-btn" data-tab="share"><i class="fas fa-link"></i> <span class="btn-label">Share</span></button>
+                <button class="tab-btn" data-tab="dashboard"><i class="fas fa-chart-bar"></i> <span class="btn-label">Dashboard</span></button>
+                <button class="tab-btn primary-tab" data-tab="create"><i class="fas fa-plus-circle"></i> <span class="btn-label">Create New</span></button>
             </div>
             <div class="tab-panel active" id="panelPlay">
                 <div id="renderZone" style="margin-top:3px;width:100%;"></div>
@@ -1412,7 +1407,7 @@
                         <div class="empty-state">
                             <i class="fas fa-clipboard-list"></i>
                             <h4 style="margin-bottom:3px;font-size:1rem;">No quizzes yet</h4>
-                            <p class="sub">Click <strong>+ Create New</strong> to make your first quiz</p>
+                            <p class="sub">Click <strong>+</strong> to create your first quiz</p>
                             <button class="btn btn-primary mt-3" onclick="navigateTo('create')"><i class="fas fa-plus"></i> Create New Quiz</button>
                         </div>
                     `;
@@ -1766,15 +1761,20 @@
                             playerAnswers = answersLocal;
 
                             const allOpts = this.closest('.options-area').querySelectorAll('.option-row');
+                            // Disable all options
                             allOpts.forEach(o => o.classList.add('disabled'));
 
+                            // Determine if correct
                             if (opt === q.correct) {
                                 this.classList.add('correct-feedback');
                             } else {
+                                // Wrong: add red to this
                                 this.classList.add('wrong-feedback');
-                                // Immediately highlight correct answer
+                                // Immediately highlight correct answer with green
                                 allOpts.forEach(o => {
-                                    if (o.innerText.trim() === q.correct) {
+                                    // Compare text content without the letter prefix
+                                    const text = o.innerText.trim();
+                                    if (text === q.correct) {
                                         o.classList.add('highlight-correct');
                                     }
                                 });
