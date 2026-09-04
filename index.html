@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" />
     <title>QuizCraft — Create, Share & Track Quizzes</title>
-    <!-- Google Fonts for Bengali support -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Google Fonts for Bengali and other styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Serif+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
@@ -27,6 +27,27 @@
             transition: background 0.3s;
             -webkit-tap-highlight-color: transparent;
         }
+        /* Font classes to be applied dynamically */
+        .font-inter {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-noto-sans-bengali {
+            font-family: 'Noto Sans Bengali', sans-serif;
+        }
+        .font-hind-siliguri {
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+        .font-noto-serif-bengali {
+            font-family: 'Noto Serif Bengali', serif;
+        }
+        /* Ensure all text elements inherit */
+        .font-inter *,
+        .font-noto-sans-bengali *,
+        .font-hind-siliguri *,
+        .font-noto-serif-bengali * {
+            font-family: inherit;
+        }
+
         .app-full {
             width: 100%;
             max-width: 100%;
@@ -1081,12 +1102,14 @@
                 </div>
                 <small style="color:#5f6368;font-size:0.65rem;">Total time = seconds × questions.</small>
             </div>
-            <!-- Font selector -->
+            <!-- Font selector - rich options -->
             <div style="background:#f8f9fa;border-radius:16px;padding:12px;margin:10px 0;">
                 <label style="font-size:0.8rem;font-weight:600;color:#5f6368;display:block;margin-bottom:4px;"><i class="fas fa-font"></i> Font Style</label>
                 <select id="fontSelector" style="width:100%;padding:8px 12px;border-radius:60px;border:1px solid #dadce0;font-size:0.85rem;background:white;font-family:'Inter',sans-serif;">
                     <option value="inter">Inter (Default)</option>
                     <option value="noto-sans-bengali">Noto Sans Bengali</option>
+                    <option value="hind-siliguri">Hind Siliguri (Bengali)</option>
+                    <option value="noto-serif-bengali">Noto Serif Bengali</option>
                 </select>
             </div>
             <button id="finalCreateBtn" class="btn btn-success btn-block"><i class="fas fa-check-circle"></i> Create Assessment</button>
@@ -1153,7 +1176,7 @@
         let quizResults = null;
         let currentView = 'create'; // default to create page
         let currentViewData = null;
-        let selectedFont = 'inter'; // default
+        let selectedFont = 'inter';
 
         const templates = {
             default: { bg: "#f0f2f5", cardBg: "#ffffff", accent: "#1a73e8", text: "#202124", border: "#ecedef",
@@ -1367,9 +1390,15 @@
         }
 
         // ================================================================
-        // NAVIGATION
+        // NAVIGATION - handles back button
         // ================================================================
+        let navStack = [];
+
         function navigateTo(view, data) {
+            // Add current state to stack before navigating
+            if (currentView && view !== currentView) {
+                navStack.push({ view: currentView, data: currentViewData });
+            }
             currentView = view;
             currentViewData = data || null;
             saveState();
@@ -1392,6 +1421,24 @@
             }
         }
 
+        // Handle back button
+        window.addEventListener('popstate', function(e) {
+            if (navStack.length > 0) {
+                const prev = navStack.pop();
+                navigateTo(prev.view, prev.data);
+            } else {
+                // If stack empty, go to create (home)
+                navigateTo('create');
+            }
+        });
+
+        // Override pushState to avoid duplicate stack entries
+        function pushState(view, data) {
+            if (window.history && window.history.pushState) {
+                window.history.pushState({ view, data }, '');
+            }
+        }
+
         // ================================================================
         // VIEWS
         // ================================================================
@@ -1405,8 +1452,7 @@
             document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
             document.getElementById("panelDashboard").classList.add("active");
             renderFullDashboard();
-            currentView = 'dashboard';
-            saveState();
+            pushState('dashboard', null);
         }
 
         function renderFullDashboard() {
@@ -1511,8 +1557,7 @@
             document.getElementById("chooseMockBtn").className = "btn btn-outline";
             currentMode = "quiz";
             processBulk();
-            currentView = 'create';
-            saveState();
+            pushState('create', null);
         }
 
         function showShareView() {
@@ -1523,8 +1568,7 @@
             document.getElementById("panelShare").classList.add("active");
             const url = `${window.location.origin}${window.location.pathname}?q=${currentShortId}`;
             document.getElementById("shareLinkInput").value = url;
-            currentView = 'share';
-            saveState();
+            pushState('share', null);
         }
 
         function showPlayView(data) {
@@ -1547,9 +1591,7 @@
                     if (timerInterval) { clearInterval(timerInterval);
                         timerInterval = null; }
                     renderAssessmentFromData(qd);
-                    currentView = 'play';
-                    currentViewData = { id: data.id };
-                    saveState();
+                    pushState('play', { id: data.id });
                     return;
                 } else {
                     showToast("Quiz not found");
@@ -1559,8 +1601,7 @@
             }
             if (currentQuizData) {
                 renderAssessmentFromData(currentQuizData);
-                currentView = 'play';
-                saveState();
+                pushState('play', { id: currentShortId });
             } else {
                 navigateTo('create');
             }
@@ -1583,6 +1624,16 @@
             const wrapper = document.createElement('div');
             wrapper.id = 'quizContainerWrapper';
             wrapper.className = 'quiz-container' + (started ? ' enabled' : ' disabled');
+            // Apply font class to wrapper
+            const fontMap = {
+                'inter': 'font-inter',
+                'noto-sans-bengali': 'font-noto-sans-bengali',
+                'hind-siliguri': 'font-hind-siliguri',
+                'noto-serif-bengali': 'font-noto-serif-bengali'
+            };
+            const fontClass = fontMap[data.font] || 'font-inter';
+            wrapper.classList.add(fontClass);
+
             wrapper.innerHTML = contentHtml;
 
             container.innerHTML = '';
@@ -1602,13 +1653,6 @@
             container.appendChild(hero);
 
             container.appendChild(wrapper);
-
-            // Apply selected font to the wrapper
-            const font = data.font || 'inter';
-            const fontClass = font === 'noto-sans-bengali' ? 'noto-sans-bengali' : '';
-            if (fontClass) {
-                wrapper.classList.add(fontClass);
-            }
 
             if (data.mode === "quiz") {
                 attachQuizEvents(data, t);
@@ -1715,7 +1759,7 @@
         }
 
         // ================================================================
-        // QUIZ EVENTS - FIXED FEEDBACK
+        // QUIZ EVENTS - No auto-advance; user clicks Next
         // ================================================================
         function attachQuizEvents(data, t) {
             const questions = data.questions;
@@ -1755,7 +1799,6 @@
 
                 let optsDiv = slide.querySelector(".options-area");
                 const letters = ['A', 'B', 'C', 'D'];
-                // We need to store the correct option element reference
                 let correctOptionEl = null;
                 q.options.forEach((opt, oi) => {
                     let optDiv = document.createElement("div");
@@ -1765,7 +1808,6 @@
                     optDiv.innerHTML =
                         `<span class="opt-letter">${letters[oi] || oi+1}</span><span class="opt-text">${opt}</span>`;
 
-                    // Store the correct option element for later highlighting
                     if (opt === q.correct) {
                         correctOptionEl = optDiv;
                     }
@@ -1788,21 +1830,15 @@
                             playerAnswers = answersLocal;
 
                             const allOpts = this.closest('.options-area').querySelectorAll('.option-row');
-                            // Disable all options
                             allOpts.forEach(o => o.classList.add('disabled'));
 
-                            // Determine if correct
                             if (opt === q.correct) {
                                 this.classList.add('correct-feedback');
                             } else {
-                                // Wrong: add red to this
                                 this.classList.add('wrong-feedback');
-                                // Immediately highlight correct answer with green
-                                // Use the stored correctOptionEl
                                 if (correctOptionEl) {
                                     correctOptionEl.classList.add('highlight-correct');
                                 } else {
-                                    // fallback: find by text
                                     allOpts.forEach(o => {
                                         const textEl = o.querySelector('.opt-text');
                                         if (textEl && textEl.textContent === q.correct) {
@@ -1814,10 +1850,7 @@
 
                             updateBookletState(idx, true);
                             updateProgress();
-
-                            setTimeout(() => {
-                                if (idx < questions.length - 1) showSlide(idx + 1);
-                            }, 900);
+                            // No auto-advance - user must click Next
                         });
                     }
                     optsDiv.appendChild(optDiv);
@@ -1858,22 +1891,22 @@
                     else b.classList.remove("answered");
                 });
                 if (answeredCount === questions.length && isQuizActive) {
-                    setTimeout(() => {
-                        if (isQuizActive) {
-                            isQuizActive = false;
-                            if (timerInterval) { clearInterval(timerInterval);
-                                timerInterval = null; }
-                            submitQuiz(data, answersLocal);
-                        }
-                    }, 600);
+                    // All answered, but wait for user to press Next on last question
+                    // No auto-submit
                 }
             }
 
             document.getElementById("quizPrevBtn").onclick = () => { if (currentIdx > 0) showSlide(currentIdx - 1); };
             document.getElementById("quizNextBtn").onclick = () => {
-                if (currentIdx < questions.length - 1) showSlide(currentIdx + 1);
-                else {
+                if (currentIdx < questions.length - 1) {
+                    showSlide(currentIdx + 1);
+                } else {
+                    // Last question: submit if all answered or ask confirmation
                     if (isQuizActive) {
+                        const unanswered = answersLocal.filter(a => a === null).length;
+                        if (unanswered > 0) {
+                            if (!confirm(`You have ${unanswered} unanswered question(s). Submit anyway?`)) return;
+                        }
                         isQuizActive = false;
                         if (timerInterval) { clearInterval(timerInterval);
                             timerInterval = null; }
@@ -1939,11 +1972,9 @@
                             <span class="opt-label">${letters[oi] || oi+1}. ${opt}</span>
                         `;
 
-                    // Always allow change
                     const radio = label.querySelector('input');
                     radio.addEventListener("change", function(e) {
                         if (!isQuizActive) {
-                            // Revert if quiz not active
                             if (answersLocal[idx] !== null) {
                                 const currentAnswer = answersLocal[idx];
                                 optsWrap.querySelectorAll('input[type="radio"]').forEach(inp => {
@@ -1967,14 +1998,7 @@
                         updateMockProgress();
 
                         if (answersLocal.filter(a => a !== null).length === questions.length) {
-                            setTimeout(() => {
-                                if (isQuizActive) {
-                                    isQuizActive = false;
-                                    if (timerInterval) { clearInterval(timerInterval);
-                                        timerInterval = null; }
-                                    submitQuiz(data, answersLocal);
-                                }
-                            }, 600);
+                            // All answered, but no auto-submit; user must click Submit
                         }
                     });
 
@@ -2258,9 +2282,7 @@
                         timerInterval = null; }
 
                     renderAssessmentFromData(data);
-                    currentView = 'play';
-                    currentViewData = { id };
-                    saveState();
+                    pushState('play', { id });
                     return true;
                 } else {
                     showToast("Quiz not found");
@@ -2302,13 +2324,11 @@
                             renderAssessmentFromData(data);
                         }
                     }
-                    currentView = 'play';
-                    saveState();
+                    // pushState handled inside showPlayView
                 } else if (tab === "share") {
                     const url = `${window.location.origin}${window.location.pathname}?q=${currentShortId}`;
                     document.getElementById("shareLinkInput").value = url;
-                    currentView = 'share';
-                    saveState();
+                    navigateTo('share');
                 }
             });
         });
@@ -2481,9 +2501,7 @@
 
             renderAssessmentFromData(data);
             showToast("✅ Quiz created! Share the link with students.");
-            currentView = 'play';
-            currentViewData = { id };
-            saveState();
+            pushState('play', { id });
         };
 
         // ================================================================
