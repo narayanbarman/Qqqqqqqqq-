@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" />
-    <title>QuizCraft Pro — Create, Share & Track Quizzes</title>
+    <title>QuizCraft — Create, Share & Track Quizzes</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
@@ -843,94 +843,77 @@
             font-weight: 600;
         }
 
-        /* ── START HERO (COMPACT) ── */
+        /* ── COMPACT START HERO ── */
         .start-hero {
-            text-align: center;
-            padding: 16px 16px 12px;
-            background: linear-gradient(145deg, #f8f9fa, #ffffff);
-            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            background: #f8f9fa;
+            border-radius: 60px;
+            padding: 8px 16px;
             margin-bottom: 14px;
             border: 1px solid #ecedef;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-            animation: fadeSlideUp 0.4s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
         }
-        .start-hero .icon {
-            font-size: 2.2rem;
-            color: #1a73e8;
-            margin-bottom: 6px;
-        }
-        .start-hero h2 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 2px;
-        }
-        .start-hero .sub {
-            color: #5f6368;
-            font-size: 0.8rem;
-            margin-bottom: 8px;
-        }
-        .start-hero .meta {
+        .start-hero .info {
             display: flex;
-            justify-content: center;
+            align-items: center;
             gap: 16px;
-            margin-bottom: 12px;
-            font-size: 0.8rem;
-            color: #5f6368;
+            font-size: 0.85rem;
+            color: #1e293b;
+            font-weight: 500;
             flex-wrap: wrap;
         }
-        .start-hero .meta span {
-            font-weight: 500;
-            color: #1e293b;
-            background: #f1f3f4;
-            padding: 3px 10px;
-            border-radius: 40px;
-            font-size: 0.75rem;
+        .start-hero .info span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .start-hero .info i {
+            color: #1a73e8;
         }
         .start-hero .btn-start {
-            font-size: 1rem;
-            padding: 10px 40px;
+            padding: 8px 28px;
             border-radius: 60px;
             background: #1a73e8;
             color: #fff;
             border: none;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1);
-            box-shadow: 0 4px 20px rgba(26, 115, 232, 0.3);
-            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 12px rgba(26, 115, 232, 0.25);
+            font-size: 0.9rem;
             font-family: 'Inter', sans-serif;
+            white-space: nowrap;
         }
         .start-hero .btn-start:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 32px rgba(26, 115, 232, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 115, 232, 0.35);
         }
         .start-hero .btn-start:active {
             transform: scale(0.96);
         }
         .start-hero .btn-start i {
-            margin-right: 8px;
+            margin-right: 6px;
         }
-        @media (max-width: 600px) {
+        @media (max-width: 480px) {
             .start-hero {
-                padding: 12px 12px 10px;
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: 20px;
+                padding: 12px 16px;
             }
-            .start-hero .icon {
-                font-size: 1.8rem;
-            }
-            .start-hero h2 {
-                font-size: 1rem;
-            }
-            .start-hero .meta {
-                gap: 8px;
-            }
-            .start-hero .meta span {
-                font-size: 0.65rem;
-                padding: 2px 8px;
+            .start-hero .info {
+                justify-content: center;
+                font-size: 0.8rem;
+                gap: 10px;
             }
             .start-hero .btn-start {
-                font-size: 0.85rem;
-                padding: 8px 28px;
+                text-align: center;
+                justify-content: center;
+                padding: 10px 16px;
             }
         }
 
@@ -1164,7 +1147,7 @@
         let isQuizStarted = false;
         let playerAnswers = [];
         let quizResults = null;
-        let currentView = 'dashboard';
+        let currentView = 'create'; // default to create page
         let currentViewData = null;
 
         const templates = {
@@ -1398,7 +1381,7 @@
                     showShareView();
                     break;
                 default:
-                    showDashboardView();
+                    showCreateView();
             }
         }
 
@@ -1562,7 +1545,7 @@
                     return;
                 } else {
                     showToast("Quiz not found");
-                    navigateTo('dashboard');
+                    navigateTo('create');
                     return;
                 }
             }
@@ -1571,7 +1554,7 @@
                 currentView = 'play';
                 saveState();
             } else {
-                navigateTo('dashboard');
+                navigateTo('create');
             }
         }
 
@@ -1596,10 +1579,19 @@
 
             container.innerHTML = '';
 
-            if (!started) {
-                const hero = buildStartHero(data, t);
-                container.appendChild(hero);
-            }
+            // Start hero – compact bar
+            const totalTime = data.timerEnabled ? data.timerSeconds * data.questions.length : 0;
+            const hero = document.createElement('div');
+            hero.id = 'startHero';
+            hero.className = 'start-hero';
+            hero.innerHTML = `
+                <div class="info">
+                    <span><i class="fas fa-list-ul"></i> ${data.questions.length} questions</span>
+                    ${data.timerEnabled ? `<span><i class="fas fa-clock"></i> ${totalTime}s total</span>` : '<span>∞ No timer</span>'}
+                </div>
+                <button class="btn-start" id="startQuizBtn"><i class="fas fa-play"></i> Start ${data.mode === 'quiz' ? 'Quiz' : 'Mocktest'}</button>
+            `;
+            container.appendChild(hero);
 
             container.appendChild(wrapper);
 
@@ -1610,56 +1602,35 @@
             }
 
             // Start button listener
-            if (!started) {
-                const startBtn = document.getElementById('startQuizBtn');
-                if (startBtn) {
-                    startBtn.addEventListener('click', () => {
-                        const heroEl = document.getElementById('startHero');
-                        if (heroEl) {
-                            heroEl.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-                            heroEl.style.opacity = '0';
-                            heroEl.style.transform = 'translateY(-20px)';
-                            setTimeout(() => heroEl.remove(), 400);
-                        }
-                        const wrapperEl = document.getElementById('quizContainerWrapper');
-                        if (wrapperEl) {
-                            wrapperEl.classList.remove('disabled');
-                            wrapperEl.classList.add('enabled');
-                            // Re-enable interactive elements
-                            wrapperEl.querySelectorAll('.option-row, .mock-option').forEach(el => {
-                                el.style.pointerEvents = 'auto';
-                                el.style.opacity = '1';
-                            });
-                        }
-                        if (data.timerEnabled) {
-                            const total = data.timerSeconds * data.questions.length;
-                            timeRemaining = total;
-                            startTotalTimer(data);
-                        }
-                        isQuizActive = true;
-                        isQuizStarted = true;
-                        showToast('Quiz started! Good luck! 🍀');
-                    });
-                }
+            const startBtn = document.getElementById('startQuizBtn');
+            if (startBtn) {
+                startBtn.addEventListener('click', () => {
+                    const heroEl = document.getElementById('startHero');
+                    if (heroEl) {
+                        heroEl.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                        heroEl.style.opacity = '0';
+                        heroEl.style.transform = 'translateY(-10px)';
+                        setTimeout(() => heroEl.remove(), 300);
+                    }
+                    const wrapperEl = document.getElementById('quizContainerWrapper');
+                    if (wrapperEl) {
+                        wrapperEl.classList.remove('disabled');
+                        wrapperEl.classList.add('enabled');
+                        wrapperEl.querySelectorAll('.option-row, .mock-option').forEach(el => {
+                            el.style.pointerEvents = 'auto';
+                            el.style.opacity = '1';
+                        });
+                    }
+                    if (data.timerEnabled) {
+                        const total = data.timerSeconds * data.questions.length;
+                        timeRemaining = total;
+                        startTotalTimer(data);
+                    }
+                    isQuizActive = true;
+                    isQuizStarted = true;
+                    showToast('Quiz started! Good luck! 🍀');
+                });
             }
-        }
-
-        function buildStartHero(data, t) {
-            const totalTime = data.timerEnabled ? data.timerSeconds * data.questions.length : 0;
-            const hero = document.createElement('div');
-            hero.id = 'startHero';
-            hero.className = 'start-hero';
-            hero.innerHTML = `
-                    <div class="icon"><i class="fas fa-play-circle"></i></div>
-                    <h2>${data.title}</h2>
-                    <p class="sub">${data.mode === 'quiz' ? 'Quiz Mode' : 'Mocktest Mode'}</p>
-                    <div class="meta">
-                        <span>📝 ${data.questions.length} questions</span>
-                        ${data.timerEnabled ? `<span>⏱️ ${totalTime}s total</span>` : '<span>∞ No timer</span>'}
-                    </div>
-                    <button class="btn-start" id="startQuizBtn"><i class="fas fa-play"></i> Start ${data.mode === 'quiz' ? 'Quiz' : 'Mocktest'}</button>
-                `;
-            return hero;
         }
 
         function buildQuizHtml(data, t) {
@@ -1801,7 +1772,7 @@
                                 this.classList.add('correct-feedback');
                             } else {
                                 this.classList.add('wrong-feedback');
-                                // Highlight the correct option
+                                // Immediately highlight correct answer
                                 allOpts.forEach(o => {
                                     if (o.innerText.trim() === q.correct) {
                                         o.classList.add('highlight-correct');
@@ -1884,7 +1855,7 @@
         }
 
         // ================================================================
-        // MOCK EVENTS (with changeable answers)
+        // MOCK EVENTS (changeable radios)
         // ================================================================
         function attachMockEvents(data, t) {
             const questions = data.questions;
@@ -1936,7 +1907,7 @@
                             <span class="opt-label">${letters[oi] || oi+1}. ${opt}</span>
                         `;
 
-                    // Always allow change - no disabled state
+                    // Always allow change
                     const radio = label.querySelector('input');
                     radio.addEventListener("change", function(e) {
                         if (!isQuizActive) {
@@ -1954,7 +1925,6 @@
                         answersLocal[idx] = selectedValue;
                         playerAnswers = [...answersLocal];
 
-                        // Update UI
                         optsWrap.querySelectorAll('.mock-option').forEach(el => {
                             el.classList.remove('selected');
                         });
@@ -1964,7 +1934,6 @@
                         btns[idx].classList.add("answered");
                         updateMockProgress();
 
-                        // Auto-submit if all answered
                         if (answersLocal.filter(a => a !== null).length === questions.length) {
                             setTimeout(() => {
                                 if (isQuizActive) {
@@ -2002,7 +1971,6 @@
                 });
             }
 
-            // Submit button
             const submitBtn = document.getElementById("submitMockBtn");
             if (submitBtn) {
                 const newBtn = submitBtn.cloneNode(true);
@@ -2516,8 +2484,12 @@
                     showShareView();
                     return;
                 }
-                // Default to dashboard
-                navigateTo('dashboard');
+                if (restored && currentView === 'dashboard') {
+                    showDashboardView();
+                    return;
+                }
+                // Default: show create page
+                showCreateView();
             }
 
             processBulk();
